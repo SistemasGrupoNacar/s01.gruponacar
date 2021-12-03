@@ -1,0 +1,52 @@
+:root {
+  --primary: #fb4d3dff;
+  --secondary: #345995ff;
+  --accent: #e6af2e;
+  --main-bg: #ffffff;
+  --secondary-bg: #dfdfdf;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*
+
+  Text Styles
+
+*/
+
+._text-primary {
+  color: var(--primary);
+}
+._text-secondary {
+  color: var(--secondary);
+}
+
+._text-black {
+  color: #000;
+}
+
+._text-white {
+  color: #fff;
+}
+
+._text-white-50 {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+._text-black-50 {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+._text-black-75 {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+._text-white-75 {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+

@@ -1,26 +1,32 @@
 <template>
   <div class="alert-component" v-if="response.display == true">
     <div
-      v-if="
-        response.response.status == 200 ||
-          response.response.status == 201 ||
-          response.response.status == 202
-      "
+      v-if="response.content.status >= 200 && response.content.status <= 422"
       class="_bg-success"
     >
-      <span class="text-muted  _title-alert">ACASAPUFE</span>
-      <div class="_text-info-alert">{{ response.msg }}</div>
+      <span class="_title-alert">Grupo NACAR</span>
+      <div v-if="response.content.status == 422">
+        <ul class="">
+          <li v-for="error in response.content.data.errors" :key="error">
+            <span class="._text-small">{{ error.msg }}</span>
+          </li>
+        </ul>
+      </div>
+      <div class="_text-info-alert" v-else>{{ response.content.data.message }}</div>
     </div>
     <div v-else class="_bg-error">
-      <span class="text-muted  _title-alert">ACASAPUFE - ERROR</span>
-      <div class="_text-info-alert">{{ response.msg }}</div>
+      <span class="_title-alert">Grupo NACAR - ERROR</span>
+      <div class="_text-info-alert">{{ response.content.data.message }}</div>
     </div>
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   name: "AlertComponent",
-  props: ["response"],
+  computed: {
+    ...mapState("response", ["response"]),
+  },
 };
 </script>
 <style lang="scss">
@@ -35,15 +41,14 @@ export default {
 }
 
 ._bg-success {
-  background: var(--primary);
-  color: var(--black);
+  background: var(--main-bg);
+  color: var(--text-black);
   border-radius: 5px;
   padding: 0.75rem 2rem;
 }
 
 ._bg-error {
-  background: var(--black);
-  color: var(--white);
+  color: var(--text-black);
   border-radius: 5px;
   padding: 0.75rem 2rem;
 }

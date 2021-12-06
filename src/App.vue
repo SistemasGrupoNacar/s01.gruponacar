@@ -4,6 +4,18 @@
   </div>
 </template>
 
+<script>
+export default {
+  head: {
+    link: [
+      {
+        rel: "icon",
+        href: require("@/assets/logo.png"),
+      },
+    ],
+  },
+};
+</script>
 <style lang="scss">
 #app {
   font-family: "Quicksand", sans-serif;

@@ -12,11 +12,16 @@
           </li>
         </ul>
       </div>
-      <div class="_text-info-alert" v-else>{{ response.content.data.message }}</div>
+      <div class="_text-info-alert" v-else>
+        {{ response.content.data.message }}
+      </div>
     </div>
     <div v-else class="_bg-error">
-      <span class="_title-alert">Grupo NACAR - ERROR</span>
-      <div class="_text-info-alert">{{ response.content.data.message }}</div>
+      <span class="_title-alert">{{ response.content.data.name }}</span>
+      <div class="_text-info-alert _text-black-75">
+        {{ response.content.data.message }}
+      </div>
+      
     </div>
   </div>
 </template>
@@ -61,7 +66,6 @@ export default {
 }
 ._text-info-alert {
   font-size: 1rem;
-  color: var(--white);
 }
 
 @media only screen and (min-width: 600px) {

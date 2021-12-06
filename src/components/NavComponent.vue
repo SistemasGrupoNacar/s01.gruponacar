@@ -16,7 +16,7 @@
         ></path>
       </svg>
     </div>
-    <div class="icon-container-nav">
+    <div class="icon-container-nav">  
       <span class="icon-text"
         >Grupo NACAR <span class="icon-text-accent">admin</span></span
       >
@@ -102,12 +102,13 @@ export default {
 };
 </script>
 <style lang="scss">
+//@import "./../assets/css/views/LoginView.css";
 //header general
 .header {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -251,6 +252,7 @@ export default {
 }
 
 @media only screen and (min-width: 600px) {
+  
   .icon-nav {
     display: block;
   }
@@ -261,11 +263,12 @@ export default {
 
   .items-container-nav {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: space-around;
-    width: 60% !important;
+    width: 100% !important;
     align-items: center;
     position: relative;
+    flex-direction: column;
     top: 0;
     left: 0;
     height: calc(100% - 15px);

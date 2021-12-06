@@ -1,5 +1,12 @@
 <template>
-  <div class="_info-general">Info General</div>
+  <div class="_info-general">Info General asdasdasd 
+    <div>
+      asdasdasd
+    </div>
+    <div>
+      asdasdasdkasjdalskdj
+    </div>
+  </div>
 </template>
 <script>
 export default {};

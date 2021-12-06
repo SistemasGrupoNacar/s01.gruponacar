@@ -1,57 +1,39 @@
 <template>
   <div class="_login">
     <AlertComponent />
-    <div
-      class="d-flex flex-column flex-wrap justify-content-center align-items-center text-center mx-3"
-    >
-      <p
-        class="_login-information-text _text-black _text-semi-bold _letter-spacing-big text-uppercase m-0"
-      >
-        Inicio de Sesi&oacute;n
-      </p>
-      <p class="_text-regular _text-big m-0">Grupo Nacar</p>
-      <div
-        class="_login-username-show d-flex flex-column justify-content-center align-items-end"
-      >
-        <p
-          class="my-4 _text-light _text-normal align-self-end"
-          v-on:click="editUsername"
-          v-if="user.username != ''"
-        >
-          Iniciando sesi&oacute;n como: @{{ user.username }}
-        </p>
-      </div>
-      <input
-        type="text"
-        class="_input-text my-2"
-        placeholder="Nombre de usuario"
-        v-model="user.username"
-        v-on:keyup.enter="usernameIsOk"
-        ref="username"
-        v-show="!showPasswordField"
-        autofocus
-        autocomplete="off"
-      />
-      <input
-        type="password"
-        class="_input-text my-2"
-        placeholder="Contraseña"
-        v-model="user.password"
-        v-on:keyup.enter="passwordIsOk"
-        v-show="showPasswordField"
-        ref="password"
-        autocomplete="off"
-      />
-
-      <span class="_text-light _text-small my-0"
-        >Presione Enter para continuar</span
-      >
+    <div class="_login-welcome">
+      <p class="_text-extra-bigger _text-bold m-0">¡Hola!</p>
+      <p class="_text-bold m-0">Bienvenido de nuevo</p>
+      <span class="_text-small _text-black-25 px-1">gruponacar/login</span>
+    </div>
+    <div class="_login-form">
+      <form v-on:submit.prevent="login(user)">
+        <input
+          type="text"
+          class="_input w-100 _bg-white-25"
+          placeholder="Usuario"
+          autocomplete="off"
+          v-model="user.username"
+        />
+        <input
+          type="password"
+          class="_input w-100 _bg-white-25"
+          placeholder="Contraseña"
+          autocomplete="off"
+          v-model="user.password"
+        />
+        <button class="_btn _btn-primary w-100 _text-white my-3">
+          Iniciar Sesi&oacute;n
+        </button>
+      </form>
     </div>
   </div>
 </template>
 <script>
 import { mapState, mapMutations } from "vuex";
 import AlertComponent from "@/components/AlertComponent.vue";
+import api from "@/scripts/api.actions";
+import { setToken } from "@/scripts/token.actions";
 export default {
   name: "LoginView",
   components: {
@@ -63,7 +45,6 @@ export default {
         username: "",
         password: "",
       },
-      showPasswordField: false,
     };
   },
   computed: {
@@ -71,22 +52,32 @@ export default {
   },
   methods: {
     ...mapMutations("response", ["updateResponse"]),
-    usernameIsOk() {
-      if (this.user.username != "") {
-        this.showPasswordField = true;
-        setTimeout(() => {
-          this.$refs.password.focus();
-        }, 200);
+
+    async login(data) {
+      if (data.username != "" && data.password != "") {
+        api
+          .onLogin(data)
+          .then((response) => {
+            if (response.status == 200) {
+              this.setToken(response.data);
+              this.$router.push("/");
+            } else {
+              this.showNotification(response);
+            }
+          })
+          .catch((error) => {
+            if (error.response) {
+              console.log(error.response.data);
+              this.showNotification(error.response);
+            }
+          });
       }
     },
-    passwordIsOk() {
-      if (this.user.password != "") {
-        console.log(this.user);
-      }
+
+    async setToken(token) {
+      await setToken(token);
     },
-    editUsername() {
-      this.showPasswordField = false;
-    },
+
     showNotification(content) {
       this.updateResponse({
         content,

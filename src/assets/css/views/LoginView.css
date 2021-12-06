@@ -1,34 +1,56 @@
 ._login {
   width: 100%;
+  background-color: var(--main-bg);
   height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--primary);
+}
+._login-welcome {
+  width: 80vw;
+  padding: 25px 0;
 }
 
-._login-information-text {
-  font-size: 2rem;
+._login-form {
+  width: 80vw;
 }
 
-._login-username-show{
-    height: 8vh;
+._login-form input {
+  margin: 10px 0;
+  background-color: var(--secondary-bg) !important;
 }
+
 /* Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) {
-  ._login-information-text {
-    font-size: 3rem;
+  ._login {
+    width: 90vw;
+    margin: 0 auto;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  ._login-welcome {
+    width: auto;
+    padding: 0 25px;
+  }
+
+  ._login-form {
+    width: 35%;
   }
 }
 
 /* Large devices (desktops, 992px and up)*/
 @media (min-width: 992px) {
-    ._login-username-show{
-        height: 15vh;
-    }
+  ._login {
+    width: 70vw;
+  }
+  ._login-form {
+    width: 30%;
+  }
 }
 
 /* Extra large devices (large desktops, 1200px and up)*/
 @media (min-width: 1200px) {
 }
+
+

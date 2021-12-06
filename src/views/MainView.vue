@@ -6,7 +6,7 @@
   </div>
 </template>
 <script>
-import Nav from "@/components/NavComponent.vue";
+import Nav from "@/components/NavBarComponent.vue";
 import Footer from "@/components/FooterComponent.vue";
 export default {
   name: "MainView",
@@ -18,6 +18,11 @@ export default {
 </script>
 <style lang="scss">
 .content {
+  margin-top: 10vh;
   padding: 1rem 2rem;
+}
+
+@media only screen and (min-width: 768px){
+
 }
 </style>

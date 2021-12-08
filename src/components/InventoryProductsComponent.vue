@@ -6,19 +6,34 @@
       <thead>
         <tr>
           <th scope="col">Nombre</th>
-          <th scope="col">Stock</th>
-          <th scope="col">Stock M&iacute;nimo</th>
-          <th scope="col">Costo Unitario</th>
+          <th scope="col">Existencia</th>
+          <th v-if="!isMobile" scope="col">Existencia M&iacute;nima</th>
+          <th v-if="!isMobile" scope="col">Costo Unitario</th>
           <th v-if="!isMobile" scope="col ">Descripci&oacute;n</th>
+          <th scope="col">Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(item, index) in inventoryProducts" :key="index">
           <th scope="row">{{ item.name }}</th>
           <td>{{ item.stock }}</td>
-          <td>{{ item.min_stock }}</td>
-          <td>$ {{ item.cost }}</td>
+          <td v-if="!isMobile">{{ item.min_stock }}</td>
+          <td v-if="!isMobile">$ {{ item.cost }}</td>
           <td v-if="!isMobile">{{ item.description }}</td>
+          <td>
+            <button
+              class="_btn my-lg-0 my-1 _w-50"
+              @click="editProduct(item._id)"
+            >
+              Editar
+            </button>
+            <button
+              class="_btn _btn-primary my-lg-0 my-1 _w-50"
+              @click="deleteProduct(item._id)"
+            >
+              Eliminar
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -37,6 +52,12 @@ export default {
       inventoryProducts: [],
       isMobile: true,
     };
+  },
+  mounted() {
+    if (window.innerWidth >= 768) {
+      this.isMobile = false;
+    }
+    this.fetchInventoryProducts();
   },
   computed: {
     ...mapState("response", ["response"]),
@@ -60,12 +81,33 @@ export default {
         display: true,
       });
     },
-  },
-  mounted() {
-    if (window.innerWidth >= 768) {
-      this.isMobile = false;
-    }
-    this.fetchInventoryProducts();
+    editProduct(id) {
+      this.$router.push({
+        path: `/inventory/production-products/${id}/edit`,
+        params: {
+          id,
+        },
+      });
+    },
+    async deleteProduct(id) {
+      let confirmDialog = confirm("¿Estás seguro de eliminar este producto?");
+      if (confirmDialog) {
+        try {
+          await api.deleteInventoryProduct(id);
+          this.showNotification({
+            data: {
+              name: "Eliminado",
+              message: "El producto se eliminó correctamente",
+            },
+          });
+          this.fetchInventoryProducts();
+        } catch (error) {
+          if (error.response) {
+            this.showNotification(error.response);
+          }
+        }
+      }
+    },
   },
 };
 </script>

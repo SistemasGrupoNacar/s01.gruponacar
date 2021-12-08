@@ -11,6 +11,7 @@ import ProfileView from "../views/ProfileView.vue";
 import GeneralInventoryComponent from "../components/GeneralInventoryComponent.vue";
 import InventoryProductsComponent from "../components/InventoryProductsComponent.vue";
 import ProductsComponent from "../components/ProductsComponent.vue";
+import EditInventoryProductComponent from "../components/EditInventoryProductComponent.vue";
 
 Vue.use(VueRouter);
 
@@ -56,6 +57,15 @@ const routes = [
         },
         children: [
           {
+            path: "production-products/:id/edit",
+            name: "InventoryProductionProductsEdit",
+            component: EditInventoryProductComponent,
+            meta: {
+              middleware: auth,
+              title: "Editar Producto - GrupoNacar",
+            },
+          },
+          {
             path: "",
             name: "InventoryGeneral",
             component: GeneralInventoryComponent,
@@ -65,21 +75,21 @@ const routes = [
             },
           },
           {
-            path: "production",
-            name: "InventoryProduction",
+            path: "production-products",
+            name: "InventoryProductionProducts",
             component: InventoryProductsComponent,
             meta: {
               middleware: auth,
-              title: "Inventario Produccion - GrupoNacar",
+              title: "Inventario Productos Produccion - GrupoNacar",
             },
           },
           {
-            path: "sales",
-            name: "InventorySales",
+            path: "sales-products",
+            name: "InventorySalesProducts",
             component: ProductsComponent,
             meta: {
               middleware: auth,
-              title: "Inventario Ventas - GrupoNacar",
+              title: "Inventario Productos Ventas - GrupoNacar",
             },
           },
         ],

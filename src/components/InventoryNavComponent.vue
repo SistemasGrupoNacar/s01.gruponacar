@@ -6,10 +6,10 @@
     <router-link
       class="item-nav"
       :class="productionRouteName"
-      to="/inventory/production"
+      to="/inventory/production-products"
       >Producci&oacute;n</router-link
     >
-    <router-link class="item-nav" :class="salesRouteName" to="/inventory/sales"
+    <router-link class="item-nav" :class="salesRouteName" to="/inventory/sales-products"
       >Ventas</router-link
     >
   </div>
@@ -24,12 +24,12 @@ export default {
     },
     productionRouteName() {
       return {
-        _active: this.$route.name == "InventoryProduction",
+        _active: this.$route.name == "InventoryProductionProducts",
       };
     },
     salesRouteName() {
       return {
-        _active: this.$route.name == "InventorySales",
+        _active: this.$route.name == "InventorySalesProducts",
       };
     },
   },

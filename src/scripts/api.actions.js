@@ -45,18 +45,53 @@ async function getProducts() {
   });
 }
 
-async function getRequest() {
+// funcion para obtener productos de inventario por id
+async function getInventoryProductById(id) {
   return new Promise((resolve, reject) => {
     axios
-      .get(URL + "/requests", configApi())
+
+      .get(URL + "/inventoryProducts/" + id, configApi())
       .then((response) => resolve(response))
-      .catch((err) => reject(Error(err)));
+      .catch((err) => reject(err));
+  });
+}
+
+// funcion para editar productos de inventario
+async function editInventoryProduct(id, data) {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(URL + "/inventoryProducts/" + id, data, configApi())
+      .then((response) => resolve(response))
+      .catch((err) => reject(err));
+  });
+}
+
+// funcion para eliminar productos de inventario
+async function deleteInventoryProduct(id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(URL + "/inventoryProducts/" + id, configApi())
+      .then((response) => resolve(response))
+      .catch((err) => reject(err));
+  });
+}
+
+// funcion para obtener los productos con stock minimo de la api
+async function getProductsWithMinStock() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(URL + "/inventoryProducts/list/minStock", configApi())
+      .then((response) => resolve(response))
+      .catch((err) => reject(err));
   });
 }
 
 export default {
   onLogin,
-  getRequest,
   getInventoryProducts,
   getProducts,
+  getInventoryProductById,
+  editInventoryProduct,
+  deleteInventoryProduct,
+  getProductsWithMinStock,
 };

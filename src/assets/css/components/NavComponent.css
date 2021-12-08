@@ -73,7 +73,7 @@
 /* Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) {
   ._navbar-brand {
-    width: 20%;
+    width: auto;
     margin-left: 1rem;
   }
   ._navbar-burguer {

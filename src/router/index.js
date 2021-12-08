@@ -8,6 +8,9 @@ import DashboardView from "../views/DashboardView.vue";
 import InventoryView from "../views/InventoryView.vue";
 import ControlView from "../views/ControlView.vue";
 import ProfileView from "../views/ProfileView.vue";
+import GeneralInventoryComponent from "../components/GeneralInventoryComponent.vue";
+import InventoryProductsComponent from "../components/InventoryProductsComponent.vue";
+import ProductsComponent from "../components/ProductsComponent.vue";
 
 Vue.use(VueRouter);
 
@@ -51,6 +54,35 @@ const routes = [
           middleware: auth,
           title: "Inventario - GrupoNacar",
         },
+        children: [
+          {
+            path: "",
+            name: "InventoryGeneral",
+            component: GeneralInventoryComponent,
+            meta: {
+              middleware: auth,
+              title: "Inventario General - GrupoNacar",
+            },
+          },
+          {
+            path: "production",
+            name: "InventoryProduction",
+            component: InventoryProductsComponent,
+            meta: {
+              middleware: auth,
+              title: "Inventario Produccion - GrupoNacar",
+            },
+          },
+          {
+            path: "sales",
+            name: "InventorySales",
+            component: ProductsComponent,
+            meta: {
+              middleware: auth,
+              title: "Inventario Ventas - GrupoNacar",
+            },
+          },
+        ],
       },
       {
         path: "control",
@@ -62,14 +94,14 @@ const routes = [
         },
       },
       {
-        path:"profile",
-        name:"Profile",
+        path: "profile",
+        name: "Profile",
         component: ProfileView,
-        meta:{
+        meta: {
           middleware: auth,
           title: "Perfil - GrupoNacar",
-        }
-      }
+        },
+      },
     ],
   },
 ];

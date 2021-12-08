@@ -67,7 +67,6 @@ export default {
           })
           .catch((error) => {
             if (error.response) {
-              console.log(error.response.data);
               this.showNotification(error.response);
             }
           });

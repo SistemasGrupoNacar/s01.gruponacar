@@ -25,6 +25,26 @@ async function onLogin(data) {
   });
 }
 
+//funcion para obtener los productos de produccion de la api
+async function getInventoryProducts() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(URL + "/inventoryProducts", configApi())
+      .then((response) => resolve(response))
+      .catch((err) => reject(err));
+  });
+}
+
+// funcion para obtener los productos de la api
+async function getProducts() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(URL + "/products", configApi())
+      .then((response) => resolve(response))
+      .catch((err) => reject(err));
+  });
+}
+
 async function getRequest() {
   return new Promise((resolve, reject) => {
     axios
@@ -37,4 +57,6 @@ async function getRequest() {
 export default {
   onLogin,
   getRequest,
+  getInventoryProducts,
+  getProducts,
 };

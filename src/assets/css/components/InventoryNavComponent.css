@@ -1,0 +1,36 @@
+._navbar-inventory {
+  width: 100%;
+  padding: 1rem 2rem;
+  background-color: var(--main-bg);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid var(--black);
+  border-bottom: 1px solid var(--black);
+}
+
+.item-nav{
+  color: var(--black);
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.item-nav:hover{
+  color: var(--secondary);
+}
+
+/* Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) {
+  ._navbar-inventory {
+    width: 100%;
+  }
+}
+
+/* Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) {
+}
+
+/* Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+}

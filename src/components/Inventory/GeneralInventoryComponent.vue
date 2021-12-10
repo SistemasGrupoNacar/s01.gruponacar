@@ -17,7 +17,7 @@
         </p>
       </div>
     </div>
-    <hr>
+    <hr />
     <div class="row my-2">
       <div class="col-12 col-md-6 my-4 my-lg-0">
         <h6 class="_text-bold">Agregar cosecha</h6>
@@ -28,9 +28,20 @@
           class="w-100"
           v-on:submit.prevent="addInventoryEntry(inventoryEntry)"
         >
-          <select name="" id="" class="_input w-100 my-2">
-            <option value="">1</option>
-          </select>
+          <model-select
+            :options="inventoryProducts"
+            v-model="inventoryEntry.inventory_product"
+            placeholder="Seleccione el producto para producción"
+          >
+          </model-select>
+          <input
+            type="date"
+            class="_input _bg-black-1 w-100 my-2"
+            v-model="inventoryEntry.date"
+            min="2021-01-01"
+            step="1"
+            ref="dateInput"
+          />
           <input
             type="number"
             v-model="inventoryEntry.quantity"
@@ -60,9 +71,20 @@
 
           <input
             type="submit"
-            class="_btn _btn-primary w-100 my-2"
+            class="_btn _btn-primary w-100 my-2 _text-white"
             value="Agregar"
           />
+        </form>
+        <hr />
+        <h6 class="_text-bold">Eliminar entrada a inventario</h6>
+        <form v-on:submit.prevent="deleteInventoryEntry(inventoryEntryDelete)">
+          <model-select
+            :options="inventoryEntryList"
+            v-model="inventoryEntryDelete"
+            placeholder="Seleccione la entrada a eliminar"
+          >
+          </model-select>
+          <input type="submit" class="_btn w-100 my-2" value="Eliminar" />
         </form>
       </div>
     </div>
@@ -72,9 +94,11 @@
 import api from "@/scripts/api.actions.js";
 import AlertComponent from "@/components/AlertComponent.vue";
 import { mapState, mapMutations } from "vuex";
+import { ModelSelect } from "vue-search-select";
 export default {
   components: {
     AlertComponent,
+    ModelSelect,
   },
   data() {
     return {
@@ -86,6 +110,9 @@ export default {
         unit_price: null,
         total: null,
       },
+      inventoryProducts: [],
+      inventoryEntryDelete: "",
+      inventoryEntryList: [],
     };
   },
   computed: {
@@ -93,10 +120,35 @@ export default {
   },
   methods: {
     ...mapMutations("response", ["updateResponse"]),
+
+    updateAll() {
+      this.getMinStockInventoryProducts();
+      this.getInventoryEntries();
+      this.getInventoryProducts();
+    },
+
     async getMinStockInventoryProducts() {
       try {
         const response = await api.getProductsWithMinStock();
         this.alertProducts = response.data;
+      } catch (error) {
+        if (error.response) {
+          this.showNotification(error.response);
+        }
+      }
+    },
+    async getInventoryProducts() {
+      try {
+        const response = await api.getInventoryProducts();
+        this.inventoryProducts = response.data;
+        // agregar propiedad value a cada iteme n inventoryProducts
+        this.inventoryProducts.forEach((item) => {
+          item.value = item._id;
+        });
+        // agregar propiedad text a cada iteme n inventoryProducts
+        this.inventoryProducts.forEach((item) => {
+          item.text = item.name;
+        });
       } catch (error) {
         if (error.response) {
           this.showNotification(error.response);
@@ -110,12 +162,82 @@ export default {
       });
     },
 
-    addInventoryEntry(data) {
+    async addInventoryEntry(data) {
       console.log(data);
+      try {
+        const response = await api.createInventoryEntry(data);
+        if (response.status === 201) {
+          this.showNotification({
+            data: {
+              name: "Inventario para Producción",
+              message: "Entrada de inventario agregada correctamente",
+            },
+          });
+          (this.inventoryEntry = {
+            inventory_product: "",
+            date: "",
+            quantity: null,
+            unit_price: null,
+            total: null,
+          }),
+            this.updateAll();
+        }
+      } catch (error) {
+        if (error.response) {
+          this.showNotification(error.response);
+        }
+      }
+    },
+
+    async getInventoryEntries() {
+      try {
+        const response = await api.getInventoryEntries();
+        this.inventoryEntryList = response.data;
+        // agregando el campo value a cada item en inventoryEntryList
+        this.inventoryEntryList.forEach((item) => {
+          item.value = item._id;
+        });
+        // agregando el campo text a cada item en inventoryEntryList
+        this.inventoryEntryList.forEach((item) => {
+          item.text =
+            item._id +
+            " - " +
+            item.date.slice(0, 10) +
+            " - " +
+            item.inventory_product.name;
+        });
+      } catch (error) {
+        if (error.response) {
+          this.showNotification(error.response);
+        }
+      }
+    },
+    async deleteInventoryEntry(data) {
+      try {
+        const response = await api.deleteInventoryEntry(data);
+        if (response.status === 200) {
+          this.showNotification({
+            data: {
+              name: "Inventario para Producción",
+              message: "Entrada de inventario eliminada correctamente",
+            },
+          });
+          this.inventoryEntryDelete = "";
+          this.updateAll();
+        }
+      } catch (error) {
+        if (error.response) {
+          this.showNotification(error.response);
+        }
+      }
     },
   },
   mounted() {
     this.getMinStockInventoryProducts();
+    this.getInventoryProducts();
+    this.getInventoryEntries();
+    // seteando la fecha maxima a el dia de ahora
+    this.$refs.dateInput.max = new Date().toISOString().split("T")[0];
   },
 };
 </script>

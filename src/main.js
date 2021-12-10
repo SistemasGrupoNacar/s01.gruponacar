@@ -5,6 +5,7 @@ import router from "./router";
 import store from "./store";
 import "./assets/css/main.css";
 import VueHead from "vue-head";
+import 'vue-search-select/dist/VueSearchSelect.css'
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import "bootstrap/dist/css/bootstrap.css";

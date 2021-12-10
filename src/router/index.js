@@ -8,10 +8,11 @@ import DashboardView from "../views/DashboardView.vue";
 import InventoryView from "../views/InventoryView.vue";
 import ControlView from "../views/ControlView.vue";
 import ProfileView from "../views/ProfileView.vue";
-import GeneralInventoryComponent from "../components/GeneralInventoryComponent.vue";
-import InventoryProductsComponent from "../components/InventoryProductsComponent.vue";
-import ProductsComponent from "../components/ProductsComponent.vue";
-import EditInventoryProductComponent from "../components/EditInventoryProductComponent.vue";
+import GeneralInventoryComponent from "../components/Inventory/GeneralInventoryComponent.vue";
+import InventoryProductsComponent from "../components/Inventory/InventoryProducts/InventoryProductsComponent.vue";
+import ProductsComponent from "../components/Inventory/SalesProducts/ProductsComponent.vue";
+import EditInventoryProductComponent from "../components/Inventory/InventoryProducts/EditInventoryProductComponent.vue";
+import CreateInventoryProductComponent from "../components/Inventory/InventoryProducts/CreateInventoryProductComponent.vue";
 
 Vue.use(VueRouter);
 
@@ -63,6 +64,14 @@ const routes = [
             meta: {
               middleware: auth,
               title: "Editar Producto - GrupoNacar",
+            },
+          },{
+            path: "production-products/create",
+            name: "InventoryProductionProductsCreate",
+            component: CreateInventoryProductComponent,
+            meta: {
+              middleware: auth,
+              title: "Crear Producto - GrupoNacar",
             },
           },
           {

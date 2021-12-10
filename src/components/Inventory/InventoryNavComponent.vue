@@ -36,7 +36,7 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "./../assets/css/components/InventoryNavComponent.css";
+@import "./../../assets/css/components/InventoryNavComponent.css";
 
 ._active {
   color: var(--secondary) !important;

@@ -65,5 +65,5 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "./../assets/css/components/ProductsComponent.css";
+@import "./../../../assets/css/components/ProductsComponent.css";
 </style>

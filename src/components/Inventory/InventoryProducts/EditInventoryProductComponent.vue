@@ -1,84 +1,81 @@
 <template>
-  <div class="_w-50 mx-auto">
+  <div class="">
     <AlertComponent />
+    <h4 class="py-3">Editar Producto para Producci&oacute;n</h4>
     <form
       v-on:submit.prevent="
         editProductionProduct(productionProduct._id, productionProduct)
       "
       v-if="this.productionProduct._id"
-      class="text-center"
+      class="text-center _w-50 mx-auto"
     >
-      <div class="form-group my-3">
-        <label for="">ID: </label>
+      <div class="_form-group my-3">
+        <label for="" class="text-start _text-bold">ID: </label>
         <input
           type="text"
-          class="form-control"
+          class="_input  _wi-50"
           placeholder="_id"
           readonly
           v-model="productionProduct._id"
         />
       </div>
-      <div class="form-group my-3">
-        <label for="">Nombre: </label>
+      <div class="_form-group my-3">
+        <label for="" class="text-start _text-bold"
+          >Nombre del producto:
+        </label>
         <input
           type="text"
-          class="form-control"
+          class="_input _wi-50"
           placeholder=""
           v-model="productionProduct.name"
         />
       </div>
-
-      <div class="form-group my-3">
-        <label for="">Stock: </label>
-        <input
-          type="number"
-          class="form-control"
-          min="0"
-          step="1"
-          placeholder=""
-          v-model="productionProduct.stock"
-        />
-      </div>
-      <div class="form-group my-3">
-        <label for="description">Descripci&oacute;n: </label>
-        <input
+      <div class="_form-group my-3">
+        <label for="description" class="text-start _text-bold"
+          >Descripci&oacute;n:
+        </label>
+        <textarea
           type="text"
-          class="form-control"
+          class="_input  _textarea _wi-50"
           placeholder=""
           name="description"
+          autocapitalize="sentences"
+          autocomplete="off"
+          rows="3"
+          maxlength="200"
           v-model="productionProduct.description"
         />
       </div>
-      <div class="form-group my-3">
-        <label for="">Stock M&iacute;nimo: </label>
+      <div class="_form-group my-3">
+        <label for="" class="text-start _text-bold">Stock M&iacute;nimo: </label>
         <input
           type="number"
-          class="form-control"
+          class="_input _wi-50"
           placeholder=""
           min="0"
           step="1"
           v-model="productionProduct.min_stock"
         />
       </div>
-      <div class="form-group my-3">
-        <label for="">Costo: </label>
+      <div class="_form-group my-3">
+        <label for="" class="_text-bold text-start">Costo: </label>
         <input
           type="number"
-          class="form-control"
+          class="_input _wi-50"
           placeholder=""
           min="0"
           step="0.01"
           v-model="productionProduct.cost"
         />
       </div>
-      <div class="form-group my-3">
-        <label for="">Disponibilidad</label>
-        <select class="form-control" v-model="productionProduct.availability">
+      <div class="_form-group my-3">
+        <label for="" class="text-start _text-bold">Disponibilidad</label>
+        <select class="_input _wi-50" v-model="productionProduct.availability">
           <option value="true">Disponible</option>
           <option value="false">No Disponible</option>
         </select>
       </div>
-      <input type="submit" class="_btn _btn-primary" value="Editar Producto" />
+      <button type="submit" class="_btn _btn-primary">Editar Producto</button>
     </form>
   </div>
 </template>
@@ -140,4 +137,4 @@ export default {
   },
 };
 </script>
-<style lang=""></style>
+<style lang="scss"></style>

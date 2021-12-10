@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import InventoryNavComponent from "@/components/InventoryNavComponent.vue";
+import InventoryNavComponent from "@/components/Inventory/InventoryNavComponent.vue";
 export default {
   components: {
     InventoryNavComponent,

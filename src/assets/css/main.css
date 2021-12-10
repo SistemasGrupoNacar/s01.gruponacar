@@ -184,9 +184,78 @@
   background-color: rgba(0, 0, 0, 0.75) !important;
 }
 
+._bg-black-10 {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+._bg-black-1 {
+  background-color: rgba(0, 0, 0, 0.01) !important;
+}
+._bg-black-3 {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+._border-primary {
+  border-color: var(--primary) !important;
+}
+
+._border-secondary {
+  border-color: var(--secondary) !important;
+}
+
+._border-black {
+  border-color: var(--black) !important;
+}
+
+._border-white {
+  border-color: var(--white) !important;
+}
+
+._border-1 {
+  border-width: 1px !important;
+}
+
+._border-2 {
+  border-width: 2px !important;
+}
+
+._border-05 {
+  border-width: 0.5px !important;
+}
+
+._border {
+  border-style: solid !important;
+}
+
+._border-bottom {
+  border-bottom-style: solid !important;
+}
+
+._border-top {
+  border-top-style: solid !important;
+}
+
+._border-right {
+  border-right-style: solid !important;
+}
+
+._border-left {
+  border-left-style: solid !important;
+}
+
 /*
   Form Input Styles
 */
+
+._form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+._textarea {
+  resize: none;
+}
 
 ._btn {
   font-size: 1rem;
@@ -230,6 +299,7 @@
   color: #000;
   border-radius: 8px;
   outline: none;
+  background: var(--secondary-bg);
   transition: all 0.5s ease-in-out;
 }
 
@@ -251,11 +321,32 @@
 ._w-50 {
   width: 100% !important;
 }
+._w-35 {
+  width: 100% !important;
+}
+._wi-50 {
+  width: 100% !important;
+}
+
+._wi-30{
+  width: 80% !important;
+}
 
 /* Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) {
   ._w-50 {
-    width: 75% !important;
+    width: 100% !important;
+  }
+  ._wi-50 {
+    width: 65% !important;
+  }
+  ._w-35 {
+    width: 60% !important;
+  }
+  ._form-group {
+    flex-direction: row;
+  }._wi-30{
+    width: 50% !important;
   }
 }
 
@@ -263,6 +354,14 @@
 @media (min-width: 992px) {
   ._w-50 {
     width: 50% !important;
+  }
+  ._wi-50 {
+    width: 50% !important;
+  }
+  ._w-35 {
+    width: 35% !important;
+  }._wi-30{
+    width: 30% !important;
   }
 }
 

@@ -20,7 +20,7 @@
           <td v-if="!isMobile">{{ item.min_stock }}</td>
           <td v-if="!isMobile">$ {{ item.cost }}</td>
           <td v-if="!isMobile">{{ item.description }}</td>
-          <td>
+          <td class="w-25">
             <button
               class="_btn my-lg-0 my-1 _w-50"
               @click="editProduct(item._id)"
@@ -37,6 +37,12 @@
         </tr>
       </tbody>
     </table>
+    <div
+      class="_create _bg-primary _text-white text-center"
+      v-on:click="goCreateInventoryProduct"
+    >
+      <i class="fas fa-plus"></i>
+    </div>
   </div>
 </template>
 <script>
@@ -73,6 +79,10 @@ export default {
           this.showNotification(error.response);
         }
       }
+    },
+
+    goCreateInventoryProduct() {
+      this.$router.push("/inventory/production-products/create");
     },
 
     showNotification(content) {
@@ -112,5 +122,6 @@ export default {
 };
 </script>
 <style lang="scss">
-@import "./../assets/css/components/InventoryProductsComponent.css";
+@import "./../../../assets/css/components/InventoryProductsComponent.css";
+
 </style>

@@ -2,13 +2,31 @@
   padding: 1rem;
 }
 
-._alert{
-    border-radius: 10px;
+._alert {
+  border-radius: 10px;
+}
+
+._create {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px !important;
+  height: 48px !important;
+  transition: all 0.3s linear;
+}
+
+._create:hover {
+  cursor: pointer;
+  background-color: var(--secondary-bg);
+  color: var(--primary);
 }
 
 /* Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) {
- 
 }
 
 /* Large devices (desktops, 992px and up)*/

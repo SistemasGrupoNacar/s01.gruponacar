@@ -6,27 +6,25 @@
       <p class="_text-bold m-0">Bienvenido de nuevo</p>
       <span class="_text-small _text-black-25 px-1">gruponacar/login</span>
     </div>
-    <div class="_login-form">
-      <form v-on:submit.prevent="login(user)">
-        <input
-          type="text"
-          class="_input w-100 _bg-white-25"
-          placeholder="Usuario"
-          autocomplete="off"
-          v-model="user.username"
-        />
-        <input
-          type="password"
-          class="_input w-100 _bg-white-25"
-          placeholder="Contraseña"
-          autocomplete="off"
-          v-model="user.password"
-        />
-        <button class="_btn _btn-primary w-100 _text-white my-3">
-          Iniciar Sesi&oacute;n
-        </button>
-      </form>
-    </div>
+    <form v-on:submit.prevent="login(user)" class="_wi-30">
+      <input
+        type="text"
+        class="_bg-black-1 my-1 _input w-100"
+        placeholder="Usuario"
+        autocomplete="off"
+        v-model="user.username"
+      />
+      <input
+        type="password"
+        class="_bg-black-1 my-1 _input w-100"
+        placeholder="Contraseña"
+        autocomplete="off"
+        v-model="user.password"
+      />
+      <button class="_btn _btn-primary w-100 _text-white my-3">
+        Iniciar Sesi&oacute;n
+      </button>
+    </form>
   </div>
 </template>
 <script>

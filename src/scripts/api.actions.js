@@ -86,6 +86,16 @@ async function getProductsWithMinStock() {
   });
 }
 
+// funcion para crear productos de produccion en la api
+async function createInventoryProduct(data) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(URL + "/inventoryProducts", data, configApi())
+      .then((response) => resolve(response))
+      .catch((err) => reject(err));
+  });
+}
+
 export default {
   onLogin,
   getInventoryProducts,
@@ -94,4 +104,5 @@ export default {
   editInventoryProduct,
   deleteInventoryProduct,
   getProductsWithMinStock,
+  createInventoryProduct,
 };

@@ -45,6 +45,17 @@ async function getProducts() {
   });
 }
 
+// funcion para obtener las producciones
+async function getProductions() {
+  return new Promise((resolve, reject) => {
+    axios
+
+      .get(URL + "/productions", configApi())
+      .then((response) => resolve(response))
+      .catch((err) => reject(err));
+  });
+}
+
 // funcion para obtener productos de inventario por id
 async function getInventoryProductById(id) {
   return new Promise((resolve, reject) => {
@@ -126,10 +137,41 @@ async function deleteInventoryEntry(id) {
   });
 }
 
+// funcion para obtener todas las harvest de la api
+async function getHarvests() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(URL + "/harvest", configApi())
+      .then((response) => resolve(response))
+      .catch((err) => reject(err));
+  });
+}
+
+// funcion para agregar una harvest a la api
+async function createHarvest(data) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(URL + "/harvest", data, configApi())
+      .then((response) => resolve(response))
+      .catch((err) => reject(err));
+  });
+}
+
+// funcion para eliminar una harvest por id
+async function deleteHarvest(id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(URL + "/harvest/" + id, configApi())
+      .then((response) => resolve(response))
+      .catch((err) => reject(err));
+  });
+}
+
 export default {
   onLogin,
   getInventoryProducts,
   getProducts,
+  getProductions,
   getInventoryProductById,
   editInventoryProduct,
   deleteInventoryProduct,
@@ -138,4 +180,7 @@ export default {
   createInventoryEntry,
   getInventoryEntries,
   deleteInventoryEntry,
+  getHarvests,
+  createHarvest,
+  deleteHarvest,
 };

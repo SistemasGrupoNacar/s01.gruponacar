@@ -6,12 +6,36 @@
 }
 
 :root {
-  --color-primary: #80ed99;
+  --color-primary: #409eff;
   --color-secondary: #000411;
   --white: #fff;
   --black: #000;
   --dark-white: #fafafa;
   --light-black: #333;
+  --gray: #909399;
+}
+
+._bg-primary {
+  background-color: var(--color-primary);
+}
+
+._bg-secondary {
+  background-color: var(--color-secondary);
+}
+
+._bg-white {
+  background-color: var(--white);
+}
+
+._bg-black {
+  background-color: var(--black);
+}
+._bg-gray {
+  background-color: var(--gray);
+}
+
+._c-white {
+  color: var(--white) !important;
 }
 
 ._bold {
@@ -32,7 +56,7 @@
   transition: all 0.2s ease-in-out;
 }
 ._link:hover {
-  color: var(--black) !important;
+  color: var(--color-primary) !important;
 }
 
 ._text-small {
@@ -56,4 +80,17 @@
 
 ._text-biggest {
   font-size: 1.6rem;
+}
+
+._title {
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+._subtitle {
+  font-size: 0.9rem;
+  font-weight: 200;
+  margin: 0;
 }

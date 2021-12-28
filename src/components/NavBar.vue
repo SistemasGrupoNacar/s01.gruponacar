@@ -27,7 +27,7 @@
             v-for="(itemDerivacion, index) in item.derivaciones"
             :key="index"
             :to="itemDerivacion.direccion"
-            class="link-dropdown _light _link"
+            class="link-dropdown _link"
             >{{ itemDerivacion.nombre }}</router-link
           >
         </div>
@@ -65,7 +65,17 @@ export default {
         {
           direccion: "/movimientos",
           nombre: "Movimientos",
-          poseeDerivaciones: false,
+          poseeDerivaciones: true,
+          derivaciones: [
+            {
+              direccion: "/movimientos/ingresos",
+              nombre: "Ingresos",
+            },
+            {
+              direccion: "/movimientos/egresos",
+              nombre: "Egresos",
+            },
+          ],
         },
         {
           direccion: "/perfil",
@@ -139,8 +149,12 @@ export default {
 ._dropdown {
   display: block;
   position: relative;
+  margin: 0;
   margin-left: 1rem;
   width: auto;
+  background: var(--white);
+  border-radius: 5px;
+  padding: 0;
 }
 
 .link {
@@ -154,6 +168,11 @@ export default {
 
 .link-dropdown {
   display: block;
+  font-weight: 500;
+}
+
+.link-dropdown:hover {
+  letter-spacing: 0.3px;
 }
 /* Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) {
@@ -163,6 +182,10 @@ export default {
   ._dropdown {
     display: none;
     position: absolute;
+    width: 200px;
+    text-align: center;
+    margin: 0;
+    background: var(--dark-white);
   }
   .nav {
     display: flex;
@@ -180,9 +203,6 @@ export default {
   .link {
     display: inline-block;
     margin: 0 5px;
-  }
-  ._dropdown {
-    margin: 0;
   }
   .link-dropdown {
     margin: 5px 0;

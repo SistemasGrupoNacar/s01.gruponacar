@@ -1,22 +1,43 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-12 col-md-5">
-        <p class="_text-bigger text-center">Creaci&oacute;n</p>
-        <form v-on:submit.prevent="handle">
-          <input type="text" class="" />
-        </form>
+      <div class="col-12 col-md-7 my-3">
+        <p class="_text-bigger text-center">Listado</p>
+        <el-table :data="listadoProductos">
+          <el-table-column prop="_id" label="ID"> </el-table-column>
+          <el-table-column prop="nombre" label="Nombre"> </el-table-column>
+        </el-table>
       </div>
-      <div class="col-12 col-md-7">
+      <div class="col-12 col-md-5 text-center my-3">
         <p class="_text-bigger text-center">Eliminaci&oacute;n</p>
+        <el-select
+          v-model="select"
+          placeholder="Seleccione producto a eliminar"
+          clearable
+          class="w-100"
+        >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+
+        <el-button class="d-block mx-auto my-1">Eliminar</el-button>
       </div>
     </div>
     <div class="row">
-      <div class="col-12">
-        <p class="_text-bigger text-center">Listado de productos</p>
-        <div v-for="(item, index) in listadoProductos" :key="index">
-          {{ `${item._id} - - - ${item.nombre}` }}
-        </div>
+      <div class="col-12 my-3">
+        <p class="_text-bigger text-center">Historial de Ingresos</p>
+        <el-table :data="listadoProductos" class="w-100">
+          <el-table-column prop="_id" label="ID" class="w-auto">
+          </el-table-column>
+          <el-table-column prop="nombre" label="Nombre" class="w-auto">
+          </el-table-column>
+        </el-table>
+        <el-button class="d-block mx-auto my-1">Mostrar todos</el-button>
       </div>
     </div>
   </div>
@@ -33,6 +54,18 @@ export default {
         {
           _id: "0990328472034",
           nombre: "Producto 2",
+        },
+      ],
+      input: "",
+      select: "",
+      options: [
+        {
+          value: "0990328472034",
+          label: "Producto 1",
+        },
+        {
+          value: "0990328472038",
+          label: "Producto 2",
         },
       ],
     };

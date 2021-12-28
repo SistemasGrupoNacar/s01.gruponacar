@@ -36,6 +36,16 @@ const routes = [
         name: "Insumos",
         component: () => import("../views/Insumos.vue"),
       },
+      {
+        path: "inventario/insumos/nuevo-ingreso",
+        name: "NuevoIngresoInsumo",
+        component: () => import("../views/NuevoComponentes/NuevoIngresoInsumo.vue"),
+      },
+      {
+        path: "inventario/productos/nuevo-ingreso",
+        name: "NuevoIngresoProducto",
+        component: () => import("../views/NuevoComponentes/NuevoIngresoProducto.vue"),
+      }
     ],
   },
   {
@@ -45,16 +55,14 @@ const routes = [
   },
 ];
 
-
-
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
 
-const DEFAULT_TITLE = 'Grupo Nacar';
+const DEFAULT_TITLE = "Grupo Nacar";
 router.afterEach((to) => {
-    document.title = to.meta.title || DEFAULT_TITLE;
+  document.title = to.meta.title || DEFAULT_TITLE;
 });
 
 export default router;

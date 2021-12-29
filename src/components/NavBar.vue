@@ -159,7 +159,8 @@ export default {
 
 .link {
   display: block;
-  font-size: 0.9rem;
+  font-size: 1rem;
+  margin: 5px 0;
 
   &:hover div {
     display: block;
@@ -169,6 +170,7 @@ export default {
 .link-dropdown {
   display: block;
   font-weight: 500;
+  margin: 5px 0;
 }
 
 .link-dropdown:hover {
@@ -203,9 +205,9 @@ export default {
   .link {
     display: inline-block;
     margin: 0 5px;
+    font-size: 0.9rem;
   }
   .link-dropdown {
-    margin: 5px 0;
   }
 }
 

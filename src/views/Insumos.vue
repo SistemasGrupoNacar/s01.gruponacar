@@ -3,7 +3,7 @@
     class="nuevo-insumo"
     type="primary"
     v-on:click="nuevoIngresoInsumo()"
-    >Agregar Ingreso
+    ><el-icon><Plus /> </el-icon>
   </el-button>
 
   <div class="container">
@@ -15,8 +15,8 @@
           <el-table-column prop="nombre" label="Nombre"> </el-table-column>
         </el-table>
         <el-button class="my-2" size="small" v-on:click="nuevoInsumo()"
-          ><el-icon><Plus /> </el-icon
-        ></el-button>
+          >Agregar Insumo</el-button
+        >
       </div>
       <div class="col-12 col-md-5 text-center my-3">
         <p class="_text-bigger text-center">Eliminaci&oacute;n de insumo</p>

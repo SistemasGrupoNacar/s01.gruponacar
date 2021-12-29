@@ -39,13 +39,25 @@ const routes = [
       {
         path: "inventario/insumos/nuevo-ingreso",
         name: "NuevoIngresoInsumo",
-        component: () => import("../views/NuevoComponentes/NuevoIngresoInsumo.vue"),
+        component: () =>
+          import("../views/NuevoComponentes/NuevoIngresoInsumo.vue"),
       },
       {
         path: "inventario/productos/nuevo-ingreso",
         name: "NuevoIngresoProducto",
-        component: () => import("../views/NuevoComponentes/NuevoIngresoProducto.vue"),
-      }
+        component: () =>
+          import("../views/NuevoComponentes/NuevoIngresoProducto.vue"),
+      },
+      {
+        path: "inventario/productos/nuevo",
+        name: "NuevoProducto",
+        component: () => import("../views/NuevoComponentes/NuevoProducto.vue"),
+      },
+      {
+        path: "inventario/insumos/nuevo",
+        name: "NuevoInsumo",
+        component: () => import("../views/NuevoComponentes/NuevoInsumo.vue"),
+      },
     ],
   },
   {

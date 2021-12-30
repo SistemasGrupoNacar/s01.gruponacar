@@ -58,6 +58,18 @@ const routes = [
         name: "NuevoInsumo",
         component: () => import("../views/NuevoComponentes/NuevoInsumo.vue"),
       },
+      {
+        path: "inventario/insumos/historial",
+        name: "HistorialIngresoInsumo",
+        component: () =>
+          import("../views/HistorialComponentes/HistorialIngresoInsumo.vue"),
+      },
+      {
+        path: "inventario/productos/historial",
+        name: "HistorialIngresoProducto",
+        component: () =>
+          import("../views/HistorialComponentes/HistorialIngresoProducto.vue"),
+      },
     ],
   },
   {

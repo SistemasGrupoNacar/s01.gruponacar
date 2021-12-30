@@ -10,7 +10,7 @@
     <div class="row">
       <div class="col-12 col-md-7 my-3">
         <p class="_text-bigger text-center">Listado de Insumos</p>
-        <el-table :data="listadoInsumos">
+        <el-table v-loading="cargandoDatosTablaInsumos" :data="listadoInsumos">
           <el-table-column prop="_id" label="ID"> </el-table-column>
           <el-table-column prop="nombre" label="Nombre"> </el-table-column>
         </el-table>
@@ -41,13 +41,19 @@
     <div class="row">
       <div class="col-12 my-3">
         <p class="_text-bigger text-center">Historial de Ingresos</p>
-        <el-table :data="listadoInsumos" class="w-100">
+        <el-table
+          v-loading="cargandoDatosTablaHistorial"
+          :data="listadoInsumos"
+          class="w-100"
+        >
           <el-table-column prop="_id" label="ID" class="w-auto">
           </el-table-column>
           <el-table-column prop="nombre" label="Nombre" class="w-auto">
           </el-table-column>
         </el-table>
-        <el-button class="d-block mx-auto my-1">Mostrar todos</el-button>
+        <el-button class="d-block mx-auto my-1" v-on:click="historialInsumos()"
+          >Mostrar todos</el-button
+        >
       </div>
     </div>
   </div>
@@ -70,6 +76,8 @@ export default {
           nombre: "Producto 2",
         },
       ],
+      cargandoDatosTablaInsumos: true,
+      cargandoDatosTablaHistorial: true,
       input: "",
       select: "",
       options: [
@@ -93,6 +101,11 @@ export default {
     nuevoInsumo() {
       this.$router.push({
         name: "NuevoInsumo",
+      });
+    },
+    historialInsumos() {
+      this.$router.push({
+        name: "HistorialIngresoInsumo",
       });
     },
   },

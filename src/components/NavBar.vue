@@ -140,10 +140,7 @@ export default {
 }
 
 .active {
-  text-decoration-line: underline;
-  text-decoration-style: wavy;
-  text-underline-position: under;
-  text-decoration-color: var(--color-primary);
+  color: var(--color-primary) !important;
 }
 
 ._dropdown {
@@ -171,6 +168,7 @@ export default {
   display: block;
   font-weight: 500;
   margin: 5px 0;
+  text-decoration: transparent !important;
 }
 
 .link-dropdown:hover {
@@ -208,6 +206,12 @@ export default {
     font-size: 0.9rem;
   }
   .link-dropdown {
+  }
+  .active {
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+    text-underline-position: under;
+    text-decoration-color: var(--color-primary);
   }
 }
 

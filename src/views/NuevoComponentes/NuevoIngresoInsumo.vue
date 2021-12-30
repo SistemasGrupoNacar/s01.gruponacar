@@ -5,7 +5,7 @@
       Formulario de registro para el ingreso de nueva mercader&iacute;a de
       insumo.
     </p>
-    <form class="my-2">
+    <el-main v-loading="cargando" class="my-5">
       <div class="row">
         <div class="col-12 col-md-5 my-2 my-lg-0">
           <span class="text-muted">Insumo</span>
@@ -30,6 +30,7 @@
             type="date"
             placeholder="Escoge una fecha"
             class="w-100"
+            clearable
           >
           </el-date-picker>
         </div>
@@ -65,9 +66,9 @@
       <el-button
         class="d-block mx-auto my-1 w-50"
         v-on:click="crearIngresoInsumo(nuevoIngresoInsumo)"
-        >Agregar Ingreso de Insumo</el-button
+        >Agregar Ingreso</el-button
       >
-    </form>
+    </el-main>
   </div>
 </template>
 <script>
@@ -81,6 +82,7 @@ export default {
         unit_price: 0,
         total: 0,
       },
+      cargando: true,
       options: [
         {
           value: "1",

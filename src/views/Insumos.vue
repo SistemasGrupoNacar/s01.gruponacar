@@ -14,9 +14,11 @@
           <el-table-column prop="_id" label="ID"> </el-table-column>
           <el-table-column prop="nombre" label="Nombre"> </el-table-column>
         </el-table>
-        <el-button class="my-2" size="small" v-on:click="nuevoInsumo()"
+        <el-button class="my-2" size="small" type="primary" v-on:click="nuevoInsumo()"
           >Agregar Insumo</el-button
-        >
+        ><el-button type="" size="small" v-on:click="listadoInsumo()"
+          >Mostrar todo
+        </el-button>
       </div>
       <div class="col-12 col-md-5 text-center my-3">
         <p class="_text-bigger text-center">Eliminaci&oacute;n de insumo</p>
@@ -101,6 +103,11 @@ export default {
     nuevoInsumo() {
       this.$router.push({
         name: "NuevoInsumo",
+      });
+    },
+    listadoInsumo() {
+      this.$router.push({
+        name: "ListadoInsumos",
       });
     },
     historialInsumos() {

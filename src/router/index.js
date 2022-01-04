@@ -70,6 +70,18 @@ const routes = [
         component: () =>
           import("../views/HistorialComponentes/HistorialIngresoProducto.vue"),
       },
+      {
+        path: "inventario/productos/listado",
+        name: "ListadoProductos",
+        component: () =>
+          import("../views/ListadoComponentes/ListadoProductos.vue"),
+      },
+      {
+        path: "inventario/insumos/listado",
+        name: "ListadoInsumos",
+        component: () =>
+          import("../views/ListadoComponentes/ListadoInsumos.vue"),
+      },
     ],
   },
   {

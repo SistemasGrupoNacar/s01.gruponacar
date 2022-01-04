@@ -6,7 +6,7 @@
 }
 
 :root {
-  --color-primary: #409EFF;
+  --color-primary: #409eff;
   --color-secondary: #000411;
   --white: #fff;
   --black: #000;
@@ -101,6 +101,9 @@
 
 ._only-tablet {
   display: none;
+}
+.min-h-50 {
+  min-height: 50vh;
 }
 @media (min-width: 768px) {
   ._w-50 {

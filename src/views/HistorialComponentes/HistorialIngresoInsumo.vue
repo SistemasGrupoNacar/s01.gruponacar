@@ -19,7 +19,5 @@ export default {
 };
 </script>
 <style lang="scss">
-.min-h-50 {
-  min-height: 50vh;
-}
+
 </style>

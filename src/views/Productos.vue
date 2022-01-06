@@ -12,10 +12,11 @@
         <p class="_text-bigger text-center">Listado de Productos</p>
         <el-table
           v-loading="cargandoDatosTablaProductos"
-          :data="listadoProductos"
+          :data="listadoPrimerosProductos"
         >
           <el-table-column prop="_id" label="ID"> </el-table-column>
-          <el-table-column prop="nombre" label="Nombre">
+          <el-table-column prop="name" label="Nombre"> </el-table-column
+          ><el-table-column prop="stock" label="Stock" width="75">
           </el-table-column> </el-table
         ><el-button
           class="my-2"
@@ -30,21 +31,24 @@
       <div class="col-12 col-md-5 text-center my-3">
         <p class="_text-bigger text-center">Eliminaci&oacute;n de producto</p>
         <el-select
-          v-model="select"
+          v-model="idProductoEliminar"
           placeholder="Seleccione producto a eliminar"
           clearable
           class="w-100"
         >
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+            v-for="item in listadoTodosProductos"
+            :key="item._id"
+            :label="item.name"
+            :value="item._id"
           >
           </el-option>
         </el-select>
-
-        <el-button class="d-block mx-auto my-1">Eliminar</el-button>
+        <el-button
+          class="d-block mx-auto my-1"
+          v-on:click="eliminarProducto(idProductoEliminar)"
+          >Eliminar</el-button
+        >
       </div>
     </div>
     <div class="row">
@@ -52,12 +56,13 @@
         <p class="_text-bigger text-center">Historial de Ingresos</p>
         <el-table
           v-loading="cargandoDatosTablaHistorial"
-          :data="listadoProductos"
+          :data="listadoHistorialCosecha"
           class="w-100"
-        >
-          <el-table-column prop="_id" label="ID" class="w-auto">
+          ><el-table-column prop="_id" label="ID"> </el-table-column>
+          <el-table-column prop="date" label="Fecha"> </el-table-column
+          ><el-table-column prop="product.name" label="Nombre de Producto">
           </el-table-column>
-          <el-table-column prop="nombre" label="Nombre" class="w-auto">
+          <el-table-column prop="quantity" label="Cantidad (Sacos)">
           </el-table-column>
         </el-table>
         <el-button
@@ -71,40 +76,59 @@
 </template>
 <script>
 import { Plus } from "@element-plus/icons-vue";
+import api from "@/api/index.js";
 export default {
   components: {
     Plus,
   },
   data() {
     return {
-      listadoProductos: [
-        {
-          _id: "0990328472034",
-          nombre: "Producto 1",
-        },
-        {
-          _id: "0990328472034",
-          nombre: "Producto 2",
-        },
-      ],
+      listadoPrimerosProductos: [],
+      listadoTodosProductos: [],
+      listadoHistorialCosecha: [],
       cargandoDatosTablaHistorial: true,
       cargandoDatosTablaProductos: true,
       input: "",
-      select: "",
-      options: [
-        {
-          value: "0990328472034",
-          label: "Producto 1",
-        },
-        {
-          value: "0990328472038",
-          label: "Producto 2",
-        },
-      ],
+      idProductoEliminar: "",
     };
+  },
+  mounted() {
+    this.obtenerPrimerosProductos();
+    this.obtenerTodosProductos();
+    this.obtenerPrimerosHistorialCosecha();
   },
 
   methods: {
+    async actualizarTodo() {
+      this.obtenerPrimerosProductos();
+      this.obtenerTodosProductos();
+      this.obtenerPrimerosHistorialCosecha();
+    },
+
+    async obtenerPrimerosHistorialCosecha() {
+      this.cargandoDatosTablaHistorial = true;
+      try {
+        const respuesta = await api.obtenerPrimerosHistorialCosecha();
+        this.listadoHistorialCosecha = respuesta.data;
+        // Recortando la hora en las fechas
+        this.listadoHistorialCosecha.map((item) => {
+          item.date = item.date.split("T")[0];
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargandoDatosTablaHistorial = false;
+    },
+    async obtenerPrimerosProductos() {
+      this.cargandoDatosTablaProductos = true;
+      try {
+        const respuesta = await api.obtenerPrimerosProductos();
+        this.listadoPrimerosProductos = respuesta.data;
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargandoDatosTablaProductos = false;
+    },
     nuevoIngresoProducto() {
       this.$router.push({
         name: "NuevoIngresoProducto",
@@ -114,6 +138,27 @@ export default {
       this.$router.push({
         name: "ListadoProductos",
       });
+    },
+    async obtenerTodosProductos() {
+      try {
+        const respuesta = await api.obtenerTodosProductos();
+        this.listadoTodosProductos = respuesta.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async eliminarProducto(data) {
+      let confirmacion = confirm("¿Esta seguro de eliminar este producto?");
+      if (confirmacion) {
+        try {
+          const respuesta = await api.eliminarProducto(data);
+          alert("Eliminado el producto " + respuesta.data.name);
+          this.idProductoEliminar = "";
+          this.actualizarTodo();
+        } catch (error) {
+          console.log(error);
+        }
+      }
     },
     nuevoProducto() {
       this.$router.push({

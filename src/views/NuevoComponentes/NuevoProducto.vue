@@ -57,6 +57,7 @@
   </div>
 </template>
 <script>
+import api from "@/api/index.js";
 export default {
   data() {
     return {
@@ -78,12 +79,18 @@ export default {
     };
   },
   methods: {
-    crearProducto(data) {
+    async crearProducto(data) {
       if (!this.verificarDatos(data)) {
         alert("Data incorrecta");
         return;
       }
-      alert("Data correcta");
+      try {
+        const respuesta = await api.crearProducto(data);
+        alert("Producto creado: " + respuesta.data.name);
+        this.$router.push({ name: "Productos" });
+      } catch (e) {
+        console.log(e);
+      }
     },
     verificarDatos(data) {
       if (data.name == "") {

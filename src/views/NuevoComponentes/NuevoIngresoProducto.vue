@@ -4,7 +4,7 @@
     <p class="_subtitle text-muted">
       Formulario de registro para el ingreso de nueva cosecha de productos.
     </p>
-    <el-main  v-loading="cargando" class="my-5">
+    <el-main v-loading="cargando" class="my-5">
       <div class="row">
         <div class="col-12 col-md-5 my-2">
           <span class="text-muted">Producci&oacute;n</span>
@@ -14,7 +14,7 @@
             class="w-100"
           >
             <el-option
-              v-for="item in options"
+              v-for="item in listadoProducciones"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -24,19 +24,12 @@
         </div>
         <div class="col-12 col-md-4 my-2">
           <span class="text-muted">Producto</span>
-          <el-select
+          <el-input
             v-model="nuevoIngresoProducto.product"
-            placeholder="Seleccione producto"
-            class="w-100"
+            placeholder="Seleccione Producto"
+            disabled
           >
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
+          </el-input>
         </div>
         <div class="col-12 col-md-3 my-2">
           <span class="text-muted">Cantidad</span>
@@ -77,6 +70,7 @@
   </div>
 </template>
 <script>
+import api from "@/api/index.js";
 export default {
   data() {
     return {
@@ -88,29 +82,58 @@ export default {
         date: "",
       },
       cargando: true,
-      options: [
-        {
-          value: "1",
-          label: "Produccion 1",
-        },
-        {
-          value: "2",
-          label: "Produccion 2",
-        },
-        {
-          value: "3",
-          label: "Produccion 3",
-        },
-      ],
+      listadoProducciones: [],
+      listadoProductos: [],
     };
   },
+  mounted() {
+    this.obtenerProduccionesYProductos();
+  },
+  watch: {
+    "nuevoIngresoProducto.production": function (data) {
+      // Buscar en el listado de producciones la que tenga el id que se seleccionó
+      const produccion = this.listadoProducciones.find(
+        (item) => item.value === data
+      );
+      this.nuevoIngresoProducto.product = produccion.product.name;
+    }
+  },
+
   methods: {
-    crearIngresoProducto(data) {
-      if (this.validarDatos(data)) {
-        console.log(data);
-      } else {
+    async crearIngresoProducto(data) {
+      if (!this.validarDatos(data)) {
         alert("Faltan datos");
+        return;
       }
+      this.cargando = true;
+      try {
+        const respuesta = await api.crearCosecha(data);
+        alert("Ingreso creado con id: " + respuesta.data._id);
+        this.$router.push({ name: "Productos" });
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
+    },
+    async obtenerProduccionesYProductos() {
+      this.cargando = true;
+      try {
+        const respuesta = await api.obtenerProduccionesEnProgreso();
+        this.listadoProducciones = respuesta.data;
+        // Mapeando los values de las producciones para poder usarlos en el select
+        this.listadoProducciones.map((item) => {
+          item.value = item._id;
+          item.label =
+            item._id +
+            " - " +
+            item.start_date.split("T")[0] +
+            "-" +
+            item.description.slice(0, 20);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
     },
     validarDatos(data) {
       if (data.production == "") {

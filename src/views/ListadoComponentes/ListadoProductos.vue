@@ -6,23 +6,21 @@
     </p>
     <el-main v-loading="cargando">
       <div class="min-h-50">
-        <el-table :data="tableData" style="width: 100%" max-height="400">
-          <el-table-column fixed prop="date" label="Date" />
-          <el-table-column prop="name" label="Name" />
-          <el-table-column prop="state" label="State" />
-          <el-table-column prop="city" label="City" />
-          <el-table-column prop="address" label="Address" />
-          <el-table-column prop="zip" label="Zip" width="120" />
-          <el-table-column fixed="right" label="Operations" width="150">
+        <el-table :data="listadoProductos" style="width: 100%" max-height="400">
+          <el-table-column fixed prop="name" label="Nombre" width="100" />
+          <el-table-column prop="_id" label="ID" />
+          <el-table-column prop="description" label="Descripción" />
+          <el-table-column prop="availability_text" label="Disponibilidad" />
+          <el-table-column fixed="right" label="Operaciones" width="150">
             <template #default="scope">
               <el-button
                 type=""
-                v-on:click="eliminarProducto(scope.row)"
-                v-if="scope.row.zip == '10001'"
+                v-on:click="cambiarDisponibilidadProducto(scope.row)"
+                v-if="scope.row.availability"
                 ><el-icon><Remove /> </el-icon> </el-button
               ><el-button
                 type=""
-                v-on:click="eliminarProducto(scope.row)"
+                v-on:click="cambiarDisponibilidadProducto(scope.row)"
                 v-else
                 ><el-icon><Check /> </el-icon>
               </el-button>
@@ -38,6 +36,7 @@
 </template>
 <script>
 import { Remove, Delete, Check } from "@element-plus/icons-vue";
+import api from "@/api/index.js";
 export default {
   components: {
     Remove,
@@ -47,78 +46,44 @@ export default {
   data() {
     return {
       cargando: false,
-      tableData: [
-        {
-          date: "2016-05-03",
-          name: "John Brown",
-          state: "New York",
-          city: "New York",
-          address: "New York No. 1 Lake Park",
-          zip: "10001",
-        },
-        {
-          date: "2016-05-02",
-          name: "Jim Green",
-          state: "London",
-          city: "London",
-          address: "London No. 1 Lake Park",
-          zip: "10002",
-        },
-        {
-          date: "2016-05-04",
-          name: "Joe Black",
-          state: "Sydney",
-          city: "Sydney",
-          address: "Sydney No. 1 Lake Park",
-          zip: "10004",
-        },
-        {
-          date: "2016-05-01",
-          name: "Jon Snow",
-          state: "Ottawa",
-          city: "Ottawa",
-          address: "Ottawa No. 2 Lake Park",
-          zip: "10007",
-        },
-        {
-          date: "2016-05-03",
-          name: "John Brown",
-          state: "New York",
-          city: "New York",
-          address: "New York No. 1 Lake Park",
-          zip: "10001",
-        },
-        {
-          date: "2016-05-02",
-          name: "Jim Green",
-          state: "London",
-          city: "London",
-          address: "London No. 1 Lake Park",
-          zip: "10002",
-        },
-        {
-          date: "2016-05-04",
-          name: "Joe Black",
-          state: "Sydney",
-          city: "Sydney",
-          address: "Sydney No. 1 Lake Park",
-          zip: "10004",
-        },
-        {
-          date: "2016-05-01",
-          name: "Jon Snow",
-          state: "Ottawa",
-          city: "Ottawa",
-          address: "Ottawa No. 2 Lake Park",
-          zip: "10007",
-        },
-      ],
+      listadoProductos: [],
     };
   },
+  mounted() {
+    this.obtenerProductos();
+  },
   methods: {
-    eliminarProducto(data) {
-      this.tableData.splice(data.$index, 1);
-      console.log(data.address);
+    async obtenerProductos() {
+      this.cargando = true;
+      try {
+        const respuesta = await api.obtenerTodosProductos();
+        this.listadoProductos = respuesta.data;
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
+    },
+    async cambiarDisponibilidadProducto(data) {
+      try {
+        const respuesta = await api.cambiarDisponibilidadProducto(
+          data._id,
+          !data.availability
+        );
+        if (respuesta.status === 200) {
+          this.obtenerProductos();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async eliminarProducto(data) {
+      try {
+        await api.eliminarProducto(data._id);
+
+        this.obtenerProductos();
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

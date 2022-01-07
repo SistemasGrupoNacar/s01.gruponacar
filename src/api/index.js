@@ -155,7 +155,7 @@ async function obtenerProduccionesEnProgreso() {
   });
 }
 
-// Crear cosecha de producto 
+// Crear cosecha de producto
 async function crearCosecha(ingreso) {
   return new Promise((resolve, reject) => {
     axios
@@ -182,6 +182,65 @@ async function eliminarHistorialCosecha(id) {
       });
   });
 }
+
+// Obtener primeros 5 historial de entrada de insumos
+async function obtenerPrimerosHistorialEntradaInsumos() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/inventoryEntries?limit=5")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Obtener todos historial de entrada de insumos
+async function obtenerTodosHistorialEntradaInsumos() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/inventoryEntries")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Eliminar un insumo
+async function eliminarInsumo(id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(API_URI + "/inventoryProducts/" + id)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Cambiar disponibilidad de un insumo
+async function cambiarDisponibilidadInsumo(id, disponibilidad) {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(
+        API_URI + "/inventoryProducts/" + id + "/available/" + disponibilidad
+      )
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   obtenerTodosProductos,
   obtenerProductosDisponibles,
@@ -196,4 +255,8 @@ export default {
   obtenerProduccionesEnProgreso,
   crearCosecha,
   eliminarHistorialCosecha,
+  obtenerPrimerosHistorialEntradaInsumos,
+  obtenerTodosHistorialEntradaInsumos,
+  eliminarInsumo,
+  cambiarDisponibilidadInsumo
 };

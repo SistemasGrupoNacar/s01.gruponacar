@@ -10,11 +10,21 @@
     <div class="row">
       <div class="col-12 col-md-7 my-3">
         <p class="_text-bigger text-center">Listado de Insumos</p>
-        <el-table v-loading="cargandoDatosTablaInsumos" :data="listadoInsumos">
+        <el-table
+          v-loading="cargandoDatosTablaInsumos"
+          :data="listadoPrimerosInsumos"
+        >
           <el-table-column prop="_id" label="ID"> </el-table-column>
-          <el-table-column prop="nombre" label="Nombre"> </el-table-column>
+          <el-table-column prop="name" label="Nombre"> </el-table-column>
+
+          <el-table-column prop="stock" label="Stock" width="75">
+          </el-table-column>
         </el-table>
-        <el-button class="my-2" size="small" type="primary" v-on:click="nuevoInsumo()"
+        <el-button
+          class="my-2"
+          size="small"
+          type="primary"
+          v-on:click="nuevoInsumo()"
           >Agregar Insumo</el-button
         ><el-button type="" size="small" v-on:click="listadoInsumo()"
           >Mostrar todo
@@ -23,21 +33,25 @@
       <div class="col-12 col-md-5 text-center my-3">
         <p class="_text-bigger text-center">Eliminaci&oacute;n de insumo</p>
         <el-select
-          v-model="select"
+          v-model="idInsumoEliminar"
           placeholder="Seleccione insumo a eliminar"
           clearable
           class="w-100"
         >
           <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+            v-for="item in listadoTodoInsumos"
+            :key="item._id"
+            :label="item.name"
+            :value="item._id"
           >
           </el-option>
         </el-select>
 
-        <el-button class="d-block mx-auto my-1">Eliminar</el-button>
+        <el-button
+          class="d-block mx-auto my-1"
+          v-on:click="eliminarInsumo(idInsumoEliminar)"
+          >Eliminar</el-button
+        >
       </div>
     </div>
     <div class="row">
@@ -45,7 +59,7 @@
         <p class="_text-bigger text-center">Historial de Ingresos</p>
         <el-table
           v-loading="cargandoDatosTablaHistorial"
-          :data="listadoInsumos"
+          :data="listadoHistorialInsumos"
           class="w-100"
         >
           <el-table-column prop="_id" label="ID" class="w-auto">
@@ -62,39 +76,71 @@
 </template>
 <script>
 import { Plus } from "@element-plus/icons-vue";
+import api from "@/api/index.js";
 export default {
   components: {
     Plus,
   },
   data() {
     return {
-      listadoInsumos: [
-        {
-          _id: "0990328472034",
-          nombre: "Producto 1",
-        },
-        {
-          _id: "0990328472034",
-          nombre: "Producto 2",
-        },
-      ],
       cargandoDatosTablaInsumos: true,
       cargandoDatosTablaHistorial: true,
-      input: "",
-      select: "",
-      options: [
-        {
-          value: "0990328472034",
-          label: "Producto 1",
-        },
-        {
-          value: "0990328472038",
-          label: "Producto 2",
-        },
-      ],
+      listadoTodoInsumos: [],
+      listadoPrimerosInsumos: [],
+      listadoHistorialInsumos: [],
+      idInsumoEliminar: "",
     };
   },
+  mounted() {
+    this.actualizarTodo();
+  },
   methods: {
+    actualizarTodo() {
+      this.obtenerTodosInsumos();
+      this.obtenerPrimerosInsumos();
+      this.obtenerPrimerosHistorialEntradaInsumos();
+    },
+    async obtenerPrimerosInsumos() {
+      try {
+        this.cargandoDatosTablaInsumos = true;
+        const respuesta = await api.obtenerPrimerosInsumos();
+        this.listadoPrimerosInsumos = respuesta.data;
+        this.cargandoDatosTablaInsumos = false;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async obtenerTodosInsumos() {
+      try {
+        const respuesta = await api.obtenerTodosInsumos();
+        this.listadoTodoInsumos = respuesta.data;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async obtenerPrimerosHistorialEntradaInsumos() {
+      try {
+        this.cargandoDatosTablaHistorial = true;
+        const respuesta = await api.obtenerPrimerosHistorialEntradaInsumos();
+        this.listadoHistorialInsumos = respuesta.data;
+        this.cargandoDatosTablaHistorial = false;
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async eliminarInsumo(data) {
+      let confirmacion = confirm("¿Esta seguro de eliminar este insumo?");
+      if (confirmacion) {
+        try {
+          const respuesta = await api.eliminarInsumo(data);
+          alert("Eliminado el insumo " + respuesta.data.name);
+          this.idInsumoEliminar = "";
+          this.actualizarTodo();
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    },
     nuevoIngresoInsumo() {
       this.$router.push({
         name: "NuevoIngresoInsumo",

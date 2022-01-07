@@ -15,10 +15,10 @@
             class="w-100"
           >
             <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              v-for="item in listadoInsumos"
+              :key="item._id"
+              :label="item.name"
+              :value="item._id"
             >
             </el-option>
           </el-select>
@@ -72,6 +72,7 @@
   </div>
 </template>
 <script>
+import api from "@/api/index.js";
 export default {
   data() {
     return {
@@ -82,20 +83,24 @@ export default {
         unit_price: 0,
         total: 0,
       },
-      cargando: true,
-      options: [
-        {
-          value: "1",
-          label: "Insumo 1",
-        },
-        {
-          value: "2",
-          label: "Insumo 2",
-        },
-      ],
+      cargando: false,
+      listadoInsumos: [],
     };
   },
+  mounted() {
+    this.obtenerTodosInsumos();
+  },
   methods: {
+    async obtenerTodosInsumos() {
+      this.cargando = true;
+      try {
+        const respuesta = await api.obtenerTodosInsumos();
+        this.listadoInsumos = respuesta.data;
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
+    },
     calcularTotal() {
       this.nuevoIngresoInsumo.total =
         Math.round(
@@ -104,12 +109,21 @@ export default {
             100
         ) / 100;
     },
-    crearIngresoInsumo(data) {
-      if (this.validarDatos(data)) {
-        alert(data);
-      } else {
-        alert("Datos invalidos");
+    async crearIngresoInsumo(data) {
+      if (!this.validarDatos(data)) {
+        alert("Faltan datos");
+        return;
       }
+      this.cargando = true;
+      try {
+        console.log(data);
+        const respuesta = await api.crearIngresoInsumo(data);
+        alert("Ingreso de Insumo creado con id: " + respuesta.data._id);
+        this.$router.push({ name: "Insumos" });
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
     },
     validarDatos(data) {
       if (data.inventory_product == "") {

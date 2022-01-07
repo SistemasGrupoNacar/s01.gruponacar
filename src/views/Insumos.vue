@@ -62,9 +62,14 @@
           :data="listadoHistorialInsumos"
           class="w-100"
         >
-          <el-table-column prop="_id" label="ID" class="w-auto">
+          <el-table-column prop="_id" label="ID"> </el-table-column>
+          <el-table-column prop="date" label="Fecha"> </el-table-column
+          ><el-table-column
+            prop="inventory_product.name"
+            label="Nombre de Producto"
+          >
           </el-table-column>
-          <el-table-column prop="nombre" label="Nombre" class="w-auto">
+          <el-table-column prop="quantity" label="Cantidad (Sacos)">
           </el-table-column>
         </el-table>
         <el-button class="d-block mx-auto my-1" v-on:click="historialInsumos()"
@@ -123,6 +128,10 @@ export default {
         this.cargandoDatosTablaHistorial = true;
         const respuesta = await api.obtenerPrimerosHistorialEntradaInsumos();
         this.listadoHistorialInsumos = respuesta.data;
+        // Recortando la hora en las fechas
+        this.listadoHistorialInsumos.map((item) => {
+          item.date = item.date.split("T")[0];
+        });
         this.cargandoDatosTablaHistorial = false;
       } catch (e) {
         console.log(e);

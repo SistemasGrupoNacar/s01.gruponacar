@@ -241,6 +241,47 @@ async function cambiarDisponibilidadInsumo(id, disponibilidad) {
   });
 }
 
+// Crear insumo
+async function crearInsumo(insumo) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(API_URI + "/inventoryProducts", insumo)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Crear ingreso de insumo
+async function crearIngresoInsumo(ingreso) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(API_URI + "/inventoryEntries", ingreso)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Eliminar entrada de insumo
+async function eliminarEntradaInsumo(id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(API_URI + "/inventoryEntries/" + id)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
 export default {
   obtenerTodosProductos,
   obtenerProductosDisponibles,
@@ -258,5 +299,8 @@ export default {
   obtenerPrimerosHistorialEntradaInsumos,
   obtenerTodosHistorialEntradaInsumos,
   eliminarInsumo,
-  cambiarDisponibilidadInsumo
+  cambiarDisponibilidadInsumo,
+  crearInsumo,
+  crearIngresoInsumo,
+  eliminarEntradaInsumo,
 };

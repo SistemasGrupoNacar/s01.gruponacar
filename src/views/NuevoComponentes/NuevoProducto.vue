@@ -96,9 +96,6 @@ export default {
       if (data.name == "") {
         return false;
       }
-      if (data.description == "") {
-        return false;
-      }
       if (data.availability == null) {
         return false;
       }

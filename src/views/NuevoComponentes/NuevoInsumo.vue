@@ -84,6 +84,7 @@
   </div>
 </template>
 <script>
+import api from "@/api/index.js";
 export default {
   data() {
     return {
@@ -95,24 +96,27 @@ export default {
         availability: null,
       },
       options: [
-        { value: true, label: "Si" },
-        { value: false, label: "No" },
+        { value: true, label: "Disponible" },
+        { value: false, label: "No disponible" },
       ],
     };
   },
   methods: {
-    crearInsumo(data) {
+    async crearInsumo(data) {
       if (!this.verificarDatos(data)) {
         alert("Datos incompletos");
         return;
       }
-      alert("Insumo creado");
+      try {
+        const respuesta = await api.crearInsumo(data);
+        alert("Insumo creado: " + respuesta.data.name);
+        this.$router.push({ name: "Insumos" });
+      } catch (e) {
+        console.log(e);
+      }
     },
     verificarDatos(data) {
       if (data.name == "") {
-        return false;
-      }
-      if (data.description == "") {
         return false;
       }
       if (data.cost <= 0 || data.cost == null) {

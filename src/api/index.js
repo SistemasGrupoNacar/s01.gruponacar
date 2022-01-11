@@ -338,6 +338,20 @@ async function cancelarVenta(id) {
   });
 }
 
+// Obtener venta específica
+async function obtenerVenta(id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/sales/unique/" + id)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 // Agregar detalle de venta
 async function crearDetalleVenta(data) {
   return new Promise((resolve, reject) => {
@@ -351,6 +365,21 @@ async function crearDetalleVenta(data) {
       });
   });
 }
+
+// Eliminar detalle de venta
+async function eliminarDetalleVenta(id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(API_URI + "/detailSales/" + id)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   obtenerTodosProductos,
   obtenerProductos,
@@ -377,4 +406,6 @@ export default {
   crearVenta,
   cancelarVenta,
   crearDetalleVenta,
+  obtenerVenta,
+  eliminarDetalleVenta,
 };

@@ -4,14 +4,17 @@
     <p class="_text-small my-0 _light" v-if="venta.date">
       Fecha: {{ venta.date.slice(0, 10) }}
     </p>
+    <p class="_text-big _bold">
+      TOTAL: $ <span class="_light">{{ venta.total || 0 }}</span>
+    </p>
 
     <el-button class="my-2" type="primary" v-on:click="cancelarVenta()"
       >Cancelar Venta
     </el-button>
     <hr />
-    <el-main v-loading="cargando">
+    <el-main v-loading="cargando" class="w-100">
       <div class="row my-1">
-        <div class="col-12 col-md-6 col-lg-4 px-0 px-lg-2">
+        <div class="col-12 col-lg-4 px-lg-2">
           <p class="_bold">Seleccion de producto</p>
           <span class="text-muted">Producto: </span>
           <el-select
@@ -73,9 +76,37 @@
             >Agregar Producto
           </el-button>
         </div>
-        <div class="col-12 col-md-6 col-lg-8 px-0 px-lg-3">
+        <div class="col-12 col-lg-8 px-lg-2">
           <p class="_bold">Detalle de Venta</p>
-          {{ productoSeleccionado }}
+          <el-table :data="detalleVenta" style="width: 100%">
+            <el-table-column prop="_id" label="ID" width="180" />
+            <el-table-column
+              prop="name"
+              label="Nombre de Producto"
+              width="180"
+            />
+            <el-table-column prop="quantity" label="Cantidad" width="120" />
+            <el-table-column
+              prop="sub_total"
+              label="Precio Unitario"
+              width="120"
+            />
+            <el-table-column
+              prop="total"
+              label="Sub-Total"
+              width="120"
+            /><el-table-column fixed="right" label="Acción" width="120">
+              <template #default="scope">
+                <el-button
+                  type="text"
+                  size="small"
+                  @click.prevent="eliminarDetalleVenta(scope.row)"
+                >
+                  Quitar
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </div>
       </div>
     </el-main>
@@ -133,11 +164,47 @@ export default {
       this.cargando = true;
       try {
         const respuesta = await api.crearDetalleVenta(data);
-        console.log(respuesta);
+        // Agregar a detalleVenta el producto agregado
+        const producto = this.productos.find(
+          (item) => item._id === respuesta.data.product
+        );
+        respuesta.data.name = producto.name;
+        // Agregar a detalleVenta el producto agregado
+        this.detalleVenta.push(respuesta.data);
+        // Actualizar la venta
+        this.actualizarVenta(this.venta._id);
       } catch (error) {
         console.log(error);
       }
+      this.cargando = false;
     },
+
+    async actualizarVenta(id) {
+      this.cargando = true;
+      try {
+        const respuesta = await api.obtenerVenta(id);
+        this.venta = respuesta.data;
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
+    },
+
+    async eliminarDetalleVenta(data) {
+      this.cargando = true;
+      try {
+        await api.eliminarDetalleVenta(data._id);
+        this.detalleVenta = this.detalleVenta.filter(
+          (item) => item._id !== data._id
+        );
+        // Actualizar la venta
+        this.actualizarVenta(this.venta._id);
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
+    },
+
     validarDetalleVenta(data) {
       if (data.sale == "") {
         return false;

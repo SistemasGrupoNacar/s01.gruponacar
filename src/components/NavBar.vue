@@ -78,9 +78,19 @@ export default {
           ],
         },
         {
-          direccion: "/perfil",
-          nombre: "Perfil",
-          poseeDerivaciones: false,
+          direccion: "/producciones",
+          nombre: "Producciones",
+          poseeDerivaciones: true,
+          derivaciones: [
+            {
+              direccion: "/producciones/detalle",
+              nombre: "Detalle",
+            },
+            {
+              direccion: "/producciones/ventas",
+              nombre: "Ventas",
+            },
+          ],
         },
       ],
     };

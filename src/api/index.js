@@ -5,7 +5,7 @@ import API_URI from "@/api/config.js";
 async function obtenerTodosProductos() {
   return new Promise((resolve, reject) => {
     axios
-      .get(API_URI + "/products")
+      .get(API_URI + "/products/all")
       .then((respuesta) => {
         resolve(respuesta);
       })
@@ -16,7 +16,7 @@ async function obtenerTodosProductos() {
 }
 
 // Obtener productos disponibles
-async function obtenerProductosDisponibles() {
+async function obtenerProductos() {
   return new Promise((resolve, reject) => {
     axios
       .get(API_URI + "/products/")
@@ -89,7 +89,7 @@ async function crearProducto(producto) {
 async function obtenerTodosInsumos() {
   return new Promise((resolve, reject) => {
     axios
-      .get(API_URI + "/inventoryProducts")
+      .get(API_URI + "/inventoryProducts/all")
       .then((respuesta) => {
         resolve(respuesta);
       })
@@ -99,6 +99,19 @@ async function obtenerTodosInsumos() {
   });
 }
 
+// Obtener insumos disponibles
+async function obtenerInsumos() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/inventoryProducts")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
 // Obtener primeros 5 insumos
 async function obtenerPrimerosInsumos() {
   return new Promise((resolve, reject) => {
@@ -146,6 +159,20 @@ async function obtenerProduccionesEnProgreso() {
   return new Promise((resolve, reject) => {
     axios
       .get(API_URI + "/productions")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Obtener todas las producciones
+async function obtenerTodasProducciones() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/productions/all")
       .then((respuesta) => {
         resolve(respuesta);
       })
@@ -282,18 +309,62 @@ async function eliminarEntradaInsumo(id) {
       });
   });
 }
+
+// Crear Venta
+async function crearVenta(venta) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(API_URI + "/sales", venta)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Cancelar Venta
+async function cancelarVenta(id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(API_URI + "/sales/" + id)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Agregar detalle de venta
+async function crearDetalleVenta(data) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(API_URI + "/detailSales", data)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
 export default {
   obtenerTodosProductos,
-  obtenerProductosDisponibles,
+  obtenerProductos,
   obtenerPrimerosProductos,
   cambiarDisponibilidadProducto,
   eliminarProducto,
   crearProducto,
   obtenerTodosInsumos,
+  obtenerInsumos,
   obtenerPrimerosInsumos,
   obtenerPrimerosHistorialCosecha,
   obtenerTodosHistorialCosecha,
   obtenerProduccionesEnProgreso,
+  obtenerTodasProducciones,
   crearCosecha,
   eliminarHistorialCosecha,
   obtenerPrimerosHistorialEntradaInsumos,
@@ -303,4 +374,7 @@ export default {
   crearInsumo,
   crearIngresoInsumo,
   eliminarEntradaInsumo,
+  crearVenta,
+  cancelarVenta,
+  crearDetalleVenta,
 };

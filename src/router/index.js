@@ -82,6 +82,26 @@ const routes = [
         component: () =>
           import("../views/ListadoComponentes/ListadoInsumos.vue"),
       },
+      {
+        path: "producciones",
+        name: "Producciones",
+        component: () => import("../views/Producciones.vue"),
+      },
+      {
+        path: "producciones/ventas",
+        name: "Ventas",
+        component: () => import("../views/Ventas.vue"),
+      },
+      {
+        path: "producciones/ventas/nueva",
+        name: "NuevaVenta",
+        component: () => import("../views/NuevoComponentes/NuevaVenta.vue"),
+      },
+      {
+        path: "producciones/detalle",
+        name: "DetalleProduccion",
+        component: () => import("../views/DetalleProduccion.vue"),
+      },
     ],
   },
   {

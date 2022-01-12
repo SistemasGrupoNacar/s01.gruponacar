@@ -380,6 +380,62 @@ async function eliminarDetalleVenta(id) {
   });
 }
 
+// Obtener ventas
+async function obtenerVentas() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/sales")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Obtener todas las ventas con rango de fechas
+async function obtenerVentasTodasFecha(fechaInicio, fechaFin) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/sales/" + fechaInicio + "/" + fechaFin + "/all")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Obtener las ventas con rango de fechas
+async function obtenerVentasFecha(fechaInicio, fechaFin) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/sales/" + fechaInicio + "/" + fechaFin)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Obtener todas las ventas sin rango de fechas
+async function obtenerVentasTodas() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/sales/all")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   obtenerTodosProductos,
   obtenerProductos,
@@ -408,4 +464,8 @@ export default {
   crearDetalleVenta,
   obtenerVenta,
   eliminarDetalleVenta,
+  obtenerVentas,
+  obtenerVentasTodasFecha,
+  obtenerVentasFecha,
+  obtenerVentasTodas,
 };

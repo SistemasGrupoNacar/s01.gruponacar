@@ -96,7 +96,11 @@
 }
 
 ._w-50 {
-  width: 100%;
+  width: 100% !important;
+}
+
+._w-75 {
+  width: 100% !important;
 }
 
 ._only-tablet {
@@ -111,5 +115,8 @@
   }
   ._only-tablet {
     display: block;
+  }
+  ._w-75 {
+    width: 75% !important;
   }
 }

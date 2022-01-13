@@ -436,6 +436,20 @@ async function obtenerVentasTodas() {
   });
 }
 
+// Obtener egresos
+async function obtenerEgresos() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/economy/egress")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   obtenerTodosProductos,
   obtenerProductos,
@@ -468,4 +482,5 @@ export default {
   obtenerVentasTodasFecha,
   obtenerVentasFecha,
   obtenerVentasTodas,
+  obtenerEgresos,
 };

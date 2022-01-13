@@ -3,7 +3,8 @@
     ><el-icon><Plus /> </el-icon>
   </el-button>
   <div class="container py-2 px-1 px-lg-4 text-center">
-  <p class="_title">Apartado de Ventas</p> <hr>
+    <p class="_title">Apartado de Ventas</p>
+    <hr />
     <p class="_semi-bold m-0">Filtros</p>
     <div class="d-inline-flex align-items-center mx-2 my-2 my-lg-0">
       Mostrar todas: <el-switch class="mx-2" v-model="filtro.todas" />
@@ -35,7 +36,13 @@
             size="small"
             @click.prevent="verVenta(scope.row)"
           >
-            Ver detalles
+            Ver detalles </el-button
+          ><el-button
+            type="text"
+            size="small"
+            @click.prevent="editarVenta(scope.row)"
+          >
+            Editar
           </el-button>
         </template>
       </el-table-column>
@@ -44,7 +51,7 @@
   <el-dialog
     v-model="mostrarDetalle"
     title="Detalle de Venta"
-    width="50%"
+    :md="4"
     :before-close="cerrarDetalle"
     center
   >
@@ -103,6 +110,12 @@ export default {
     verVenta(data) {
       this.ventaDetalle = data;
       this.mostrarDetalle = true;
+    },async cancelarVenta() {
+      await api.cancelarVenta(this.venta._id);
+      this.$router.push("/producciones/ventas");
+    },
+    editarVenta(data) {
+      this.$router.push({ name: "EditarVenta", params: { id: data._id } });
     },
     async obtenerVentas() {
       this.cargando = true;

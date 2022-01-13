@@ -70,7 +70,7 @@ export default {
           !data.availability
         );
         if (respuesta.status === 200) {
-          this.obtenerProductos();
+          this.obtenerInsumos();
         }
       } catch (error) {
         console.log(error);
@@ -78,8 +78,8 @@ export default {
     },
     async eliminarInsumo(data) {
       try {
-        await api.eliminarProducto(data._id);
-        this.obtenerProductos();
+        await api.eliminarInsumo(data._id);
+        this.obtenerInsumos();
       } catch (error) {
         console.log(error);
       }

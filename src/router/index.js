@@ -98,9 +98,24 @@ const routes = [
         component: () => import("../views/NuevoComponentes/NuevaVenta.vue"),
       },
       {
+        path: "producciones/ventas/editar/:id",
+        name: "EditarVenta",
+        component: () => import("../views/EditarComponentes/EditarVenta.vue"),
+      },
+      {
         path: "producciones/detalle",
         name: "DetalleProduccion",
         component: () => import("../views/DetalleProduccion.vue"),
+      },
+      {
+        path: "movimientos/ingresos",
+        name: "Ingresos",
+        component: () => import("../views/Ingresos.vue"),
+      },
+      {
+        path: "movimientos/egresos",
+        name: "Egresos",
+        component: () => import("../views/Egresos.vue"),
       },
     ],
   },

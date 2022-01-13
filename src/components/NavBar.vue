@@ -63,7 +63,7 @@ export default {
           ],
         },
         {
-          direccion: "/movimientos",
+          direccion: "",
           nombre: "Movimientos",
           poseeDerivaciones: true,
           derivaciones: [

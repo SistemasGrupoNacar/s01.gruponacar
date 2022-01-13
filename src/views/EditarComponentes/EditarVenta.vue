@@ -113,6 +113,140 @@
   </div>
 </template>
 <script>
-export default {};
+import api from "@/api/index.js";
+import { useRoute } from "vue-router";
+export default {
+  data() {
+    return {
+      venta: {},
+      cargando: false,
+      productos: [],
+      producciones: [],
+      productoSeleccionado: {
+        sale: "",
+        product: "",
+        production: "",
+        quantity: 0,
+        sub_total: 0,
+        total: 0,
+      },
+
+      detalleVenta: [],
+    };
+  },
+  mounted() {
+    this.cargando = true;
+    const router = useRoute();
+    this.obtenerVenta(router.params.id);
+    this.obtenerProductos();
+    this.obtenerTodasProducciones();
+    this.cargando = false;
+  },
+  methods: {
+    async cancelarVenta() {
+      await api.cancelarVenta(this.venta._id);
+      this.$router.push("/producciones/ventas");
+    },
+    async obtenerVenta(data) {
+      try {
+        this.cargando = true;
+        const response = await api.obtenerVenta(data);
+        this.venta = response.data;
+        this.detalleVenta = this.venta.detail_sale;
+        //Agregando el nombre de producto a la raiz de la respuesta
+        this.detalleVenta.forEach((item) => {
+          item.name = item.product.name;
+        });
+        this.cargando = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async obtenerProductos() {
+      const respuesta = await api.obtenerProductos();
+      this.productos = respuesta.data;
+    },
+    async obtenerTodasProducciones() {
+      const respuesta = await api.obtenerTodasProducciones();
+      this.producciones = respuesta.data;
+    },
+    async agregarDetalleVenta(data) {
+      data.sale = this.venta._id;
+      if (!this.validarDetalleVenta) {
+        return;
+      }
+      this.cargando = true;
+      try {
+        const respuesta = await api.crearDetalleVenta(data);
+        // Agregar a detalleVenta el producto agregado
+        const producto = this.productos.find(
+          (item) => item._id === respuesta.data.product
+        );
+        respuesta.data.name = producto.name;
+        // Agregar a detalleVenta el producto agregado
+        this.detalleVenta.push(respuesta.data);
+        // Actualizar la venta
+        this.actualizarVenta(this.venta._id);
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
+    },
+    async actualizarVenta(id) {
+      this.cargando = true;
+      try {
+        const respuesta = await api.obtenerVenta(id);
+        this.venta = respuesta.data;
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
+    },
+    async eliminarDetalleVenta(data) {
+      this.cargando = true;
+      try {
+        await api.eliminarDetalleVenta(data._id);
+        this.detalleVenta = this.detalleVenta.filter(
+          (item) => item._id !== data._id
+        );
+        // Actualizar la venta
+        this.actualizarVenta(this.venta._id);
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
+    },
+    validarDetalleVenta(data) {
+      if (data.sale == "") {
+        return false;
+      }
+      if (data.product == "") {
+        return false;
+      }
+      if (data.production == "") {
+        return false;
+      }
+      if (data.quantity <= 0) {
+        return false;
+      }
+      if (data.sub_total <= 0) {
+        return false;
+      }
+      if (data.total <= 0) {
+        return false;
+      }
+      return true;
+    },
+    calcularTotal() {
+      // Redondear a 2 decimales
+      this.productoSeleccionado.total =
+        Math.round(
+          this.productoSeleccionado.quantity *
+            this.productoSeleccionado.sub_total *
+            100
+        ) / 100;
+    },
+  },
+};
 </script>
 <style lang=""></style>

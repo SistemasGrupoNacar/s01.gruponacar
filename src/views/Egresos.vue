@@ -22,7 +22,7 @@
           <line-chart
             empty="No hay datos"
             prefix="$"
-            :data="egresos"
+            :data="egresos.graphic"
             class="w-100"
             :colors="['#409EFF', '#666']"
           ></line-chart>
@@ -42,7 +42,7 @@
             <p>Mes de mayor gasto: Febrero 2022</p>
             <p>Mes de menor gasto: Enero 2022</p>
           </div>
-        </div>
+        </div>}
       </div>
     </el-main>
   </div>
@@ -66,10 +66,6 @@ export default {
       try {
         const respuesta = await api.obtenerEgresos();
         this.egresos = respuesta.data;
-        // Formateando las fechas
-        this.egresos.forEach((egreso) => {
-          egreso[0] = new Date(egreso[0]).toLocaleDateString();
-        });
       } catch (error) {
         console.log(error);
       }

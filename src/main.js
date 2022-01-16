@@ -12,9 +12,7 @@ import VueChartkick from "vue-chartkick";
 import "chartkick/chart.js";
 
 import es from "element-plus/es/locale/lang/es";
-VueChartkick.configure({
-  language: "es",
-});
+
 
 createApp(App)
   .use(store)

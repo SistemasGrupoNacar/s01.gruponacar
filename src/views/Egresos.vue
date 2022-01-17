@@ -16,7 +16,7 @@
       <el-button type="primary" v-on:click="filtrar(filtro)"
         >Filtrar
       </el-button>
-      <el-tabs :tab-position="position" class="my-3">
+      <el-tabs :tab-position="position" class=" my-4">
         <el-tab-pane label="General">
           <p class="_title my-2">Informaci&oacute;n general de egresos</p>
           <p class="text-muted my-0">
@@ -37,13 +37,7 @@
           <div class="row">
             <div class="col-12 col-md-7 my-2">
               <p class="_semi-bold my-1">Gr&aacute;fico de Costos/Fechas</p>
-              <line-chart
-                empty="No hay datos"
-                prefix="$"
-                :data="egresos.inventoryProducts.graphic"
-                class="w-100"
-                :colors="['#409EFF', '#666']"
-              ></line-chart>
+              <grafica :datos="egresos.inventoryProducts.graphic" />
             </div>
             <div class="col-12 col-lg-5 my-2">
               <p class="_semi-bold my-1">
@@ -72,15 +66,32 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="Salarios">Salarios</el-tab-pane>
-        <el-tab-pane label="Otros">Otros</el-tab-pane>
+        <el-tab-pane label="Salarios">
+          <div class="row">
+            <div class="col-12 col-md-7 my-2">
+              <p class="_semi-bold my-1">Gr&aacute;fico de Costos/Fechas</p>
+              <grafica :datos="egresos.inventoryProducts.graphic" />
+            </div>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="Otros">
+          <div class="row">
+            <div class="col-12 col-md-7 my-2">
+              <p class="_semi-bold my-1">Gr&aacute;fico de Costos/Fechas</p>
+              <grafica :datos="egresos.inventoryProducts.graphic" />
+            </div>
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </el-main>
   </div>
 </template>
 <script>
 import api from "@/api/index.js";
+import Grafica from "@/components/Grafica.vue";
+
 export default {
+  components: { Grafica },
   data() {
     return {
       egresos: {

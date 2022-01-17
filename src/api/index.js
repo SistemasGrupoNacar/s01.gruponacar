@@ -450,6 +450,26 @@ async function obtenerEgresos() {
   });
 }
 
+// Obtener egresos con rango de fechas
+async function obtenerEgresosFecha(fechaInicio, fechaFin) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        API_URI +
+          "/economy/egress?startDate=" +
+          fechaInicio +
+          "&endDate=" +
+          fechaFin
+      )
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   obtenerTodosProductos,
   obtenerProductos,
@@ -483,4 +503,5 @@ export default {
   obtenerVentasFecha,
   obtenerVentasTodas,
   obtenerEgresos,
+  obtenerEgresosFecha,
 };

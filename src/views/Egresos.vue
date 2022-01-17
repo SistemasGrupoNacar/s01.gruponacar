@@ -13,37 +13,68 @@
           end-placeholder="Fecha de finalizacion"
         ></el-date-picker>
       </div>
-      <el-button type="primary" v-on:click="verificarFiltros()"
+      <el-button type="primary" v-on:click="filtrar(filtro)"
         >Filtrar
       </el-button>
-      <div class="row">
-        <div class="col-12 col-md-7 my-2">
-          <p class="_semi-bold my-1">Gr&aacute;fico de Costos/Fechas</p>
-          <line-chart
-            empty="No hay datos"
-            prefix="$"
-            :data="egresos.graphic"
-            class="w-100"
-            :colors="['#409EFF', '#666']"
-          ></line-chart>
-        </div>
-        <div class="col-12 col-lg-5 my-2">
-          <p class="_semi-bold my-1">
-            Detalle de Egresos
-            <el-tag class="mx-3" type="info">Filtrado</el-tag>
+      <el-tabs :tab-position="position" class="my-3">
+        <el-tab-pane label="General">
+          <p class="_title my-2">Informaci&oacute;n general de egresos</p>
+          <p class="text-muted my-0">
+            Sub-total en insumos: $ {{ egresos.inventoryProducts.total }}
           </p>
-          <div class="container my-3 text-start">
-            <p>Fecha: 2022-01-01 - 2022-02-02</p>
-            <p>Cantidad de transacciones: 10</p>
-            <p>Total por Insumos: $1,023.78</p>
-            <p>Total por Salarios: $4,000.00</p>
-            <p>Total por Extras: $205.33</p>
-            <p>Total: $0</p>
-            <p>Mes de mayor gasto: Febrero 2022</p>
-            <p>Mes de menor gasto: Enero 2022</p>
+          <p class="text-muted my-0">
+            Sub-total en salarios: $ {{ egresos.salaries.total }}
+          </p>
+          <p class="text-muted my-0">
+            Sub-total en extras: $ {{ egresos.extraMoves.total }}
+          </p>
+          <hr />
+          <p class="_title">
+            Total: <span class="_semi-bold">$ {{ egresos.general.total }}</span>
+          </p>
+        </el-tab-pane>
+        <el-tab-pane label="Insumos">
+          <div class="row">
+            <div class="col-12 col-md-7 my-2">
+              <p class="_semi-bold my-1">Gr&aacute;fico de Costos/Fechas</p>
+              <line-chart
+                empty="No hay datos"
+                prefix="$"
+                :data="egresos.inventoryProducts.graphic"
+                class="w-100"
+                :colors="['#409EFF', '#666']"
+              ></line-chart>
+            </div>
+            <div class="col-12 col-lg-5 my-2">
+              <p class="_semi-bold my-1">
+                Detalle de Egresos
+                <el-tag
+                  class="mx-3"
+                  type="info"
+                  v-show="egresos.inventoryProducts.filtered"
+                  >Filtrado</el-tag
+                >
+              </p>
+              <div class="container my-3 text-start">
+                <p class="text-muted my-2">
+                  Fecha: {{ egresos.inventoryProducts.startDate }} -
+                  {{ egresos.inventoryProducts.endDate }}
+                </p>
+                <p class="text-muted my-2">
+                  Total por Insumos: $
+                  {{ egresos.inventoryProducts.total }}
+                </p>
+                <p class="text-muted my-2">
+                  D&iacute;a de mayor gasto:
+                  {{ egresos.inventoryProducts.total }}
+                </p>
+              </div>
+            </div>
           </div>
-        </div>}
-      </div>
+        </el-tab-pane>
+        <el-tab-pane label="Salarios">Salarios</el-tab-pane>
+        <el-tab-pane label="Otros">Otros</el-tab-pane>
+      </el-tabs>
     </el-main>
   </div>
 </template>
@@ -52,10 +83,32 @@ import api from "@/api/index.js";
 export default {
   data() {
     return {
-      egresos: {},
+      egresos: {
+        general: {
+          total: 0,
+        },
+        inventoryProducts: {
+          graphic: [],
+          totalEgress: 0,
+          filtered: false,
+          startDate: "",
+          endDate: "",
+        },
+        salaries: {},
+        extraMoves: {},
+      },
       cargando: false,
       filtro: {},
+      position: "top",
     };
+  },
+  beforeMount() {
+    // Verificar el tamaño de la pantalla
+    if (window.innerWidth < 768) {
+      this.position = "top";
+    } else {
+      this.position = "left";
+    }
   },
   mounted() {
     this.obtenerEgresos();
@@ -65,6 +118,19 @@ export default {
       this.cargando = true;
       try {
         const respuesta = await api.obtenerEgresos();
+        console.log(respuesta);
+        this.egresos = respuesta.data;
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
+    },
+    async filtrar(data) {
+      this.cargando = true;
+      const startDate = data.date[0].toISOString().split("T")[0];
+      const endDate = data.date[1].toISOString().split("T")[0];
+      try {
+        const respuesta = await api.obtenerEgresosFecha(startDate, endDate);
         this.egresos = respuesta.data;
       } catch (error) {
         console.log(error);

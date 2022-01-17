@@ -116,7 +116,7 @@ export default {
       }
       this.cargando = true;
       try {
-        console.log(data);
+        data.date = data.date.toISOString().split("T")[0];
         const respuesta = await api.crearIngresoInsumo(data);
         alert("Ingreso de Insumo creado con id: " + respuesta.data._id);
         this.$router.push({ name: "Insumos" });

@@ -109,6 +109,10 @@
 .min-h-50 {
   min-height: 50vh;
 }
+
+._is-mobile {
+  display: flex !important;
+}
 @media (min-width: 768px) {
   ._w-50 {
     width: 50%;
@@ -118,5 +122,8 @@
   }
   ._w-75 {
     width: 75% !important;
+  }
+  ._is-mobile {
+    display: none !important;
   }
 }

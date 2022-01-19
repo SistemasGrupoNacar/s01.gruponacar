@@ -218,9 +218,6 @@ export default {
   .link-dropdown {
   }
   .active {
-    text-decoration-line: underline;
-    text-decoration-style: wavy;
-    text-underline-position: under;
     text-decoration-color: var(--color-primary);
   }
 }

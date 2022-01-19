@@ -129,7 +129,6 @@ export default {
       this.cargando = true;
       try {
         const respuesta = await api.obtenerEgresos();
-        console.log(respuesta);
         this.egresos = respuesta.data;
       } catch (error) {
         console.log(error);

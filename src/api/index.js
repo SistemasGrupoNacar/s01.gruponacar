@@ -470,6 +470,40 @@ async function obtenerEgresosFecha(fechaInicio, fechaFin) {
   });
 }
 
+// Obtener ingresos
+async function obtenerIngresos() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/economy/ingress")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Obtener ingresos con rango de fechas
+async function obtenerIngresosFecha(fechaInicio, fechaFin) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(
+        API_URI +
+          "/economy/ingress?startDate=" +
+          fechaInicio +
+          "&endDate=" +
+          fechaFin
+      )
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   obtenerTodosProductos,
   obtenerProductos,
@@ -504,4 +538,6 @@ export default {
   obtenerVentasTodas,
   obtenerEgresos,
   obtenerEgresosFecha,
+  obtenerIngresos,
+  obtenerIngresosFecha,
 };

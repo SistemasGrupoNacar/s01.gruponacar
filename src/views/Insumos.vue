@@ -1,10 +1,20 @@
 <template>
-  <el-button
-    class="nuevo-insumo"
-    type="primary"
-    v-on:click="nuevoIngresoInsumo()"
-    ><el-icon><Plus /> </el-icon>
-  </el-button>
+  <el-popover
+    placement="left-start"
+    title="Entrada de Insumos"
+    :width="210"
+    trigger="hover"
+    content="Agrega una nueva entrada a inventario de insumos."
+  >
+    <template #reference>
+      <el-button
+        class="nuevo-insumo"
+        type="primary"
+        v-on:click="nuevoIngresoInsumo()"
+        ><el-icon><Plus /> </el-icon>
+      </el-button>
+    </template>
+  </el-popover>
 
   <div class="container">
     <div class="row">

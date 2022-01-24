@@ -20,7 +20,10 @@
       <el-tabs :tab-position="position" class="my-4">
         <el-tab-pane label="General">
           <p class="_title my-2">Informaci&oacute;n general de ingresos</p>
-          <p class="_bold my-1" v-if="filtro.date != '' && ingresos.sales.filtered">
+          <p
+            class="_bold my-1"
+            v-if="filtro.date != '' && ingresos.sales.filtered"
+          >
             Fecha: {{ filtro.date[0].toISOString().split("T")[0] }} -
             {{ filtro.date[1].toISOString().split("T")[0] }}
           </p>
@@ -43,28 +46,32 @@
               <grafica :datos="ingresos.sales.graphic" />
             </div>
             <div class="col-12 col-lg-5 my-2">
-              <p class="_semi-bold my-1">
-                Detalle de Ingresos
-                <el-tag
-                  class="mx-3"
-                  type="info"
-                  v-show="ingresos.sales.filtered"
-                  >Filtrado</el-tag
-                >
-              </p>
-              <div class="container my-3 text-start">
-                <p class="text-muted my-2">
-                  Fecha: {{ ingresos.sales.startDate }} -
-                  {{ ingresos.sales.endDate }}
-                </p>
-                <p class="text-muted my-2">
-                  Total por Ventas: $
-                  {{ ingresos.sales.total }}
-                </p>
-                <p class="text-muted my-2">
-                  D&iacute;a de mayor ganancia:
-                  {{ ingresos.sales.total }}
-                </p>
+              <p class="_semi-bold my-1">Detalle de Ingresos</p>
+              <hr />
+              <div class="container my-3 text-center">
+                <div class="_bold _text-big">
+                  {{ ingresos.sales.startDate }} - {{ ingresos.sales.endDate
+                  }}<el-tag
+                    class="mx-3"
+                    type="info"
+                    v-show="ingresos.sales.filtered"
+                    >Filtrado</el-tag
+                  >
+                </div>
+                <div class="container my-2">
+                  <el-icon><SortUp /> </el-icon>
+                  <span class="mx-2">Ingreso mayor: Lunes 25 de enero</span>
+                </div>
+                <div class="container my-2">
+                  <el-icon><SortDown /> </el-icon>
+                  <span class="mx-2">Ingreso menor: Martes 26 de enero</span>
+                </div>
+                <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
+                  <el-icon><Money /> </el-icon>
+                  <span class="_bold mx-2"
+                    >Total: $ {{ ingresos.sales.total }}</span
+                  >
+                </div>
               </div>
             </div>
           </div>
@@ -86,8 +93,9 @@
 import api from "@/api/index.js";
 import Grafica from "@/components/Grafica.vue";
 
+import { Money, SortUp, SortDown } from "@element-plus/icons-vue";
 export default {
-  components: { Grafica },
+  components: { Grafica, Money, SortUp, SortDown },
   data() {
     return {
       ingresos: {

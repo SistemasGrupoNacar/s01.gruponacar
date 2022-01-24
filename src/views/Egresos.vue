@@ -16,7 +16,7 @@
       <el-button type="primary" v-on:click="filtrar(filtro)"
         >Filtrar
       </el-button>
-      <el-tabs :tab-position="position" class=" my-4">
+      <el-tabs :tab-position="position" class="my-4">
         <el-tab-pane label="General">
           <p class="_title my-2">Informaci&oacute;n general de egresos</p>
           <p class="text-muted my-0">
@@ -40,28 +40,33 @@
               <grafica :datos="egresos.inventoryProducts.graphic" />
             </div>
             <div class="col-12 col-lg-5 my-2">
-              <p class="_semi-bold my-1">
-                Detalle de Egresos
-                <el-tag
-                  class="mx-3"
-                  type="info"
-                  v-show="egresos.inventoryProducts.filtered"
-                  >Filtrado</el-tag
-                >
-              </p>
-              <div class="container my-3 text-start">
-                <p class="text-muted my-2">
-                  Fecha: {{ egresos.inventoryProducts.startDate }} -
-                  {{ egresos.inventoryProducts.endDate }}
-                </p>
-                <p class="text-muted my-2">
-                  Total por Insumos: $
-                  {{ egresos.inventoryProducts.total }}
-                </p>
-                <p class="text-muted my-2">
-                  D&iacute;a de mayor gasto:
-                  {{ egresos.inventoryProducts.total }}
-                </p>
+              <p class="_semi-bold my-1">Detalle de Egresos</p>
+              <hr />
+              <div class="container my-3 text-center">
+                <div class="_bold _text-big">
+                  {{ egresos.inventoryProducts.startDate }} -
+                  {{ egresos.inventoryProducts.endDate
+                  }}<el-tag
+                    class="mx-3"
+                    type="info"
+                    v-show="egresos.inventoryProducts.filtered"
+                    >Filtrado</el-tag
+                  >
+                </div>
+                <div class="container my-2">
+                  <el-icon><SortUp /> </el-icon>
+                  <span class="mx-2">Egreso mayor: Lunes 25 de enero</span>
+                </div>
+                <div class="container my-2">
+                  <el-icon><SortDown /> </el-icon>
+                  <span class="mx-2">Egreso menor: Martes 26 de enero</span>
+                </div>
+                <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
+                  <el-icon><Money /> </el-icon>
+                  <span class="_bold mx-2"
+                    >Total: $ {{ egresos.inventoryProducts.total }}</span
+                  >
+                </div>
               </div>
             </div>
           </div>

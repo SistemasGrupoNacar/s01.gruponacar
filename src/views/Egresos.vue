@@ -19,19 +19,43 @@
       <el-tabs :tab-position="position" class="my-4">
         <el-tab-pane label="General">
           <p class="_title my-2">Informaci&oacute;n general de egresos</p>
-          <p class="text-muted my-0">
-            Sub-total en insumos: $ {{ egresos.inventoryProducts.total }}
-          </p>
-          <p class="text-muted my-0">
-            Sub-total en salarios: $ {{ egresos.salaries.total }}
-          </p>
-          <p class="text-muted my-0">
-            Sub-total en extras: $ {{ egresos.extraMoves.total }}
-          </p>
-          <hr />
-          <p class="_title">
-            Total: <span class="_semi-bold">$ {{ egresos.general.total }}</span>
-          </p>
+          <div
+            class="d-flex flex-row flex-wrap justify-content-around align-items-center"
+          >
+            <div class="bg-light _widget-1">
+              <p class="_text-small _bold w-100 my-0">Incremento</p>
+              <el-icon>
+                <sort-up />
+              </el-icon>
+              <span class="_text-biggest">90</span>%
+            </div>
+            <div class="_widget-2 bg-warning _w-40">
+              <p class="_text-small _bold w-100 my-0">Total</p>
+              <el-icon>
+                <sort-down />
+              </el-icon>
+              <span class="_text-biggest">$ 170</span>.00
+            </div>
+            <div class="_widget-3 bg-light">
+              <p class="_text-small _bold w-100 my-0">Porcentaje en Salarios</p>
+              <el-icon>
+                <sort-down />
+              </el-icon>
+              <span class="_text-biggest">13</span>%
+            </div>
+            <div class="w-100 container my-3 border-top py-2">
+              <p class="_text-small _bold w-100 my-0">Datos pasados</p>
+              <div class="my-0">
+                Enero 2022 - $<span class="_text-biggest">455</span>.00
+              </div>
+              <p class="my-0">
+                Diciembre 2021 - $<span class="_text-biggest">532</span>.00
+              </p>
+              <p class="my-0">
+                Noviembre 2021 - $<span class="_text-biggest">211</span>.00
+              </p>
+            </div>
+          </div>
         </el-tab-pane>
         <el-tab-pane label="Insumos">
           <div class="row">

@@ -19,25 +19,53 @@
 
       <el-tabs :tab-position="position" class="my-4">
         <el-tab-pane label="General">
-          <p class="_title my-2">Informaci&oacute;n general de ingresos</p>
-          <p
-            class="_bold my-1"
-            v-if="filtro.date != '' && ingresos.sales.filtered"
+          <p class="_title my-0">Informaci&oacute;n general de ingresos</p>
+          <div class="container my-2">
+            <p
+              class="_text-big my-0"
+              v-if="filtro.date != '' && ingresos.sales.filtered"
+            >
+              {{ filtro.date[0].toLocaleString().split(" ")[0] }} -
+              {{ filtro.date[1].toLocaleString().split(" ")[0] }}
+            </p>
+          </div>
+          <div
+            class="d-flex flex-row flex-wrap justify-content-around align-items-center"
           >
-            Fecha: {{ filtro.date[0].toISOString().split("T")[0] }} -
-            {{ filtro.date[1].toISOString().split("T")[0] }}
-          </p>
-          <p class="text-muted my-1">
-            Sub-total en ventas: $ {{ ingresos.sales.total }}
-          </p>
-          <p class="text-muted my-1">
-            Sub-total en extras: $ {{ ingresos.extraMoves }}
-          </p>
-          <hr />
-          <p class="_title">
-            Total:
-            <span class="_semi-bold">$ {{ ingresos.general.total }}</span>
-          </p>
+            <div class="bg-light _widget-1">
+              <p class="_text-small _bold w-100 my-0">Incremento</p>
+              <el-icon>
+                <sort-up />
+              </el-icon>
+              <span class="_text-biggest">90</span>%
+            </div>
+            <div class="_widget-2 bg-warning _w-40">
+              <p class="_text-small _bold w-100 my-0">Total</p>
+              <el-icon>
+                <sort-down />
+              </el-icon>
+              <span class="_text-biggest">$ 170</span>.00
+            </div>
+            <div class="_widget-3 bg-light">
+              <p class="_text-small _bold w-100 my-0">Porcentaje en Otros</p>
+              <el-icon>
+                <sort-down />
+              </el-icon>
+              <span class="_text-biggest">13</span>%
+            </div>
+            <div class="w-100 container my-3 border-top py-2">
+              <p class="_text-small _bold w-100 my-0">Datos pasados</p>
+              <div class="my-0">
+                Enero 2022 - $<span class="_text-biggest">455</span>.00
+              </div>
+              <p class="my-0">
+                Diciembre 2021 - $<span class="_text-biggest">532</span>.00
+              </p>
+              <p class="my-0">
+                Noviembre 2021 - $<span class="_text-biggest">211</span>.00
+              </p>
+            </div>
+          </div>
         </el-tab-pane>
         <el-tab-pane label="Ventas">
           <div class="row">
@@ -92,10 +120,10 @@
 <script>
 import api from "@/api/index.js";
 import Grafica from "@/components/Grafica.vue";
-
-import { Money, SortUp, SortDown } from "@element-plus/icons-vue";
+// Importar icono de element-ui
+import { SortUp, SortDown } from "@element-plus/icons-vue";
 export default {
-  components: { Grafica, Money, SortUp, SortDown },
+  components: { Grafica, SortUp, SortDown },
   data() {
     return {
       ingresos: {
@@ -154,4 +182,14 @@ export default {
   },
 };
 </script>
-<style lang=""></style>
+<style lang="scss">
+
+._widget-1 {
+}
+
+._widget-2 {
+}
+
+@media (min-width: 768px) {
+}
+</style>

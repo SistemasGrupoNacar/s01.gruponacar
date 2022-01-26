@@ -35,9 +35,18 @@
             <div class="bg-light _widget-1">
               <p class="_text-small _bold w-100 my-0">Incremento</p>
               <el-icon>
-                <sort-up />
+                <sort-up v-if="ingresos.general.percentageIncDec > 0" />
+                <sort-down v-if="ingresos.general.percentageIncDec < 0" />
               </el-icon>
-              <span class="_text-biggest">90</span>%
+              <span
+                class="_text-biggest"
+                v-if="
+                  ingresos.general.percentageIncDec ||
+                  ingresos.general.percentageIncDec != null
+                "
+                >{{ ingresos.general.percentageIncDec }}</span
+              >
+              <span class="_text-biggest" v-else>0</span>%
             </div>
             <div class="_widget-2 bg-warning _w-40">
               <p class="_text-small _bold w-100 my-0">Total</p>
@@ -55,14 +64,15 @@
             </div>
             <div class="w-100 container my-3 border-top py-2">
               <p class="_text-small _bold w-100 my-0">Datos pasados</p>
-              <div class="my-0">
-                Enero 2022 - $<span class="_text-biggest">455</span>.00
-              </div>
-              <p class="my-0">
-                Diciembre 2021 - $<span class="_text-biggest">532</span>.00
-              </p>
-              <p class="my-0">
-                Noviembre 2021 - $<span class="_text-biggest">211</span>.00
+              <p
+                v-for="(item, index) in ingresos.general.statisticsSales"
+                :key="index"
+                class="my-0"
+              >
+                {{ item.monthName }} - $<span class="_text-biggest">{{
+                  item.total.toString().split(".")[0]
+                }}</span
+                >.{{ item.total.toString().split(".")[1].slice(0, 2) }}
               </p>
             </div>
           </div>
@@ -183,7 +193,6 @@ export default {
 };
 </script>
 <style lang="scss">
-
 ._widget-1 {
 }
 

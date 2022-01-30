@@ -1,18 +1,26 @@
 <template>
   <div class="container py-3">
-    <p class="_bold _text-big my-0">Venta: {{ venta._id }}</p>
-    <p class="_text-small my-0 _light" v-if="venta.date">
-      Fecha: {{ venta.date.slice(0, 10) }}
-    </p>
-    <p class="_text-big _bold">
-      TOTAL: $ <span class="_light">{{ venta.total || 0 }}</span>
-    </p>
+    <div class="_detail">
+      <div class="px-5">
+        <p class="_text-bigger text-center my-0">{{ venta._id }}</p>
+        <p class="my-0 _light text-end" v-if="venta.date">
+          {{ venta.date.slice(0, 10) }}
+        </p>
+      </div>
 
-    <el-button class="my-2" type="primary" v-on:click="cancelarVenta()"
-      >Cancelar Venta
-    </el-button>
+      <p class="_text-bigger _bold text-end px-5">$ {{ venta.total || 0 }}</p>
+
+      <div class="text-center px-2">
+        <el-button class="my-2" type="primary" v-on:click="cancelarVenta()"
+          >Cancelar Venta
+        </el-button>
+        <el-button class="my-2 text-end" type="" v-on:click="finalizarVenta()"
+          >Finalizar Venta
+        </el-button>
+      </div>
+    </div>
     <hr />
-    <el-main v-loading="cargando" class="w-100">
+    <el-main v-loading="cargando" class="w-100 main">
       <div class="row my-1">
         <div class="col-12 col-lg-4 px-lg-2">
           <p class="_bold">Seleccion de producto</p>
@@ -226,6 +234,14 @@ export default {
       }
       return true;
     },
+
+    finalizarVenta() {
+      if (this.detalleVenta.length == 0) {
+        this.cancelarVenta();
+      } else {
+        this.$router.push("/producciones/ventas");
+      }
+    },
   },
 
   async mounted() {
@@ -245,4 +261,32 @@ export default {
   },
 };
 </script>
-<style lang=""></style>
+<style lang="scss">
+._detail {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  background: var(--white);
+  z-index: 10;
+  display: block;
+  height: 180px;
+}
+
+.main {
+  padding-bottom: 180px;
+}
+
+@media (min-width: 768px) {
+  ._detail {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 100px;
+  }
+  .main {
+    padding-bottom: 100px;
+  }
+}
+</style>

@@ -7,7 +7,7 @@
       ref="burger"
       v-on:click="cambiarEstadoElementosMenu"
     />
-    <div class="user-info" v-show="mostrarElementosMenu">
+    <div class="user-info" >
       <span class="_semi-bold" v-if="obtenerUsuario() != null">
         {{ obtenerUsuario() }}
       </span>
@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     obtenerUsuario() {
-      return "Javier Morales";
+      return "Grupo NACAR";
     },
     cambiarEstadoElementosMenu() {
       if (window.innerWidth < 768) {
@@ -112,12 +112,28 @@ export default {
         this.mostrarElementosMenu = true;
       }
     });
+    // Modificar $route
+    this.rutaActual = this.$route.path;
   },
   watch: {
     $route() {
       const urlCortada = this.$route.path.split("/");
       if (urlCortada.length >= 2) {
         this.rutaActual = urlCortada[0] + "/" + urlCortada[1];
+      } else if (this.$router.path == "") {
+        this.rutaActual = "/";
+      } else {
+        this.rutaActual = this.$route.path;
+      }
+    },
+
+    // Watcher de ruta actual
+    rutaActual() {
+      const urlCortada = this.$route.path.split("/");
+      if (urlCortada.length >= 2) {
+        this.rutaActual = urlCortada[0] + "/" + urlCortada[1];
+      } else if (this.$router.path == "") {
+        this.rutaActual = "/";
       } else {
         this.rutaActual = this.$route.path;
       }
@@ -132,17 +148,20 @@ export default {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
+  // Agregar sombra al final
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
 .nav-burger {
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
 }
 .user-info {
   margin: 0 auto;
   cursor: pointer;
+  font-size: 1.3rem;
 }
 
 .elements {
@@ -166,8 +185,8 @@ export default {
 
 .link {
   display: block;
-  font-size: 1rem;
-  margin: 5px 0;
+  font-size: 1.1rem;
+  margin: 10px 0;
 
   &:hover div {
     display: block;
@@ -177,7 +196,7 @@ export default {
 .link-dropdown {
   display: block;
   font-weight: 500;
-  margin: 5px 0;
+  margin: 2px 0;
   text-decoration: transparent !important;
 }
 
@@ -202,17 +221,20 @@ export default {
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 15px 10%;
+    height: 75px;
+    align-items: center;
   }
   .user-info {
     display: block;
     margin: 0;
+    font-size: 1.2rem;
   }
   .elements {
     width: auto;
   }
   .link {
     display: inline-block;
-    margin: 0 5px;
+    margin: 8px;
     font-size: 0.9rem;
   }
   .link-dropdown {

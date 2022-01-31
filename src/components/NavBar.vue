@@ -185,6 +185,7 @@ export default {
   background: var(--white);
   border-radius: 5px;
   padding: 0;
+  z-index: 99;
 }
 
 .link {

@@ -112,7 +112,7 @@ export default {
       this.mostrarDetalle = true;
     },async cancelarVenta() {
       await api.cancelarVenta(this.venta._id);
-      this.$router.push("/producciones/ventas");
+      this.$router.push("/movimientos/ventas");
     },
     editarVenta(data) {
       this.$router.push({ name: "EditarVenta", params: { id: data._id } });
@@ -235,7 +235,8 @@ export default {
 .nueva-venta {
   display: block;
   position: fixed;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10;
 }
 </style>

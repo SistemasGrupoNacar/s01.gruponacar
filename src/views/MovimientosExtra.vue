@@ -15,13 +15,94 @@
       </el-button>
     </template>
   </el-popover>
-  <div></div>
+  <div class="container mt-3">
+    <p class="_title">Historial Movimientos Extra</p>
+    <p class="_subtitle text-muted">
+      Listado de movimientos extra tanto egresos como ingresos.
+    </p>
+    <el-main v-loading="cargando">
+      <div class="min-h-50">
+        <el-table :data="listadoHistorialMovimientosExtra" style="width: 100%">
+          <el-table-column fixed prop="_id" label="ID" width="120" />
+          <el-table-column prop="type_move.title" label="Tipo" width="150" />
+          <el-table-column prop="total" label="Total" width="120" />
+          <el-table-column prop="date" label="Fecha" width="120" />
+          <el-table-column
+            prop="description"
+            label="Descripción"
+            min-width="150"
+          />
+          <el-table-column fixed="right" label="Operacion" width="100">
+            <template #default="scope">
+              <el-button type="" v-on:click="eliminarMovimientoExtra(scope.row)"
+                ><el-icon><Delete /> </el-icon>
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-main>
+  </div>
 </template>
 <script>
-import { Plus } from "@element-plus/icons-vue";
+import { Plus, Delete } from "@element-plus/icons-vue";
+import api from "@/api/index.js";
 export default {
   components: {
     Plus,
+    Delete,
+  },
+  data() {
+    return {
+      listadoHistorialMovimientosExtra: [],
+      cargando: false,
+    };
+  },
+  mounted() {
+    this.obtenerHistorialMovimientosExtra();
+  },
+  methods: {
+    async obtenerHistorialMovimientosExtra() {
+      this.cargando = true;
+      try {
+        const respuesta = await api.obtenerTodosMovimientosExtra();
+        this.listadoHistorialMovimientosExtra = respuesta.data;
+        this.listadoHistorialMovimientosExtra.map((item) => {
+          // Convertir el total a dolar
+          item.total = item.total.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          });
+          // Agregar titulo en español
+          if (item.type_move.title === "ingress") {
+            item.type_move.title = "Ingreso";
+          } else {
+            item.type_move.title = "Egreso";
+          }
+          // Convertir fecha a local
+          item.date = new Date(item.date).toLocaleString("es-ES", {
+            timeZone: "America/El_Salvador",
+            hour12: true,
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
+    },
+    nuevoMovimientoExtra() {
+      this.$router.push("/movimientos/extra/nuevo");
+    },
+    async eliminarMovimientoExtra(data) {
+      this.cargando = true;
+      try {
+        await api.eliminarMovimientoExtra(data._id);
+        this.obtenerHistorialMovimientosExtra();
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
+    },
   },
 };
 </script>
@@ -29,7 +110,8 @@ export default {
 .nuevo-extra {
   display: block;
   position: fixed;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10;
 }
 </style>

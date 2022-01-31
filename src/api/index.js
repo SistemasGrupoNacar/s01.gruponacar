@@ -518,6 +518,47 @@ async function obtenerTiposMovimientos() {
   });
 }
 
+// Agregar movimiento extra
+async function crearMovimientoExtra(data) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(API_URI + "/extraMoves", data)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Obtener todos los movimientos extras
+async function obtenerTodosMovimientosExtra() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/extraMoves")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Eliminar movimiento extra
+async function eliminarMovimientoExtra(id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(API_URI + "/extraMoves/" + id)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
 
 export default {
   obtenerTodosProductos,
@@ -555,5 +596,8 @@ export default {
   obtenerEgresosFecha,
   obtenerIngresos,
   obtenerIngresosFecha,
-  obtenerTiposMovimientos
+  obtenerTiposMovimientos,
+  crearMovimientoExtra,
+  obtenerTodosMovimientosExtra,
+  eliminarMovimientoExtra,
 };

@@ -26,7 +26,7 @@
             <span class="text-muted">Fecha</span>
             <el-date-picker
               v-model="nuevoMovimientoExtra.date"
-              type="date"
+              type="datetime"
               placeholder="Escoge una fecha"
               class="w-100"
               clearable
@@ -92,6 +92,16 @@ export default {
             ? (tipo.title_es = "Ingreso")
             : (tipo.title_es = "Egreso");
         });
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
+    },
+    async crearMovimientoExtra(nuevoMovimientoExtra) {
+      this.cargando = true;
+      try {
+        await api.crearMovimientoExtra(nuevoMovimientoExtra);
+        this.$router.push("/movimientos/extra");
       } catch (error) {
         console.log(error);
       }

@@ -187,7 +187,8 @@ export default {
 .nuevo-producto {
   display: block;
   position: fixed;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: 10px;
+  right: 10px;
+  z-index: 10;
 }
 </style>

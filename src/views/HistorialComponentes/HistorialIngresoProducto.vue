@@ -20,7 +20,11 @@
           />
           <el-table-column prop="quantity" label="Cantidad" width="90" />
           <el-table-column prop="date" label="Fecha" width="120" />
-          <el-table-column prop="description" label="Descripción" />
+          <el-table-column
+            prop="description"
+            label="Descripción"
+            min-width="150"
+          />
           <el-table-column fixed="right" label="Operacion" width="100">
             <template #default="scope">
               <el-button type="primary" v-on:click="eliminarCosecha(scope.row)"

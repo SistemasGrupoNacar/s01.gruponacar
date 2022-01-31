@@ -7,7 +7,7 @@
       ref="burger"
       v-on:click="cambiarEstadoElementosMenu"
     />
-    <div class="user-info" >
+    <div class="user-info">
       <span class="_semi-bold" v-if="obtenerUsuario() != null">
         {{ obtenerUsuario() }}
       </span>
@@ -75,6 +75,14 @@ export default {
               direccion: "/movimientos/egresos",
               nombre: "Egresos",
             },
+            {
+              direccion: "/movimientos/ventas",
+              nombre: "Ventas",
+            },
+            {
+              direccion: "/movimientos/extra",
+              nombre: "Extras",
+            },
           ],
         },
         {
@@ -85,10 +93,6 @@ export default {
             {
               direccion: "/producciones/detalle",
               nombre: "Detalle",
-            },
-            {
-              direccion: "/producciones/ventas",
-              nombre: "Ventas",
             },
           ],
         },
@@ -196,7 +200,7 @@ export default {
 .link-dropdown {
   display: block;
   font-weight: 500;
-  margin: 2px 0;
+  margin: 10px 0;
   text-decoration: transparent !important;
 }
 
@@ -238,6 +242,7 @@ export default {
     font-size: 0.9rem;
   }
   .link-dropdown {
+    margin: 12px 0px;
   }
   .active {
     text-decoration-color: var(--color-primary);

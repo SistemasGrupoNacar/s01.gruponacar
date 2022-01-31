@@ -4,7 +4,7 @@
     <p class="_subtitle text-muted">
       Formulario de registro para el ingreso de nueva cosecha de productos.
     </p>
-    <el-main v-loading="cargando" class="my-5">
+    <el-main v-loading="cargando" class="my-2">
       <div class="row">
         <div class="col-12 col-md-5 my-2">
           <span class="text-muted">Producci&oacute;n</span>

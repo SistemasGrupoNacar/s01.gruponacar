@@ -504,6 +504,21 @@ async function obtenerIngresosFecha(fechaInicio, fechaFin) {
   });
 }
 
+// Obtener los tipos de movimientos
+async function obtenerTiposMovimientos() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/typeMoves")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+
 export default {
   obtenerTodosProductos,
   obtenerProductos,
@@ -540,4 +555,5 @@ export default {
   obtenerEgresosFecha,
   obtenerIngresos,
   obtenerIngresosFecha,
+  obtenerTiposMovimientos
 };

@@ -16,7 +16,6 @@
       <el-button type="primary" v-on:click="filtrar(filtro)"
         >Filtrar
       </el-button>
-
       <el-tabs :tab-position="position" class="my-4">
         <el-tab-pane label="General">
           <p class="_title my-0">Informaci&oacute;n general de ingresos</p>
@@ -49,18 +48,21 @@
               <span class="_text-biggest" v-else>0</span>%
             </div>
             <div class="_widget-2 bg-warning _w-40">
-              <p class="_text-small _bold w-100 my-0">Total</p>
+              <p class="_text-small _bold w-100 my-0">Total del Mes</p>
               <el-icon>
                 <sort-down />
               </el-icon>
-              <span class="_text-biggest">$ 170</span>.00
+              <span class="_text-biggest">{{
+                ingresos.general.totalCurrentMonthFormat.split(".")[0]
+              }}</span
+              >.{{ ingresos.general.totalCurrentMonthFormat.split(".")[1] }}
             </div>
             <div class="_widget-3 bg-light">
               <p class="_text-small _bold w-100 my-0">Porcentaje en Otros</p>
               <el-icon>
                 <sort-down />
               </el-icon>
-              <span class="_text-biggest">13</span>%
+              <span class="_text-biggest">{{ingresos.general.extraPercentageFormat}}</span>%
             </div>
             <div class="w-100 container my-3 border-top py-2">
               <p class="_text-small _bold w-100 my-0">Datos pasados</p>
@@ -119,7 +121,37 @@
           <div class="row">
             <div class="col-12 col-md-7 my-2">
               <p class="_semi-bold my-1">Gr&aacute;fico de Ganancias/Fechas</p>
-              <grafica :datos="ingresos.sales.graphic" />
+              <grafica :datos="ingresos.extraMoves.graphic" />
+            </div>
+            <div class="col-12 col-lg-5 my-2">
+              <p class="_semi-bold my-1">Detalle de Ingresos por otros</p>
+              <hr />
+              <div class="container my-3 text-center">
+                <div class="_bold _text-big">
+                  {{ ingresos.extraMoves.startDate }} -
+                  {{ ingresos.extraMoves.endDate
+                  }}<el-tag
+                    class="mx-3"
+                    type="info"
+                    v-show="ingresos.extraMoves.filtered"
+                    >Filtrado</el-tag
+                  >
+                </div>
+                <div class="container my-2">
+                  <el-icon><SortUp /> </el-icon>
+                  <span class="mx-2">Ingreso mayor: Lunes 25 de enero</span>
+                </div>
+                <div class="container my-2">
+                  <el-icon><SortDown /> </el-icon>
+                  <span class="mx-2">Ingreso menor: Martes 26 de enero</span>
+                </div>
+                <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
+                  <el-icon><Money /> </el-icon>
+                  <span class="_bold mx-2"
+                    >Total: $ {{ ingresos.extraMoves.total }}</span
+                  >
+                </div>
+              </div>
             </div>
           </div>
         </el-tab-pane>
@@ -138,9 +170,17 @@ export default {
     return {
       ingresos: {
         general: {
-          total: 0,
+          totalCurrentMonthFormat: "",
+          extraPercentageFormat: "",
         },
         sales: {
+          graphic: [],
+          total: 0,
+          startDate: "",
+          endDate: "",
+          filtered: false,
+        },
+        extraMoves: {
           graphic: [],
           total: 0,
           startDate: "",

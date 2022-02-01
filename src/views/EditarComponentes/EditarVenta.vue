@@ -145,7 +145,7 @@ export default {
   methods: {
     async cancelarVenta() {
       await api.cancelarVenta(this.venta._id);
-      this.$router.push("/producciones/ventas");
+      this.$router.push("/movimientos/ventas");
     },
     async obtenerVenta(data) {
       try {

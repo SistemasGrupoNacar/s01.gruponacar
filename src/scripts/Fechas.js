@@ -1,4 +1,4 @@
-const fechaActual = new Date().toISOString().slice(0, 10);
+const fechaActual = new Date().toISOString();
 
 module.exports = {
   fechaActual,

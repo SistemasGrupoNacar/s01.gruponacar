@@ -1,20 +1,17 @@
 <template>
-  <el-popover
-    placement="left-start"
-    title="Nueva Cosecha"
-    :width="210"
-    trigger="hover"
-    content="Agrega una nueva cosecha de productos."
+  <el-tooltip
+    class="box-item"
+    effect="light"
+    content="Agrega una nueva cosecha de productos"
+    placement="top"
   >
-    <template #reference>
-      <el-button
-        class="nuevo-producto"
-        type="primary"
-        v-on:click="nuevoIngresoProducto()"
-        ><el-icon><Plus /> </el-icon>
-      </el-button>
-    </template>
-  </el-popover>
+    <el-button
+      class="nuevo-producto"
+      type="primary"
+      v-on:click="nuevoIngresoProducto()"
+      ><el-icon><Plus /> </el-icon>
+    </el-button>
+  </el-tooltip>
 
   <div class="container">
     <div class="row w-100">

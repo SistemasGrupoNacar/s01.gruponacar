@@ -123,6 +123,8 @@
 <script>
 import api from "@/api/index.js";
 import { fechaActual } from "@/scripts/Fechas.js";
+
+import { ElMessage } from "element-plus";
 export default {
   data() {
     return {
@@ -144,7 +146,7 @@ export default {
   methods: {
     async cancelarVenta() {
       await api.cancelarVenta(this.venta._id);
-      this.$router.push("/producciones/ventas");
+      this.$router.push("/movimientos/ventas");
     },
     async obtenerProductos() {
       const respuesta = await api.obtenerProductos();
@@ -167,6 +169,10 @@ export default {
     async agregarDetalleVenta(data) {
       data.sale = this.venta._id;
       if (!this.validarDetalleVenta) {
+        ElMessage({
+          message: "Complete los campos requeridos",
+          type: "warning",
+        });
         return;
       }
       this.cargando = true;
@@ -182,7 +188,10 @@ export default {
         // Actualizar la venta
         this.actualizarVenta(this.venta._id);
       } catch (error) {
-        console.log(error);
+        ElMessage({
+          message: "Error al agregar producto",
+          type: "error",
+        });
       }
       this.cargando = false;
     },
@@ -193,7 +202,10 @@ export default {
         const respuesta = await api.obtenerVenta(id);
         this.venta = respuesta.data;
       } catch (error) {
-        console.log(error);
+        ElMessage({
+          message: "Error al actualizar la venta",
+          type: "error",
+        });
       }
       this.cargando = false;
     },
@@ -208,7 +220,10 @@ export default {
         // Actualizar la venta
         this.actualizarVenta(this.venta._id);
       } catch (error) {
-        console.log(error);
+        ElMessage({
+          message: "No se pudo eliminar la venta",
+          type: "error",
+        });
       }
       this.cargando = false;
     },
@@ -239,7 +254,7 @@ export default {
       if (this.detalleVenta.length == 0) {
         this.cancelarVenta();
       } else {
-        this.$router.push("/producciones/ventas");
+        this.$router.push("/movimientos/ventas");
       }
     },
   },
@@ -256,7 +271,10 @@ export default {
       this.obtenerTodasProducciones();
       this.cargando = false;
     } catch (error) {
-      console.log(error);
+      ElMessage({
+        message: "No se pudo crear la venta",
+        type: "error",
+      });
     }
   },
 };

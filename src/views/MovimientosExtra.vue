@@ -1,20 +1,18 @@
 <template>
-  <el-popover
-    placement="left-start"
-    title="Movimiento Extra"
-    :width="220"
-    trigger="hover"
-    content="Agrega un nuevo movimiento extra."
+  <el-tooltip
+    class="box-item"
+    effect="light"
+    content="Agrega un nuevo movimiento extra"
+    placement="top"
   >
-    <template #reference>
-      <el-button
-        class="nuevo-extra"
-        type="primary"
-        v-on:click="nuevoMovimientoExtra()"
-        ><el-icon><Plus /> </el-icon>
-      </el-button>
-    </template>
-  </el-popover>
+    <el-button
+      class="nuevo-extra"
+      type="primary"
+      v-on:click="nuevoMovimientoExtra()"
+      ><el-icon><Plus /> </el-icon>
+    </el-button>
+  </el-tooltip>
+
   <div class="container mt-3">
     <p class="_title">Historial Movimientos Extra</p>
     <p class="_subtitle text-muted">
@@ -47,6 +45,8 @@
 <script>
 import { Plus, Delete } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
+
+import { ElMessage } from "element-plus";
 export default {
   components: {
     Plus,
@@ -96,8 +96,12 @@ export default {
     async eliminarMovimientoExtra(data) {
       this.cargando = true;
       try {
-        await api.eliminarMovimientoExtra(data._id);
+        const respuesta = await api.eliminarMovimientoExtra(data._id);
         this.obtenerHistorialMovimientosExtra();
+        ElMessage({
+          message: `El movimiento '${respuesta.data._id}' ha sido eliminado`,
+          type: "success",
+        });
       } catch (error) {
         console.log(error);
       }

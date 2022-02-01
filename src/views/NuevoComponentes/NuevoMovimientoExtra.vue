@@ -37,8 +37,8 @@
             <span class="text-muted">Total</span>
             <el-input-number
               v-model="nuevoMovimientoExtra.total"
-              min="0.01"
-              step="0.01"
+              :min="0.01"
+              :step="0.01"
               class="w-100"
             />
           </div>
@@ -64,6 +64,7 @@
 </template>
 <script>
 import api from "@/api/index.js";
+import { ElMessage } from "element-plus";
 export default {
   data() {
     return {
@@ -98,14 +99,36 @@ export default {
       this.cargando = false;
     },
     async crearMovimientoExtra(nuevoMovimientoExtra) {
-      this.cargando = true;
-      try {
-        await api.crearMovimientoExtra(nuevoMovimientoExtra);
-        this.$router.push("/movimientos/extra");
-      } catch (error) {
-        console.log(error);
+      if (this.validarDatos(nuevoMovimientoExtra)) {
+        this.cargando = true;
+        try {
+          await api.crearMovimientoExtra(nuevoMovimientoExtra);
+          this.$router.push("/movimientos/extra");
+        } catch (error) {
+          console.log(error);
+        }
+        this.cargando = false;
+      } else {
+        ElMessage({
+          message: "Por favor, ingrese todos los datos",
+          type: "error",
+        });
       }
-      this.cargando = false;
+    },
+    validarDatos(datos) {
+      if (datos.type_move == "") {
+        return false;
+      }
+      if (datos.description == "" || datos.description.length < 10) {
+        return false;
+      }
+      if (datos.date == "") {
+        return false;
+      }
+      if (datos.total == 0) {
+        return false;
+      }
+      return true;
     },
   },
 };

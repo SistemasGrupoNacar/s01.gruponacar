@@ -1,7 +1,14 @@
 <template>
-  <el-button class="nueva-venta" type="primary" v-on:click="nuevaVenta()"
-    ><el-icon><Plus /> </el-icon>
-  </el-button>
+  <el-tooltip
+    class="box-item"
+    effect="light"
+    content="Agrega una nueva venta"
+    placement="top"
+  >
+    <el-button class="nueva-venta" type="primary" v-on:click="nuevaVenta()"
+      ><el-icon><Plus /> </el-icon>
+    </el-button>
+  </el-tooltip>
   <div class="container py-2 px-1 px-lg-4 text-center">
     <p class="_title">Apartado de Ventas</p>
     <hr />
@@ -14,7 +21,8 @@
       <el-date-picker
         class="mx-2 w-100"
         v-model="filtro.date"
-        type="daterange"
+        type="datetimerange"
+        range-separator="al"
         start-placeholder="Fecha de inicio"
         end-placeholder="Fecha de finalizacion"
       ></el-date-picker>
@@ -26,9 +34,9 @@
   <el-main v-loading="cargando" class="container">
     <el-table :data="ventas" class="_w-75 mx-auto">
       <el-table-column prop="_id" label="ID" width="250" />
-      <el-table-column prop="date" label="Fecha" width="150" />
+      <el-table-column prop="date_format" label="Fecha" width="150" />
       <el-table-column prop="status" sortable label="Estado" width="150" />
-      <el-table-column prop="total" label="Total" />
+      <el-table-column prop="total_format" label="Total" />
       <el-table-column fixed="right" label="Acción" width="120">
         <template #default="scope">
           <el-button
@@ -40,6 +48,7 @@
           ><el-button
             type="text"
             size="small"
+            v-if="scope.row.status != 'Cancelada'"
             @click.prevent="editarVenta(scope.row)"
           >
             Editar
@@ -102,7 +111,7 @@ export default {
   },
   methods: {
     nuevaVenta() {
-      this.$router.push("/producciones/ventas/nueva");
+      this.$router.push("/movimientos/ventas/nueva");
     },
     cerrarDetalle() {
       this.mostrarDetalle = false;
@@ -110,7 +119,8 @@ export default {
     verVenta(data) {
       this.ventaDetalle = data;
       this.mostrarDetalle = true;
-    },async cancelarVenta() {
+    },
+    async cancelarVenta() {
       await api.cancelarVenta(this.venta._id);
       this.$router.push("/movimientos/ventas");
     },
@@ -123,9 +133,7 @@ export default {
         const response = await api.obtenerVentas();
         this.ventas = response.data;
         this.ventas.forEach((element) => {
-          element.date = this.formatearFecha(element.date);
           element.status = this.formatearEstado(element.status);
-          element.total = this.formatearMoneda(element.total);
         });
       } catch (error) {
         console.log(error);
@@ -147,9 +155,7 @@ export default {
               );
               this.ventas = response.data.data;
               this.ventas.forEach((element) => {
-                element.date = this.formatearFecha(element.date);
                 element.status = this.formatearEstado(element.status);
-                element.total = this.formatearMoneda(element.total);
               });
             } catch (error) {
               console.log(error);
@@ -160,9 +166,7 @@ export default {
               const response = await api.obtenerVentasTodas();
               this.ventas = response.data;
               this.ventas.forEach((element) => {
-                element.date = this.formatearFecha(element.date);
                 element.status = this.formatearEstado(element.status);
-                element.total = this.formatearMoneda(element.total);
               });
             } catch (error) {
               console.log(error);
@@ -181,9 +185,7 @@ export default {
               );
               this.ventas = response.data.data;
               this.ventas.forEach((element) => {
-                element.date = this.formatearFecha(element.date);
                 element.status = this.formatearEstado(element.status);
-                element.total = this.formatearMoneda(element.total);
               });
             } catch (error) {
               console.log(error);
@@ -193,9 +195,7 @@ export default {
               const response = await api.obtenerVentas();
               this.ventas = response.data;
               this.ventas.forEach((element) => {
-                element.date = this.formatearFecha(element.date);
                 element.status = this.formatearEstado(element.status);
-                element.total = this.formatearMoneda(element.total);
               });
             } catch (error) {
               console.log(error);
@@ -214,19 +214,12 @@ export default {
         fechaFin,
       };
     },
-    formatearFecha(fecha) {
-      const fechaFormateada = new Date(fecha).toISOString().split("T")[0];
-      return fechaFormateada;
-    },
     formatearEstado(estado) {
       if (!estado) {
         return "Cancelada";
       } else {
         return "Activa";
       }
-    },
-    formatearMoneda(moneda) {
-      return `$ ${moneda}`;
     },
   },
 };

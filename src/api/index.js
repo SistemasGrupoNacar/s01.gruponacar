@@ -394,6 +394,20 @@ async function obtenerVentas() {
   });
 }
 
+// Obtener primeras 5 ventas
+async function obtenerPrimerosVentas() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/sales?limit=5")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 // Obtener todas las ventas con rango de fechas
 async function obtenerVentasTodasFecha(fechaInicio, fechaFin) {
   return new Promise((resolve, reject) => {
@@ -591,6 +605,7 @@ export default {
   obtenerVentas,
   obtenerVentasTodasFecha,
   obtenerVentasFecha,
+  obtenerPrimerosVentas,
   obtenerVentasTodas,
   obtenerEgresos,
   obtenerEgresosFecha,

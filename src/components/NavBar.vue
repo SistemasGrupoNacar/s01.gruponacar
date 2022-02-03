@@ -48,7 +48,7 @@ export default {
           poseeDerivaciones: false,
         },
         {
-          direccion: "/inventario",
+          direccion: "",
           nombre: "Inventario",
           poseeDerivaciones: true,
           derivaciones: [

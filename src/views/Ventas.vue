@@ -10,8 +10,10 @@
     </el-button>
   </el-tooltip>
   <div class="container py-2 px-1 px-lg-4 text-center">
-    <p class="_title">Apartado de Ventas</p>
-    <hr />
+    <p class="_title text-start">Detalle de ventas</p>
+    <p class="_subtitle text-muted text-start">
+      Listado de ventas realizadas.
+    </p>
     <p class="_semi-bold m-0">Filtros</p>
     <div class="d-inline-flex align-items-center mx-2 my-2 my-lg-0">
       Mostrar todas: <el-switch class="mx-2" v-model="filtro.todas" />

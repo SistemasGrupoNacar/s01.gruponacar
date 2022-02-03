@@ -22,11 +22,6 @@ const routes = [
         component: () => import("../views/Perfil.vue"),
       },
       {
-        path: "inventario",
-        name: "Inventario",
-        component: () => import("../views/Inventario.vue"),
-      },
-      {
         path: "inventario/productos",
         name: "Productos",
         component: () => import("../views/Productos.vue"),

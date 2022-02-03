@@ -13,7 +13,7 @@
     </el-button>
   </el-tooltip>
 
-  <div class="container mt-3">
+  <div class="container py-2 px-1 px-lg-4">
     <p class="_title">Historial Movimientos Extra</p>
     <p class="_subtitle text-muted">
       Listado de movimientos extra tanto egresos como ingresos.
@@ -21,7 +21,7 @@
     <el-main v-loading="cargando">
       <div class="min-h-50">
         <el-table :data="listadoHistorialMovimientosExtra" style="width: 100%">
-          <el-table-column fixed prop="_id" label="ID" width="120" />
+          <el-table-column  prop="_id" label="ID" width="120" />
           <el-table-column prop="type_move.title" label="Tipo" width="150" />
           <el-table-column prop="total" label="Total" width="120" />
           <el-table-column prop="date" label="Fecha" width="120" />

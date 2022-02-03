@@ -7,7 +7,7 @@
     <el-main v-loading="cargando">
       <div class="min-h-50">
         <el-table :data="listadoProductos" style="width: 100%" max-height="400">
-          <el-table-column fixed prop="name" label="Nombre" width="100" />
+          <el-table-column prop="name" label="Nombre" width="100" />
           <el-table-column prop="_id" label="ID" />
           <el-table-column prop="description" label="Descripción" />
           <el-table-column prop="availability_text" label="Disponibilidad" />

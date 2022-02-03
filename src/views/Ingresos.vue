@@ -1,7 +1,9 @@
 <template>
   <div class="container py-2 px-1 px-lg-4 text-center">
-    <p class="_title">Movimientos (Ingresos)</p>
-    <hr />
+    <p class="_title text-start">Ingresos</p>
+    <p class="_subtitle text-muted text-start">
+      Informaci&oacute;n gerencial de ingresos.
+    </p>
     <el-main v-loading="cargando" class="m-0">
       <div class="d-inline-flex align-items-center mx-2 my-2 my-lg-0">
         <span>Fecha: </span>
@@ -62,7 +64,10 @@
               <el-icon>
                 <sort-down />
               </el-icon>
-              <span class="_text-biggest">{{ingresos.general.extraPercentageFormat}}</span>%
+              <span class="_text-biggest">{{
+                ingresos.general.extraPercentageFormat
+              }}</span
+              >%
             </div>
             <div class="w-100 container my-3 border-top py-2">
               <p class="_text-small _bold w-100 my-0">Datos pasados</p>

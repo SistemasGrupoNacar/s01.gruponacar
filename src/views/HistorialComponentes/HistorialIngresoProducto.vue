@@ -11,7 +11,7 @@
           style="width: 100%"
           max-height="400"
         >
-          <el-table-column fixed prop="_id" label="ID" width="120" />
+          <el-table-column  prop="_id" label="ID" width="120" />
           <el-table-column prop="product.name" label="Producto" width="150" />
           <el-table-column
             prop="production._id"

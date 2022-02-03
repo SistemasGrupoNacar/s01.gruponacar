@@ -1,7 +1,9 @@
 <template>
   <div class="container py-2 px-1 px-lg-4 text-center">
-    <p class="_title">Movimientos (Egresos)</p>
-    <hr />
+    <p class="_title text-start">Egresos</p>
+    <p class="_subtitle text-muted text-start">
+      Informaci&oacute;n gerencial de egresos.
+    </p>
     <el-main v-loading="cargando" class="m-0">
       <div class="d-inline-flex align-items-center mx-2 my-2 my-lg-0">
         <span>Fecha: </span>

@@ -114,6 +114,10 @@
   width: 100% !important;
 }
 
+._w-25 {
+  width: 100% !important;
+}
+
 ._is-mobile {
   display: flex !important;
 }
@@ -138,6 +142,9 @@
   }
   ._w-40 {
     width: 40% !important;
+  }
+  ._w-25 {
+    width: 25% !important;
   }
   ._only-tablet {
     display: block;

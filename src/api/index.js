@@ -574,6 +574,36 @@ async function eliminarMovimientoExtra(id) {
   });
 }
 
+// Finalizar produccion
+async function finalizarProduccion(id, fecha) {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(API_URI + "/productions/" + id + "/finished", {
+        end_date: fecha,
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Reanudar produccion
+async function reanudarProduccion(id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(API_URI + "/productions/" + id + "/inProgress")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   obtenerTodosProductos,
   obtenerProductos,
@@ -615,4 +645,6 @@ export default {
   crearMovimientoExtra,
   obtenerTodosMovimientosExtra,
   eliminarMovimientoExtra,
+  finalizarProduccion,
+  reanudarProduccion,
 };

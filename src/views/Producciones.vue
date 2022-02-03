@@ -12,48 +12,111 @@
       Control de eventos y acciones en producciones.
     </p>
     <el-main v-loading="cargando">
-      <div class="row">
-        <div class="col-12 my-2">Informaci&oacute;n de las producciones</div>
-        <div class="col-12 my-2">
-          <p class="_text-big">Acciones con producciones</p>
-          <div class="row">
-            <div class="col-12 col-md-5 _listado">
-              <p>Listado</p>
-              <ul class="_ul" v-if="producciones.length > 0">
-                <li
-                  v-for="(item, index) in producciones"
-                  :key="index"
-                  class="_li"
-                  v-on:click.prevent="seleccionarProduccion(item)"
-                >
-                  {{ item._id }}
-                </li>
-              </ul>
-            </div>
-            <div class="col-12 col-md-7" v-if="seleccion._id">
-              <div class="w-100 d-flex flex-wrap justify-content-between p-0">
-                <span class="_title">
-                  {{ seleccion._id }}
-                </span>
-                <el-tag v-if="seleccion.in_progress" type="info"
-                  >En Progreso</el-tag
-                >
-              </div>
-              <p>
-                <span class="_subtitle">{{ seleccion.start_date }}</span> /
-                <span class="_subtitle"> {{ seleccion.start_date }}</span>
-              </p>
+      <div class="w-100">
+        <el-select
+          v-model="valor"
+          placeholder="Seleccione producci&oacute;n"
+          size="large"
+          class="_w-50"
+          no-data-text="No hay producciones, intente recargar la p&aacute;gina"
+        >
+          <el-option-group
+            v-for="group in produccionesParaSelect"
+            :key="group.label"
+            :label="group.label"
+          >
+            <el-option
+              v-for="item in group.options"
+              :key="item._id"
+              :label="item._id + ' - ' + item.start_date_format"
+              :value="item._id"
+            >
+            </el-option>
+          </el-option-group>
+        </el-select>
+      </div>
+      <div class="w-100 my-2">
+        <el-skeleton
+          :rows="5"
+          animated
+          v-if="produccionSeleccionada == null"
+          class="py-3 py-lg-1"
+        />
+        <div
+          class="d-flex flex-row flex-wrap flex-lg-nowrap justify-content-between align-items-start px-3 py-3 py-lg-1"
+          v-else
+        >
+          <div class="_w-75">
+            <p class="_text-big _semi-bold">Informaci&oacute;n General</p>
+            <p class="text-muted _light my-0">
+              {{ produccionSeleccionada._id }} -
+              {{ produccionSeleccionada.description
+              }}<el-tag
+                v-if="produccionSeleccionada.in_progress"
+                class="mx-2"
+                type="info"
+                effect="plain"
+                >En Progreso</el-tag
+              >
 
-              <hr />
-              <p class="_bold">Detalle de producci&oacute;n</p>
-              <p class="my-0" v-if="seleccion.product != null">
-                Producto: <span>{{ seleccion.product.name }}</span>
-              </p>
-              <p class="m-0">Descripci&oacute;n: {{ seleccion.description }}</p>
-              <p class="m-0 " v-if="seleccion.place != null">
-                Lugar de siembra: {{ seleccion.place.description }}
-              </p>
-            </div>
+              <el-tag v-else class="mx-2" type="info">Terminada</el-tag>
+            </p>
+            <hr />
+            <p class="my-0" v-if="produccionSeleccionada.product != null">
+              Producto
+              <span class="_semi-bold mx-5">{{
+                produccionSeleccionada.product.name
+              }}</span>
+            </p>
+            <p class="my-0">
+              Inicio
+              <span class="_semi-bold mx-5">{{
+                produccionSeleccionada.start_date_format
+              }}</span>
+            </p>
+            <p class="my-0" v-if="!produccionSeleccionada.in_progress">
+              Fin
+              <span class="_semi-bold mx-5">{{
+                produccionSeleccionada.end_date_format
+              }}</span>
+            </p>
+
+            <p class="my-0" v-if="produccionSeleccionada.place != null">
+              Lugar
+              <span class="_semi-bold mx-5">{{
+                produccionSeleccionada.place.description
+              }}</span>
+            </p>
+            <hr />
+            <p class="_text-big _semi-bold">Datos econ&oacute;micos</p>
+            <p class="my-0">
+              Ingresos: {{ produccionSeleccionada.total_ingress_format }}
+            </p>
+            <p class="my-0">
+              Egresos: {{ produccionSeleccionada.total_egress_format }}
+            </p>
+          </div>
+          <div class="_botones _w-25 text-end">
+            <el-button class="my-1">Agregar gasto de insumo</el-button>
+            <el-button
+              v-if="produccionSeleccionada.in_progress"
+              plain
+              type="danger"
+              class="my-1"
+              v-on:click.prevent="
+                finalizarProduccion(produccionSeleccionada._id)
+              "
+              >Terminar producci&oacute;n</el-button
+            ><el-button
+              v-else
+              plain
+              type="warning"
+              class="my-1"
+              v-on:click.prevent="
+                reanudarProduccion(produccionSeleccionada._id)
+              "
+              >Reanudar producci&oacute;n</el-button
+            >
           </div>
         </div>
       </div>
@@ -63,6 +126,8 @@
 <script>
 import api from "@/api/index.js";
 import { Plus } from "@element-plus/icons-vue";
+import { fechaActual } from "@/scripts/Fechas.js";
+import { ElMessage } from "element-plus";
 export default {
   components: {
     Plus,
@@ -71,7 +136,9 @@ export default {
     return {
       cargando: false,
       producciones: [],
-      seleccion: {},
+      produccionesParaSelect: [],
+      valor: null,
+      produccionSeleccionada: null,
     };
   },
   mounted() {
@@ -83,13 +150,62 @@ export default {
       try {
         const respuesta = await api.obtenerTodasProducciones();
         this.producciones = respuesta.data;
+        // Formatear para el select de grupos
+        let in_progress = {
+          label: "En progreso",
+          options: [],
+        };
+        let finished = {
+          label: "Finalizadas",
+          options: [],
+        };
+        this.producciones.map((item) => {
+          item.in_progress
+            ? in_progress.options.push(item)
+            : finished.options.push(item);
+        });
+        this.produccionesParaSelect = [in_progress, finished];
       } catch (error) {
         console.log(error);
       }
       this.cargando = false;
     },
-    seleccionarProduccion(item) {
-      this.seleccion = item;
+    async finalizarProduccion(id) {
+      this.cargando = true;
+      try {
+        const respuesta = await api.finalizarProduccion(id, fechaActual);
+        ElMessage({
+          message: `La producción '${respuesta.data._id}' ha sido finalizada`,
+          type: "success",
+        });
+        this.valor = null;
+        this.obtenerProducciones();
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
+    },
+    async reanudarProduccion(id) {
+      this.cargando = true;
+      try {
+        const respuesta = await api.reanudarProduccion(id);
+        ElMessage({
+          message: `La producción '${respuesta.data._id}' ha sido reanudada`,
+          type: "success",
+        });
+        this.valor = null;
+        this.obtenerProducciones();
+      } catch (error) {
+        console.log(error);
+      }
+      this.cargando = false;
+    },
+  },
+  watch: {
+    valor() {
+      this.produccionSeleccionada = this.producciones.find(
+        (item) => item._id === this.valor
+      );
     },
   },
 };

@@ -93,10 +93,13 @@
             <hr />
             <p class="_text-big _semi-bold">Datos econ&oacute;micos</p>
             <p class="my-0">
-              Ingresos: {{ produccionSeleccionada.total_ingress_format }}
+              Ventas: {{ calcularVentas(produccionSeleccionada.detail_sales) }}
             </p>
             <p class="my-0">
-              Egresos: {{ produccionSeleccionada.total_egress_format }}
+              Costos de producci&oacute;n:
+              {{
+                calcularCostoProduccion(produccionSeleccionada.production_costs)
+              }}
             </p>
           </div>
           <div class="_botones _w-25 text-end">
@@ -212,6 +215,29 @@ export default {
     },
     agregarGastoInsumo(id) {
       this.$router.push("/producciones/nuevo-gasto-insumo/" + id);
+    },
+    calcularCostoProduccion(productionCosts) {
+      let costo = 0;
+      productionCosts.map((item) => {
+        costo += item.total;
+      });
+      productionCosts.map((item) => {
+        costo += item.total;
+      });
+      return costo.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      });
+    },
+    calcularVentas(sales) {
+      let ventas = 0;
+      sales.map((item) => {
+        ventas += item.total;
+      });
+      return ventas.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      });
     },
   },
   watch: {

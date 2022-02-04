@@ -7,10 +7,11 @@
     <el-main v-loading="cargando">
       <div class="min-h-50">
         <el-table :data="listadoInsumos" style="width: 100%" max-height="400">
-          <el-table-column prop="name" label="Nombre" width="100" />
-          <el-table-column prop="_id" label="ID" />
-          <el-table-column prop="description" label="Descripción" />
-          <el-table-column prop="availability_text" label="Disponibilidad" />
+          <el-table-column prop="name" label="Nombre" width="150" />
+          <el-table-column prop="_id" label="ID" width="140"/>
+          <el-table-column prop="cost_format" label="Costo" width="100"/>
+          <el-table-column prop="description" label="Descripción" min-width="150" />
+          <el-table-column prop="availability_text" label="Disponibilidad" width="140" />
           <el-table-column fixed="right" label="Operaciones" width="150">
             <template #default="scope">
               <el-button

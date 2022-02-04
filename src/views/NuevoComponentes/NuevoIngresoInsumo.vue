@@ -27,7 +27,7 @@
           <span class="text-muted">Fecha</span>
           <el-date-picker
             v-model="nuevoIngresoInsumo.date"
-            type="date"
+            type="datetime"
             placeholder="Escoge una fecha"
             class="w-100"
             clearable
@@ -116,7 +116,6 @@ export default {
       }
       this.cargando = true;
       try {
-        data.date = data.date.toISOString().split("T")[0];
         const respuesta = await api.crearIngresoInsumo(data);
         alert("Ingreso de Insumo creado con id: " + respuesta.data._id);
         this.$router.push({ name: "Insumos" });

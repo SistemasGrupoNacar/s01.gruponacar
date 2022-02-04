@@ -604,6 +604,20 @@ async function reanudarProduccion(id) {
   });
 }
 
+// Crear costo de produccion
+async function crearCostoProduccion(data) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(API_URI + "/productionCosts", data)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   obtenerTodosProductos,
   obtenerProductos,
@@ -647,4 +661,5 @@ export default {
   eliminarMovimientoExtra,
   finalizarProduccion,
   reanudarProduccion,
+  crearCostoProduccion,
 };

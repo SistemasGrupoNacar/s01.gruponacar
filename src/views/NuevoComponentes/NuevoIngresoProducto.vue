@@ -43,7 +43,7 @@
           <span class="text-muted">Fecha</span>
           <el-date-picker
             v-model="nuevoIngresoProducto.date"
-            type="date"
+            type="datetime"
             placeholder="Escoge una fecha"
             class="w-100"
             clearable

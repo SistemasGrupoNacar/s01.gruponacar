@@ -12,14 +12,14 @@
           max-height="400"
         >
           <el-table-column  prop="_id" label="ID" width="120" />
-          <el-table-column prop="product.name" label="Producto" width="150" />
+          <el-table-column prop="product.name" label="Producto" min-width="170" />
           <el-table-column
             prop="production._id"
             label="Producción"
             width="150"
           />
           <el-table-column prop="quantity" label="Cantidad" width="90" />
-          <el-table-column prop="date" label="Fecha" width="120" />
+          <el-table-column prop="date_format" label="Fecha" min-width="150" />
           <el-table-column
             prop="description"
             label="Descripción"
@@ -56,9 +56,6 @@ export default {
       try {
         const respuesta = await api.obtenerTodosHistorialCosecha();
         this.listadoHistorialCosecha = respuesta.data;
-        this.listadoHistorialCosecha.map((item) => {
-          item.date = item.date.split("T")[0];
-        });
       } catch (error) {
         console.log(error);
       }

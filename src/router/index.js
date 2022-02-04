@@ -83,6 +83,12 @@ const routes = [
         component: () => import("../views/Producciones.vue"),
       },
       {
+        path: "producciones/nuevo-gasto-insumo/:id",
+        name: "NuevoGastoInsumo",
+        component: () =>
+          import("../views/NuevoComponentes/NuevoGastoInsumo.vue"),
+      },
+      {
         path: "movimientos/ventas",
         name: "Ventas",
         component: () => import("../views/Ventas.vue"),

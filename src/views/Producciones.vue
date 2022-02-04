@@ -36,12 +36,15 @@
         </el-select>
       </div>
       <div class="w-100 my-2">
-        <el-skeleton
-          :rows="5"
-          animated
+        <div
           v-if="produccionSeleccionada == null"
-          class="py-3 py-lg-1"
-        />
+          class="d-flex flex-wrap flex-row justify-content-center align-items-lg-center align-items-start _min"
+        >
+          <p class="text-muted">
+            <el-icon><WarningFilled /> </el-icon>
+            Ninguna producci&oacute;n ha sido seleccionada
+          </p>
+        </div>
         <div
           class="d-flex flex-row flex-wrap flex-lg-nowrap justify-content-between align-items-start px-3 py-3 py-lg-1"
           v-else
@@ -97,7 +100,13 @@
             </p>
           </div>
           <div class="_botones _w-25 text-end">
-            <el-button class="my-1">Agregar gasto de insumo</el-button>
+            <el-button
+              v-on:click.prevent="
+                agregarGastoInsumo(produccionSeleccionada._id)
+              "
+              class="my-1"
+              >Agregar gasto de insumo</el-button
+            >
             <el-button
               v-if="produccionSeleccionada.in_progress"
               plain
@@ -125,12 +134,13 @@
 </template>
 <script>
 import api from "@/api/index.js";
-import { Plus } from "@element-plus/icons-vue";
+import { Plus, WarningFilled } from "@element-plus/icons-vue";
 import { fechaActual } from "@/scripts/Fechas.js";
 import { ElMessage } from "element-plus";
 export default {
   components: {
     Plus,
+    WarningFilled,
   },
   data() {
     return {
@@ -200,6 +210,9 @@ export default {
       }
       this.cargando = false;
     },
+    agregarGastoInsumo(id) {
+      this.$router.push("/producciones/nuevo-gasto-insumo/" + id);
+    },
   },
   watch: {
     valor() {
@@ -211,6 +224,9 @@ export default {
 };
 </script>
 <style lang="scss">
+._min {
+  min-height: 50vh !important;
+}
 ._li {
   list-style: square;
   // Animacion de hover

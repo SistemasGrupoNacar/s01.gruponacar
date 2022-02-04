@@ -20,9 +20,9 @@
 
           <el-table-column prop="quantity" label="Cantidad" width="90" />
           
-          <el-table-column prop="unit_price" label="Precio Unitario" width="120" />
-          <el-table-column prop="total" label="Total" width="120" />
-          <el-table-column prop="date" label="Fecha" />
+          <el-table-column prop="unit_price_format" label="Precio Unitario" width="120" />
+          <el-table-column prop="total_format" label="Total" width="120" />
+          <el-table-column prop="date_format" label="Fecha" min-width="150" />
           
           <el-table-column fixed="right" label="Operacion" width="100">
             <template #default="scope">
@@ -61,9 +61,6 @@ export default {
       try {
         const respuesta = await api.obtenerTodosHistorialEntradaInsumos();
         this.listadoHistorialEntradaInsumos = respuesta.data;
-        this.listadoHistorialEntradaInsumos.map((item) => {
-          item.date = item.date.split("T")[0];
-        });
       } catch (error) {
         console.log(error);
       }

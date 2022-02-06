@@ -1,8 +1,9 @@
 <template>
+  <el-backtop :bottom="75" />
   <el-button
     class="nueva-produccion"
     type="primary"
-    v-on:click="nuevaProduccion()"
+    v-on:click="crearNuevaProduccion()"
     ><el-icon><Plus /> </el-icon>
     <span class="_not-mobile"> Nueva Producci&oacute;n</span>
   </el-button>
@@ -50,7 +51,7 @@
           v-else
         >
           <div class="_w-75">
-            <p class="_text-big _semi-bold">Informaci&oacute;n General</p>
+            <p class="_text-big _semi-bold my-2">Informaci&oacute;n General</p>
             <p class="text-muted _light my-0">
               {{ produccionSeleccionada._id }} -
               {{ produccionSeleccionada.description
@@ -64,46 +65,146 @@
 
               <el-tag v-else class="mx-2" type="info">Terminada</el-tag>
             </p>
-            <hr />
-            <p class="my-0" v-if="produccionSeleccionada.product != null">
-              Producto
-              <span class="_semi-bold mx-5">{{
-                produccionSeleccionada.product.name
-              }}</span>
-            </p>
-            <p class="my-0">
-              Inicio
-              <span class="_semi-bold mx-5">{{
-                produccionSeleccionada.start_date_format
-              }}</span>
-            </p>
-            <p class="my-0" v-if="!produccionSeleccionada.in_progress">
-              Fin
-              <span class="_semi-bold mx-5">{{
-                produccionSeleccionada.end_date_format
-              }}</span>
-            </p>
-
-            <p class="my-0" v-if="produccionSeleccionada.place != null">
-              Lugar
-              <span class="_semi-bold mx-5">{{
-                produccionSeleccionada.place.description
-              }}</span>
-            </p>
+            <div class="_w-50 px-2 py-1">
+              <div
+                class="d-flex flex-wrap justify-content-between align-items-center"
+                v-if="produccionSeleccionada.product != null"
+              >
+                <p class="">Producto</p>
+                <p class="_semi-bold">
+                  {{ produccionSeleccionada.product.name }}
+                </p>
+              </div>
+              <div
+                class="d-flex flex-wrap justify-content-between align-items-center"
+              >
+                <p class="">Inicio</p>
+                <p class="_semi-bold">
+                  {{ produccionSeleccionada.start_date_format }}
+                </p>
+              </div>
+              <div
+                class="d-flex flex-wrap justify-content-between align-items-center"
+                v-if="!produccionSeleccionada.in_progress"
+              >
+                <p class="my-0">Fin</p>
+                <p class="_semi-bold">
+                  {{ produccionSeleccionada.end_date_format }}
+                </p>
+              </div>
+              <div
+                class="d-flex flex-wrap justify-content-between align-items-center"
+                v-if="produccionSeleccionada.place != null"
+              >
+                <p class="my-0">Lugar</p>
+                <p class="_semi-bold">
+                  {{ produccionSeleccionada.place.description }}
+                </p>
+              </div>
+            </div>
             <hr />
             <p class="_text-big _semi-bold">Datos econ&oacute;micos</p>
-            <p class="my-0">
-              Ventas: {{ calcularVentas(produccionSeleccionada.detail_sales) }}
+            <div class="d-flex flex-wrap justify-content-around">
+              <el-badge
+                is-dot
+                class="item"
+                v-if="produccionSeleccionada.in_progress"
+              >
+                <p class="_text-big mx-2">
+                  Ventas =
+                  <span class="_bold">{{
+                    calcularVentas(produccionSeleccionada.detail_sales)
+                  }}</span>
+                </p></el-badge
+              >
+              <p class="_text-big mx-2" v-else>
+                Ventas =
+                <span class="_bold">{{
+                  produccionSeleccionada.total_ingress_format
+                }}</span>
+              </p>
+              <el-badge
+                is-dot
+                class="item"
+                v-if="produccionSeleccionada.in_progress"
+                ><p class="_text-big mx-2">
+                  Costos de producci&oacute;n =
+                  <span class="_bold">{{
+                    calcularCostoProduccion(
+                      produccionSeleccionada.production_costs
+                    )
+                  }}</span>
+                </p></el-badge
+              >
+              <p class="_text-big mx-2" v-else>
+                Costos de producci&oacute;n =
+                <span class="_bold">{{
+                  produccionSeleccionada.total_egress_format
+                }}</span>
+              </p>
+            </div>
+            <hr />
+
+            <p
+              class="_text-big _semi-bold"
+              v-if="!produccionSeleccionada.in_progress"
+            >
+              Detalle de costos de producci&oacute;n
             </p>
-            <p class="my-0">
-              Costos de producci&oacute;n:
-              {{
-                calcularCostoProduccion(produccionSeleccionada.production_costs)
-              }}
+            <div class="container" v-if="!produccionSeleccionada.in_progress">
+              <ul>
+                <li
+                  v-for="(
+                    item, index
+                  ) in produccionSeleccionada.production_costs"
+                  :key="index"
+                >
+                  <p>
+                    <span class="_bold">{{
+                      item.total.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })
+                    }}</span
+                    ><span class="mx-2">{{
+                      item.description || "Sin descripción "
+                    }}</span>
+                  </p>
+                </li>
+              </ul>
+            </div>
+            <hr v-if="!produccionSeleccionada.in_progress" />
+
+            <p
+              class="_text-big _semi-bold"
+              v-if="!produccionSeleccionada.in_progress"
+            >
+              Detalle de ventas de producci&oacute;n
             </p>
+            <div class="container" v-if="!produccionSeleccionada.in_progress">
+              <ul>
+                <li
+                  v-for="(item, index) in produccionSeleccionada.detail_sales"
+                  :key="index"
+                >
+                  <p>
+                    <span class="mx-2 _bold">{{
+                      item.total.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })
+                    }}</span
+                    ><span>{{ item._id }}</span>
+                  </p>
+                </li>
+              </ul>
+            </div>
+            <hr v-if="!produccionSeleccionada.in_progress" />
+            {{ produccionSeleccionada }}
           </div>
           <div class="_botones _w-25 text-end">
             <el-button
+              v-if="produccionSeleccionada.in_progress"
               v-on:click.prevent="
                 agregarGastoInsumo(produccionSeleccionada._id)
               "
@@ -221,9 +322,6 @@ export default {
       productionCosts.map((item) => {
         costo += item.total;
       });
-      productionCosts.map((item) => {
-        costo += item.total;
-      });
       return costo.toLocaleString("en-US", {
         style: "currency",
         currency: "USD",
@@ -239,6 +337,9 @@ export default {
         currency: "USD",
       });
     },
+    crearNuevaProduccion() {
+      this.$router.push("/producciones/nueva");
+    },
   },
   watch: {
     valor() {
@@ -250,6 +351,10 @@ export default {
 };
 </script>
 <style lang="scss">
+.item {
+  margin-top: 10px;
+  margin-right: 40px;
+}
 ._min {
   min-height: 50vh !important;
 }
@@ -274,5 +379,9 @@ export default {
   bottom: 10px;
   right: 10px;
   z-index: 10;
+}
+.item {
+  margin-top: 10px;
+  margin-right: 40px;
 }
 </style>

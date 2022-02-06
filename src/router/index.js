@@ -109,6 +109,12 @@ const routes = [
         component: () => import("../views/DetalleProduccion.vue"),
       },
       {
+        path: "producciones/nueva",
+        name: "NuevaProduccion",
+        component: () =>
+          import("../views/NuevoComponentes/NuevaProduccion.vue"),
+      },
+      {
         path: "movimientos/ingresos",
         name: "Ingresos",
         component: () => import("../views/Ingresos.vue"),

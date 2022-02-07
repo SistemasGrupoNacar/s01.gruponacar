@@ -16,22 +16,18 @@
 }
 
 ._bg-primary {
-  background-color: var(--color-primary);
-}
-
-._bg-secondary {
-  background-color: var(--color-secondary);
+  background-color: var(--color-primary) !important;
 }
 
 ._bg-white {
-  background-color: var(--white);
+  background-color: var(--white) !important;
 }
 
 ._bg-black {
-  background-color: var(--black);
+  background-color: var(--black) !important;
 }
 ._bg-gray {
-  background-color: var(--gray);
+  background-color: var(--gray) !important;
 }
 
 ._c-white {

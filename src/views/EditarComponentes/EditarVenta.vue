@@ -28,6 +28,7 @@
           <el-select
             v-model="productoSeleccionado.product"
             class="m-2 w-100"
+          filterable
             placeholder="Seleccione producto"
             size="large"
           >
@@ -45,6 +46,7 @@
             class="m-2 w-100"
             placeholder="Seleccione producción"
             size="large"
+          filterable
           >
             <el-option
               v-for="item in producciones"

@@ -21,6 +21,7 @@
             v-model="nuevoGastoInsumo.inventory_product"
             placeholder="Seleccione insumo"
             class="w-100"
+          filterable
           >
             <el-option
               v-for="item in listadoInsumos"

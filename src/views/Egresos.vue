@@ -97,8 +97,8 @@
               <hr />
               <div class="container my-3 text-center">
                 <div class="_bold _text-big">
-                  {{ egresos.inventoryEntries.startDate }} -
-                  {{ egresos.inventoryEntries.endDate
+                  {{ egresos.inventoryEntries.startDate.split("T")[0] }} -
+                  {{ egresos.inventoryEntries.endDate.split("T")[0]
                   }}<el-tag
                     class="mx-3"
                     type="info"
@@ -108,11 +108,11 @@
                 </div>
                 <div class="container my-2">
                   <el-icon><SortUp /> </el-icon>
-                  <span class="mx-2">Egreso mayor: Lunes 25 de enero</span>
+                  <span class="mx-2">Egreso mayor: {{egresos.inventoryEntries.max}}</span>
                 </div>
                 <div class="container my-2">
                   <el-icon><SortDown /> </el-icon>
-                  <span class="mx-2">Egreso menor: Martes 26 de enero</span>
+                  <span class="mx-2">Egreso menor: {{egresos.inventoryEntries.min}}</span>
                 </div>
                 <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
                   <el-icon><Money /> </el-icon>
@@ -143,8 +143,8 @@
               <hr />
               <div class="container my-3 text-center">
                 <div class="_bold _text-big">
-                  {{ egresos.extraMoves.startDate }} -
-                  {{ egresos.extraMoves.endDate
+                  {{ egresos.extraMoves.startDate.split("T")[0] }} -
+                  {{ egresos.extraMoves.endDate.split("T")[0]
                   }}<el-tag
                     class="mx-3"
                     type="info"
@@ -154,11 +154,11 @@
                 </div>
                 <div class="container my-2">
                   <el-icon><SortUp /> </el-icon>
-                  <span class="mx-2">Ingreso mayor: Lunes 25 de enero</span>
+                  <span class="mx-2">Egreso mayor: {{egresos.extraMoves.max}}</span>
                 </div>
                 <div class="container my-2">
                   <el-icon><SortDown /> </el-icon>
-                  <span class="mx-2">Ingreso menor: Martes 26 de enero</span>
+                  <span class="mx-2">Egreso menor: {{egresos.extraMoves.min}}</span>
                 </div>
                 <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
                   <el-icon><Money /> </el-icon>

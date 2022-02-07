@@ -12,6 +12,7 @@
             v-model="nuevoIngresoProducto.production"
             placeholder="Seleccione producción"
             class="w-100"
+          filterable
           >
             <el-option
               v-for="item in listadoProducciones"

@@ -41,6 +41,7 @@
           v-model="idProductoEliminar"
           placeholder="Seleccione producto a eliminar"
           clearable
+          filterable
           class="w-100"
         >
           <el-option

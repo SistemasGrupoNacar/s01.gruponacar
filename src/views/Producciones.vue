@@ -19,6 +19,7 @@
           placeholder="Seleccione producci&oacute;n"
           size="large"
           class="_w-50"
+          filterable
           no-data-text="No hay producciones, intente recargar la p&aacute;gina"
         >
           <el-option-group
@@ -128,7 +129,7 @@
                 class="item"
                 v-if="produccionSeleccionada.in_progress"
                 ><p class="_text-big mx-2">
-                  Costos de producci&oacute;n =
+                  Costos =
                   <span class="_bold">{{
                     calcularCostoProduccion(
                       produccionSeleccionada.production_costs

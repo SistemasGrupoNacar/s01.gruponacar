@@ -10,6 +10,7 @@
             v-model="nuevaProduccion.product"
             placeholder="Seleccione producto"
             class="w-100"
+          filterable
           >
             <el-option
               v-for="item in listadoProductos"
@@ -37,6 +38,7 @@
             v-model="nuevaProduccion.place"
             placeholder="Seleccione lugar de producci&oacute;n"
             class="w-100"
+          filterable
           >
             <el-option
               v-for="item in listadoLugares"

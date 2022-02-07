@@ -11,6 +11,7 @@
               v-model="nuevoMovimientoExtra.type_move"
               placeholder="Seleccione tipo de movimiento"
               class="w-100"
+          filterable
             >
               <el-option
                 v-for="item in listadoTiposMovimiento"

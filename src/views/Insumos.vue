@@ -44,6 +44,7 @@
           placeholder="Seleccione insumo a eliminar"
           clearable
           class="w-100"
+          filterable
         >
           <el-option
             v-for="item in listadoTodoInsumos"

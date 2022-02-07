@@ -15,9 +15,7 @@
           end-placeholder="Fecha de finalizacion"
         ></el-date-picker>
       </div>
-      <el-button v-on:click="filtrar(filtro)"
-        >Filtrar
-      </el-button>
+      <el-button v-on:click="filtrar(filtro)">Filtrar </el-button>
       <el-tabs :tab-position="position" class="my-4">
         <el-tab-pane label="General">
           <p class="_title my-0">Informaci&oacute;n general de ingresos</p>
@@ -33,7 +31,7 @@
           <div
             class="d-flex flex-row flex-wrap justify-content-around align-items-center"
           >
-            <div class="bg-light _widget-1">
+            <div class="_widget-1">
               <p class="_text-small _bold w-100 my-0">Incremento</p>
               <el-icon>
                 <sort-up v-if="ingresos.general.percentageIncDec > 0" />
@@ -50,7 +48,7 @@
               <span class="_text-biggest" v-else>0</span>%
             </div>
             <div class="_widget-2 bg-light _w-40">
-              <p class="_text-small _bold w-100 my-0">Total del Mes </p>
+              <p class="_text-small _bold w-100 my-0">Total del Mes</p>
               <el-icon>
                 <sort-down />
               </el-icon>
@@ -59,7 +57,7 @@
               }}</span
               >.{{ ingresos.general.totalCurrentMonthFormat.split(".")[1] }}
             </div>
-            <div class="_widget-3 bg-light">
+            <div class="_widget-3">
               <p class="_text-small _bold w-100 my-0">Porcentaje en Otros</p>
               <el-icon>
                 <sort-down />
@@ -77,7 +75,8 @@
                 :key="index"
                 class="my-0"
               >
-                {{ item.monthName }} - <span class="_text-biggest">{{
+                {{ item.monthName }} -
+                <span class="_text-biggest">{{
                   item.total_format.split(".")[0]
                 }}</span
                 >.{{ item.total_format.split(".")[1].slice(0, 2) }}
@@ -106,11 +105,15 @@
                 </div>
                 <div class="container my-2">
                   <el-icon><SortUp /> </el-icon>
-                  <span class="mx-2">Ingreso mayor: Lunes 25 de enero</span>
+                  <span class="mx-2"
+                    >Ingreso mayor: {{ ingresos.sales.max }}</span
+                  >
                 </div>
                 <div class="container my-2">
                   <el-icon><SortDown /> </el-icon>
-                  <span class="mx-2">Ingreso menor: Martes 26 de enero</span>
+                  <span class="mx-2"
+                    >Ingreso menor: {{ ingresos.sales.min }}</span
+                  >
                 </div>
                 <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
                   <el-icon><Money /> </el-icon>
@@ -145,11 +148,11 @@
                 </div>
                 <div class="container my-2">
                   <el-icon><SortUp /> </el-icon>
-                  <span class="mx-2">Ingreso mayor: Lunes 25 de enero</span>
+                  <span class="mx-2">Ingreso mayor: {{ingresos.extraMoves.max}}</span>
                 </div>
                 <div class="container my-2">
                   <el-icon><SortDown /> </el-icon>
-                  <span class="mx-2">Ingreso menor: Martes 26 de enero</span>
+                  <span class="mx-2">Ingreso menor: {{ingresos.extraMoves.min}}</span>
                 </div>
                 <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
                   <el-icon><Money /> </el-icon>
@@ -218,6 +221,7 @@ export default {
       try {
         const respuesta = await api.obtenerIngresos();
         this.ingresos = respuesta.data;
+        console.log(this.ingresos);
       } catch (error) {
         console.log(error);
       }
@@ -228,7 +232,7 @@ export default {
       if (this.filtro.date != null) {
         const startDate = data.date[0].toISOString();
         const endDate = data.date[1].toISOString();
-        console.log(startDate)
+        console.log(startDate);
         try {
           const respuesta = await api.obtenerIngresosFecha(startDate, endDate);
           this.ingresos = respuesta.data;

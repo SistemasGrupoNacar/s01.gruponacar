@@ -25,6 +25,7 @@
             v-model="product.availability"
             placeholder="Seleccione la disponibilidad"
             class="w-100 my-2"
+            filterable
           >
             <el-option
               v-for="item in options"

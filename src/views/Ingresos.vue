@@ -10,12 +10,12 @@
         <el-date-picker
           class="mx-2 w-100"
           v-model="filtro.date"
-          type="daterange"
+          type="datetimerange"
           start-placeholder="Fecha de inicio"
           end-placeholder="Fecha de finalizacion"
         ></el-date-picker>
       </div>
-      <el-button type="primary" v-on:click="filtrar(filtro)"
+      <el-button v-on:click="filtrar(filtro)"
         >Filtrar
       </el-button>
       <el-tabs :tab-position="position" class="my-4">
@@ -49,8 +49,8 @@
               >
               <span class="_text-biggest" v-else>0</span>%
             </div>
-            <div class="_widget-2 bg-warning _w-40">
-              <p class="_text-small _bold w-100 my-0">Total del Mes</p>
+            <div class="_widget-2 bg-light _w-40">
+              <p class="_text-small _bold w-100 my-0">Total del Mes </p>
               <el-icon>
                 <sort-down />
               </el-icon>
@@ -72,14 +72,15 @@
             <div class="w-100 container my-3 border-top py-2">
               <p class="_text-small _bold w-100 my-0">Datos pasados</p>
               <p
-                v-for="(item, index) in ingresos.general.statisticsSales"
+                v-for="(item, index) in ingresos.general
+                  .statisticsIngressThreeMonths"
                 :key="index"
                 class="my-0"
               >
-                {{ item.monthName }} - $<span class="_text-biggest">{{
-                  item.total.toString().split(".")[0]
+                {{ item.monthName }} - <span class="_text-biggest">{{
+                  item.total_format.split(".")[0]
                 }}</span
-                >.{{ item.total.toString().split(".")[1].slice(0, 2) }}
+                >.{{ item.total_format.split(".")[1].slice(0, 2) }}
               </p>
             </div>
           </div>
@@ -224,13 +225,18 @@ export default {
     },
     async filtrar(data) {
       this.cargando = true;
-      const startDate = data.date[0].toISOString().split("T")[0];
-      const endDate = data.date[1].toISOString().split("T")[0];
-      try {
-        const respuesta = await api.obtenerIngresosFecha(startDate, endDate);
-        this.ingresos = respuesta.data;
-      } catch (error) {
-        console.log(error);
+      if (this.filtro.date != null) {
+        const startDate = data.date[0].toISOString();
+        const endDate = data.date[1].toISOString();
+        console.log(startDate)
+        try {
+          const respuesta = await api.obtenerIngresosFecha(startDate, endDate);
+          this.ingresos = respuesta.data;
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        this.obtenerIngresos();
       }
       this.cargando = false;
     },

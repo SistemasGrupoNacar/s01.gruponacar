@@ -88,13 +88,7 @@ export default {
         {
           direccion: "/producciones",
           nombre: "Producciones",
-          poseeDerivaciones: true,
-          derivaciones: [
-            {
-              direccion: "/producciones/detalle",
-              nombre: "Detalle",
-            },
-          ],
+          poseeDerivaciones: false,
         },
       ],
     };

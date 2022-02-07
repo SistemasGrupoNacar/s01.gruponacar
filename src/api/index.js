@@ -618,6 +618,34 @@ async function crearCostoProduccion(data) {
   });
 }
 
+// Obtener los lugares
+async function obtenerLugares() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/places")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Crear nueva produccion
+async function crearProduccion(data) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(API_URI + "/productions", data)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   obtenerTodosProductos,
   obtenerProductos,
@@ -662,4 +690,6 @@ export default {
   finalizarProduccion,
   reanudarProduccion,
   crearCostoProduccion,
+  obtenerLugares,
+  crearProduccion,
 };

@@ -1,6 +1,7 @@
 import axios from "axios";
 import API_URI from "@/api/config.js";
 
+
 // Obtener todos los productos
 async function obtenerTodosProductos() {
   return new Promise((resolve, reject) => {

@@ -24,8 +24,8 @@
               class="_text-big my-0"
               v-if="filtro.date != '' && ingresos.sales.filtered"
             >
-              {{ filtro.date[0].toLocaleString().split(" ")[0] }} -
-              {{ filtro.date[1].toLocaleString().split(" ")[0] }}
+              {{ ingresos.sales.startDateFormat }} -
+              {{ ingresos.sales.endDateFormat }}
             </p>
           </div>
           <div
@@ -94,15 +94,22 @@
               <p class="_semi-bold my-1">Detalle de Ingresos</p>
               <hr />
               <div class="container my-3 text-center">
-                <div class="_bold _text-big">
-                  {{ ingresos.sales.startDate }} - {{ ingresos.sales.endDate
-                  }}<el-tag
-                    class="mx-3"
+                <div class="_light">
+                  <span class="">
+                    {{ ingresos.sales.startDateFormat }}
+                  </span>
+                  <span class="mx-1">-</span>
+                  <span class="">
+                    {{ ingresos.sales.endDateFormat }}
+                  </span>
+                  <el-tag
+                    class="mx-auto"
                     type="info"
                     v-show="ingresos.sales.filtered"
                     >Filtrado</el-tag
                   >
                 </div>
+                <hr />
                 <div class="container my-2">
                   <el-icon><SortUp /> </el-icon>
                   <span class="mx-2"
@@ -136,23 +143,33 @@
               <p class="_semi-bold my-1">Detalle de Ingresos por otros</p>
               <hr />
               <div class="container my-3 text-center">
-                <div class="_bold _text-big">
-                  {{ ingresos.extraMoves.startDate }} -
-                  {{ ingresos.extraMoves.endDate
-                  }}<el-tag
-                    class="mx-3"
+                <div class="_light">
+                  <span class="">
+                    {{ ingresos.extraMoves.startDateFormat }}
+                  </span>
+                  <span class="mx-1">-</span>
+                  <span class="">
+                    {{ ingresos.extraMoves.endDateFormat }}
+                  </span>
+                  <el-tag
+                    class="mx-auto"
                     type="info"
                     v-show="ingresos.extraMoves.filtered"
                     >Filtrado</el-tag
                   >
                 </div>
+                <hr />
                 <div class="container my-2">
                   <el-icon><SortUp /> </el-icon>
-                  <span class="mx-2">Ingreso mayor: {{ingresos.extraMoves.max}}</span>
+                  <span class="mx-2"
+                    >Ingreso mayor: {{ ingresos.extraMoves.max }}</span
+                  >
                 </div>
                 <div class="container my-2">
                   <el-icon><SortDown /> </el-icon>
-                  <span class="mx-2">Ingreso menor: {{ingresos.extraMoves.min}}</span>
+                  <span class="mx-2"
+                    >Ingreso menor: {{ ingresos.extraMoves.min }}</span
+                  >
                 </div>
                 <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
                   <el-icon><Money /> </el-icon>
@@ -171,6 +188,7 @@
 <script>
 import api from "@/api/index.js";
 import Grafica from "@/components/Grafica.vue";
+import { ElMessage } from "element-plus";
 // Importar icono de element-ui
 import { SortUp, SortDown } from "@element-plus/icons-vue";
 export default {
@@ -199,7 +217,7 @@ export default {
       },
       cargando: false,
       filtro: {
-        date: "",
+        date: null,
       },
       position: "top",
     };
@@ -221,15 +239,19 @@ export default {
       try {
         const respuesta = await api.obtenerIngresos();
         this.ingresos = respuesta.data;
-        console.log(this.ingresos);
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al realizar la petición, intente nuevamente.");
+        }
       }
       this.cargando = false;
     },
     async filtrar(data) {
       this.cargando = true;
-      if (this.filtro.date != null) {
+      console.log(data);
+      if (data.date != null) {
         const startDate = data.date[0].toISOString();
         const endDate = data.date[1].toISOString();
         console.log(startDate);
@@ -237,9 +259,16 @@ export default {
           const respuesta = await api.obtenerIngresosFecha(startDate, endDate);
           this.ingresos = respuesta.data;
         } catch (error) {
-          console.log(error);
+          if (error.response) {
+            ElMessage.error(error.response.data.message);
+          } else {
+          ElMessage.error("Error al realizar la petición, intente nuevamente.");
+          }
         }
       } else {
+        ElMessage.warning(
+          "Sin rango de fechas, se obtuvieron todos los datos."
+        );
         this.obtenerIngresos();
       }
       this.cargando = false;

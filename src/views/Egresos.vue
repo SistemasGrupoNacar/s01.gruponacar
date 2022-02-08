@@ -15,9 +15,7 @@
           end-placeholder="Fecha de finalizacion"
         ></el-date-picker>
       </div>
-      <el-button  v-on:click="filtrar(filtro)"
-        >Filtrar
-      </el-button>
+      <el-button v-on:click="filtrar(filtro)">Filtrar </el-button>
       <el-tabs :tab-position="position" class="my-4">
         <el-tab-pane label="General">
           <p class="_title my-2">Informaci&oacute;n general de egresos</p>
@@ -26,8 +24,8 @@
               class="_text-big my-0"
               v-if="filtro.date != '' && egresos.inventoryEntries.filtered"
             >
-              {{ filtro.date[0].toLocaleString().split(" ")[0] }} -
-              {{ filtro.date[1].toLocaleString().split(" ")[0] }}
+              {{ egresos.inventoryEntries.startDateFormat }} -
+              {{ egresos.inventoryEntries.endDateFormat }}
             </p>
           </div>
           <div
@@ -96,23 +94,33 @@
               <p class="_semi-bold my-1">Detalle de Egresos</p>
               <hr />
               <div class="container my-3 text-center">
-                <div class="_bold _text-big">
-                  {{ egresos.inventoryEntries.startDate.split("T")[0] }} -
-                  {{ egresos.inventoryEntries.endDate.split("T")[0]
-                  }}<el-tag
-                    class="mx-3"
+                <div class="_light">
+                  <span class="">
+                    {{ egresos.inventoryEntries.startDateFormat }}
+                  </span>
+                  <span class="mx-1">-</span>
+                  <span class="">
+                    {{ egresos.inventoryEntries.endDateFormat }}
+                  </span>
+                  <el-tag
+                    class="mx-auto"
                     type="info"
                     v-show="egresos.inventoryEntries.filtered"
                     >Filtrado</el-tag
                   >
                 </div>
+                <hr />
                 <div class="container my-2">
                   <el-icon><SortUp /> </el-icon>
-                  <span class="mx-2">Egreso mayor: {{egresos.inventoryEntries.max}}</span>
+                  <span class="mx-2"
+                    >Egreso mayor: {{ egresos.inventoryEntries.max }}</span
+                  >
                 </div>
                 <div class="container my-2">
                   <el-icon><SortDown /> </el-icon>
-                  <span class="mx-2">Egreso menor: {{egresos.inventoryEntries.min}}</span>
+                  <span class="mx-2"
+                    >Egreso menor: {{ egresos.inventoryEntries.min }}</span
+                  >
                 </div>
                 <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
                   <el-icon><Money /> </el-icon>
@@ -142,23 +150,33 @@
               <p class="_semi-bold my-1">Detalle de Egresos por otros</p>
               <hr />
               <div class="container my-3 text-center">
-                <div class="_bold _text-big">
-                  {{ egresos.extraMoves.startDate.split("T")[0] }} -
-                  {{ egresos.extraMoves.endDate.split("T")[0]
-                  }}<el-tag
-                    class="mx-3"
+                <div class="_light">
+                  <span class="">
+                    {{ egresos.extraMoves.startDateFormat }}
+                  </span>
+                  <span class="mx-1">-</span>
+                  <span class="">
+                    {{ egresos.extraMoves.endDateFormat }}
+                  </span>
+                  <el-tag
+                    class="mx-auto"
                     type="info"
                     v-show="egresos.extraMoves.filtered"
                     >Filtrado</el-tag
                   >
                 </div>
+                <hr />
                 <div class="container my-2">
                   <el-icon><SortUp /> </el-icon>
-                  <span class="mx-2">Egreso mayor: {{egresos.extraMoves.max}}</span>
+                  <span class="mx-2"
+                    >Egreso mayor: {{ egresos.extraMoves.max }}</span
+                  >
                 </div>
                 <div class="container my-2">
                   <el-icon><SortDown /> </el-icon>
-                  <span class="mx-2">Egreso menor: {{egresos.extraMoves.min}}</span>
+                  <span class="mx-2"
+                    >Egreso menor: {{ egresos.extraMoves.min }}</span
+                  >
                 </div>
                 <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
                   <el-icon><Money /> </el-icon>
@@ -206,7 +224,7 @@ export default {
       },
       cargando: false,
       filtro: {
-        date: "",
+        date: null,
       },
       position: "top",
     };
@@ -239,7 +257,7 @@ export default {
     },
     async filtrar(data) {
       this.cargando = true;
-      if (this.filtro.date != null) {
+      if (data.date != null) {
         const startDate = data.date[0].toISOString();
         const endDate = data.date[1].toISOString();
         try {
@@ -255,6 +273,9 @@ export default {
           }
         }
       } else {
+        ElMessage.warning(
+          "Sin rango de fechas, se obtuvieron todos los datos."
+        );
         this.obtenerEgresos();
       }
       this.cargando = false;

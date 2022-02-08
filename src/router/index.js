@@ -4,6 +4,7 @@ const routes = [
   {
     path: "/",
     name: "EnrutadorPrincipal",
+    beforeEnter: verifyLoggedUser,
     component: () => import("../views/EnrutadorPrincipal.vue"),
     children: [
       {
@@ -153,5 +154,16 @@ const DEFAULT_TITLE = "Grupo Nacar";
 router.afterEach((to) => {
   document.title = to.meta.title || DEFAULT_TITLE;
 });
+
+function verifyLoggedUser(to, from, next) {
+  var isAuthenticated = false;
+  if (localStorage.getItem("token")) isAuthenticated = true;
+  else isAuthenticated = false;
+  if (isAuthenticated) {
+    next(); // allow to enter route
+  } else {
+    next("/login"); // go to '/login';
+  }
+}
 
 export default router;

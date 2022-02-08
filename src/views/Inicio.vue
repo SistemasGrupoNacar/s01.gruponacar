@@ -1,5 +1,5 @@
 <template>
-  <p>Hola</p>
+  <p class="_title">GRUPO NACAR</p>
 </template>
 
 <script>

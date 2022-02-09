@@ -1,6 +1,44 @@
 import axios from "axios";
 import API_URI from "@/api/config.js";
+import tokenActions from "@/scripts/Token.js";
 
+// Iniciar sesion
+async function iniciarSesion(credenciales) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(API_URI + "/login", credenciales)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Verificar si el token no ha expirado
+async function verificarToken() {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .get(API_URI + "/login", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
 
 // Obtener todos los productos
 async function obtenerTodosProductos() {
@@ -648,6 +686,8 @@ async function crearProduccion(data) {
 }
 
 export default {
+  iniciarSesion,
+  verificarToken,
   obtenerTodosProductos,
   obtenerProductos,
   obtenerPrimerosProductos,

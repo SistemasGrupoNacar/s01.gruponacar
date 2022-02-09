@@ -1,69 +1,78 @@
 <template>
-  <div
-    class="container _login-container _h-100 p-0 d-flex align-items-center justify-content-center"
-    
-  >
+  <span class="_btn _ajustes">
+    <img :src="require('@/assets/illustrations/options.svg')" alt="Opciones" />
+    <div class="_btn-actions">
+      <el-button type="text" v-on:click.prevent="reportarProblema()"
+        >Reportar un problema</el-button
+      >
+    </div>
+  </span>
+  <div class="row _h-100 w-100 p-0 m-0">
     <div
-      class="row p-0 m-0 w-100 d-flex align-items-center justify-content-center"
+      class="col-12 col-md-6 _details text-center d-flex justify-content-center align-items-center"
     >
-      <div
-        class="col-12 col-md-6 _bg-white my-2 my-lg-0 d-flex align-items-center justify-content-center flex-column"
-      >
-        <div class="my-3">
-          <p class="_title _letter-spacing-2">Inicio de Sesion</p>
-          <p class="_subtitle">Sistema de Control e Inventario</p>
-        </div>
-        <!--img
-          :src="require('@/assets/illustrations/escena-1.svg')"
-          alt="Muchacho con laptop en mano"
-          class="image-0"
-        /-->
+      <div class="_w-50">
+        <p class="_bold _letter-spacing-1 _text-big">¡Hola Administrador!</p>
+        <p class="_subtitle">
+          Ingresa tus credenciales para acceder al portal de
+          administraci&oacute;n del sistema
+        </p>
       </div>
-      <div
-        class="col-12 col-md-6 _bg-white my-2 my-lg-0 d-flex justify-content-center flex-column px-5"
+    </div>
+    <div
+      class="col-12 col-md-6 _login text-center _w-50 d-flex flex-column px-5 px-lg-0 m-0 justify-content-center align-items-center"
+    >
+      <div class="more-info">
+        <p class="_bold _letter-spacing-1 _text-big">¡Hola Administrador!</p>
+        <p class="_subtitle">
+          Ingresa tus credenciales para acceder al portal de
+          administraci&oacute;n del sistema
+        </p>
+      </div>
+      <el-input
+        v-model="credenciales.username"
+        class="_w-50 m-2"
+        placeholder="Ingrese nombre de usuario"
       >
-        <span class="text-muted _bold _text-small _letter-spacing-1 my-1"
-          >Nombre de usuario</span
-        >
-        <el-input
-          v-model="credenciales.user"
-          placeholder="@morales"
-          clearable
-          autocomplete="off"
-          class="mx-auto"
-          v-on:keyup.enter.prevent="iniciarSesion(credenciales)"
-        />
+        <template #prefix>
+          <el-icon class="el-input__icon"><User /></el-icon>
+        </template> </el-input
+      ><el-input
+        v-model="credenciales.password"
+        class="_w-50 m-2"
+        placeholder="Ingrese contrase&ntilde;a"
+        type="password"
+        show-password
+      >
+        <template #prefix>
+          <el-icon class="el-input__icon"><Warning /></el-icon>
+        </template>
+      </el-input>
 
-        <span class="text-muted _bold _text-small _letter-spacing-1 my-1"
-          >Contrase&ntilde;a</span
-        >
-        <el-input
-          v-model="credenciales.password"
-          placeholder="********"
-          class="mx-auto"
-          type="password"
-          autocomplete="off"
-          show-password
-          v-on:keyup.enter.prevent="iniciarSesion(credenciales)"
-        />
-        <el-button class="_w-50 mx-auto my-4 _button-animation">
-          Ingresar<el-icon class="el-icon--right _icon"><Right /></el-icon>
-        </el-button>
-      </div>
+      <el-button
+        size="large"
+        class="_w-50 m-2"
+        round
+        v-on:click.prevent="iniciarSesion(credenciales)"
+      >
+        Iniciar Sesi&oacute;n</el-button
+      >
     </div>
   </div>
 </template>
 <script>
 import { ElMessage } from "element-plus";
-import { Right } from "@element-plus/icons-vue";
+import { User, Warning } from "@element-plus/icons-vue";
+import api from "@/api/index.js";
 export default {
   components: {
-    Right,
+    User,
+    Warning,
   },
   data() {
     return {
       credenciales: {
-        user: "",
+        username: "",
         password: "",
       },
     };
@@ -74,11 +83,22 @@ export default {
         ElMessage.warning("Por favor ingrese un usuario y contraseña válidos");
         return;
       }
-      localStorage.setItem("jwt", "JWT");
-      this.$router.push("/home");
+      try {
+        const respuesta = await api.iniciarSesion(datos);
+        if (respuesta.status === 200) {
+          localStorage.setItem("jwt", respuesta.data);
+          this.$router.push("/home");
+        }
+      } catch (error) {
+        if (error.response.status === 403) {
+          ElMessage.warning("Usuario o contraseña incorrectos");
+          return;
+        }
+        ElMessage.error("Error, por favor intente más tarde");
+      }
     },
     verificarCredenciales(datos) {
-      if (datos.user == "") {
+      if (datos.username == "") {
         return false;
       }
       if (datos.password == "") {
@@ -86,25 +106,37 @@ export default {
       }
       return true;
     },
+    reportarProblema() {
+      window.open(
+        "mailto:sistemas.gruponacar@gmail.com?Subject=Problemas%20con%20inicio%20de%20sesión",
+        "_blank"
+      );
+    },
   },
 };
 </script>
 <style lang="scss">
-._button-animation {
-  ._icon {
-    transition: all 0.5s ease-in-out;
-  }
-  &:hover {
-    ._icon {
-      transform: rotateY(360deg);
-    }
-  }
+._login {
 }
-.image-0 {
-  height: 250px;
+._details {
+  display: none !important;
+}
+._ajustes {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+.more-info {
+  margin-bottom: 3rem;
 }
 /* Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) {
+  ._details {
+    display: flex !important;
+  }
+  .more-info {
+    display: none;
+  }
 }
 
 /* Large devices (desktops, 992px and up)*/

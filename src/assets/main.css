@@ -6,7 +6,7 @@
 }
 
 :root {
-  --color-primary: #114B5F;
+  --color-primary: #114b5f;
   --color-secondary: #000411;
   --white: #fff;
   --black: #000;
@@ -168,6 +168,36 @@
   display: none;
 }
 
+._btn {
+  border-radius: 10px;
+  background-color: var(--white);
+  padding: 5px;
+  transition: linear 0.3s ease;
+  cursor: pointer;
+  text-align: end;
+  overflow: hidden;
+}
+._btn:hover {
+  background-color: var(--dark-white);
+}
+
+._btn img {
+  transition: all 0.3s;
+  width: 32px;
+  height: 32px;
+}
+._btn div{
+  transform: translateX(500px);
+  transition: all 0.3s;
+  background-color: transparent;
+  padding: 5px 15px;
+}
+._btn:hover img {
+  transform: rotateY(360deg);
+}
+._btn:hover div{
+  transform: translateX(0px);
+}
 [class*="_widget"] {
   padding: 1rem 2rem;
   border-radius: 5px;

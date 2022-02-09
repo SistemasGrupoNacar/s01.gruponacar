@@ -7,7 +7,11 @@
         <p class="_title _letter-spacing-2">Inicio de Sesion</p>
         <p class="_subtitle">Sistema de Control e Inventario</p>
         <p class="my-2 _subtitle">gruponacar.com</p>
-        <img :src="require('@/assets/illustrations/Finances.png')" alt="Logo" class="w-50" />
+        <img
+          :src="require('@/assets/illustrations/Finances.png')"
+          alt="Logo"
+          class="w-50"
+        />
       </div>
       <div
         class="col-12 col-md-6 _hv-100 _bg-white d-flex justify-content-center flex-column px-5"
@@ -21,6 +25,7 @@
           clearable
           autocomplete="off"
           class="_w-50 mx-auto"
+          v-on:keyup.enter.prevent="iniciarSesion(credenciales)"
         />
 
         <span class="text-muted mx-auto _letter-spacing-1 my-1"
@@ -33,6 +38,7 @@
           type="password"
           autocomplete="off"
           show-password
+          v-on:keyup.enter.prevent="iniciarSesion(credenciales)"
         />
         <el-button class="_w-50 mx-auto my-4 _button-animation">
           Ingresar<el-icon class="el-icon--right _icon"><Right /></el-icon>
@@ -62,10 +68,8 @@ export default {
         ElMessage.warning("Por favor ingrese un usuario y contraseña válidos");
         return;
       }
-      ElMessage.loading({
-        duration: 0,
-        content: "Iniciando sesión...",
-      });
+      localStorage.setItem("jwt", "JWT");
+      this.$router.push("/home");
     },
     verificarCredenciales(datos) {
       if (datos.user == "") {

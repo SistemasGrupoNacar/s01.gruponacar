@@ -13,6 +13,11 @@ const routes = [
         component: () => import("../views/Inicio.vue"),
       },
       {
+        // Redireccion a la ruta de inicio
+        path: "home",
+        redirect: "/",
+      },
+      {
         path: "perfil",
         name: "Perfil",
         component: () => import("../views/Perfil.vue"),
@@ -157,7 +162,7 @@ router.afterEach((to) => {
 
 function verifyLoggedUser(to, from, next) {
   var isAuthenticated = false;
-  if (localStorage.getItem("token")) isAuthenticated = true;
+  if (localStorage.getItem("jwt")) isAuthenticated = true;
   else isAuthenticated = false;
   if (isAuthenticated) {
     next(); // allow to enter route

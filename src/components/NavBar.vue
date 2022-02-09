@@ -90,6 +90,11 @@ export default {
           nombre: "Producciones",
           poseeDerivaciones: false,
         },
+        {
+          direccion: "/perfil",
+          nombre: "Perfil",
+          poseeDerivaciones: false,
+        },
       ],
     };
   },

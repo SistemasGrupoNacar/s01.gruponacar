@@ -1,40 +1,46 @@
 <template>
-  <div class="container-fluid _login-container _h-100 p-0">
-    <div class="row p-0 m-0">
+  <div
+    class="container _login-container _h-100 p-0 d-flex align-items-center justify-content-center"
+    
+  >
+    <div
+      class="row p-0 m-0 w-100 d-flex align-items-center justify-content-center"
+    >
       <div
-        class="col-12 col-md-6 _hv-100 _bg-white d-flex align-items-center justify-content-center flex-column"
+        class="col-12 col-md-6 _bg-white my-2 my-lg-0 d-flex align-items-center justify-content-center flex-column"
       >
-        <p class="_title _letter-spacing-2">Inicio de Sesion</p>
-        <p class="_subtitle">Sistema de Control e Inventario</p>
-        <p class="my-2 _subtitle">gruponacar.com</p>
-        <img
-          :src="require('@/assets/illustrations/Finances.png')"
-          alt="Logo"
-          class="w-50"
-        />
+        <div class="my-3">
+          <p class="_title _letter-spacing-2">Inicio de Sesion</p>
+          <p class="_subtitle">Sistema de Control e Inventario</p>
+        </div>
+        <!--img
+          :src="require('@/assets/illustrations/escena-1.svg')"
+          alt="Muchacho con laptop en mano"
+          class="image-0"
+        /-->
       </div>
       <div
-        class="col-12 col-md-6 _hv-100 _bg-white d-flex justify-content-center flex-column px-5"
+        class="col-12 col-md-6 _bg-white my-2 my-lg-0 d-flex justify-content-center flex-column px-5"
       >
-        <span class="text-muted mx-auto _letter-spacing-1 my-1"
+        <span class="text-muted _bold _text-small _letter-spacing-1 my-1"
           >Nombre de usuario</span
         >
         <el-input
           v-model="credenciales.user"
-          placeholder="Ingrese su nombre de usuario"
+          placeholder="@morales"
           clearable
           autocomplete="off"
-          class="_w-50 mx-auto"
+          class="mx-auto"
           v-on:keyup.enter.prevent="iniciarSesion(credenciales)"
         />
 
-        <span class="text-muted mx-auto _letter-spacing-1 my-1"
+        <span class="text-muted _bold _text-small _letter-spacing-1 my-1"
           >Contrase&ntilde;a</span
         >
         <el-input
           v-model="credenciales.password"
-          placeholder="Ingrese su contraseña"
-          class="_w-50 mx-auto"
+          placeholder="********"
+          class="mx-auto"
           type="password"
           autocomplete="off"
           show-password
@@ -93,6 +99,9 @@ export default {
       transform: rotateY(360deg);
     }
   }
+}
+.image-0 {
+  height: 250px;
 }
 /* Medium devices (tablets, 768px and up)*/
 @media (min-width: 768px) {

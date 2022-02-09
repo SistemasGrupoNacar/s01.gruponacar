@@ -1,14 +1,16 @@
 <template>
-    <div>
-        Perfil
-        <router-view></router-view>
-    </div>
+  <div>
+    <el-button v-on:click.prevent="cerrarSesion()">Cerrar Sesion</el-button>
+  </div>
 </template>
 <script>
 export default {
-    
-}
+  methods: {
+    cerrarSesion() {
+      localStorage.removeItem("jwt");
+      this.$router.go("/login");
+    },
+  },
+};
 </script>
-<style lang="">
-    
-</style>
+<style lang=""></style>

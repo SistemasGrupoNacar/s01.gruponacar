@@ -24,6 +24,12 @@ const routes = [
         component: () => import("../views/Perfil.vue"),
       },
       {
+        path: "perfil/cambiar-contrasena",
+        name: "CambiarContrasena",
+        component: () =>
+          import("../views/EditarComponentes/EditarContrasena.vue"),
+      },
+      {
         path: "movimientos",
         name: "Movimientos",
         component: () => import("../views/Perfil.vue"),
@@ -167,14 +173,17 @@ function verifyLoggedUser(to, from, next) {
   else isAuthenticated = false;
   if (isAuthenticated) {
     // Probando si el token no esta vencido
-    api.verificarToken().then((response) => {
-      if (response.status == 200) {
-        next();
-      } else if (response.status == 403) {
+    api
+      .verificarToken()
+      .then((response) => {
+        if (response.status == 200) {
+          next();
+        }
+      })
+      .catch(() => {
         localStorage.removeItem("jwt");
         next("/login");
-      }
-    });
+      });
   } else {
     next("/login"); // go to '/login';
   }

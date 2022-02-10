@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 const setToken = async (token) => {
   return new Promise((resolve) => {
     localStorage.setItem("jwt", token);
@@ -29,9 +31,18 @@ const verifyExistingToken = async () => {
   });
 };
 
+const getPayloadToken = async () => {
+  const token = await getToken();
+  if (token != null) {
+    return jwt.decode(token);
+  } else {
+    return;
+  }
+};
 module.exports = {
   setToken,
   removeToken,
   getToken,
   verifyExistingToken,
+  getPayloadToken,
 };

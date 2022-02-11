@@ -1,6 +1,7 @@
 <template>
   <line-chart
     empty="No hay datos"
+    loading="Cargando datos"
     prefix="$"
     :data="datos"
     class="w-100"

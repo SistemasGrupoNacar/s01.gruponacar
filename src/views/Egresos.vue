@@ -136,7 +136,7 @@
           <div class="row">
             <div class="col-12 col-md-7 my-2">
               <p class="_semi-bold my-1">Gr&aacute;fico de Costos/Fechas</p>
-              <grafica :datos="egresos.inventoryEntries.graphic" />
+              <grafica :datos="null" />
             </div>
           </div>
         </el-tab-pane>

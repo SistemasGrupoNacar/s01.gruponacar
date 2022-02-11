@@ -24,17 +24,18 @@
           class="rounded-circle mx-auto d-block _img _bg-dark"
         />
       </div>
-      <div class="mx-0 mx-lg-3 my-3 my-md-0text-start" v-if="usuario != null">
-        <p class="_bold _letter-spacing-1 _text-big my-0">
+      <div
+        class="mx-0 mx-lg-3 my-3 my-md-0 text-start _w-40"
+        v-if="usuario != null"
+      >
+        <p class="_bold _letter-spacing-1 _text-bigger my-0">
           {{ usuario.firstName }}
         </p>
-        <p class="mx-4 my-0">{{ usuario.lastName }}</p>
+        <p class="mx-4 my-0 _text-big">{{ usuario.lastName }}</p>
         <hr />
-        <p class="mx-4 my-1 _text-small text-muted">DUI: {{ usuario.dui }}</p>
-        <p class="mx-4 my-1 _text-small">
-          Tel&eacute;fono: {{ usuario.phone }}
-        </p>
-        <p class="mx-4 my-1 _text-small text-muted">Id: {{ usuario._id }}</p>
+        <p class="mx-4 my-1 text-muted">DUI: {{ usuario.dui }}</p>
+        <p class="mx-4 my-1 _bold">Tel&eacute;fono: {{ usuario.phone }}</p>
+        <p class="mx-4 my-1 text-muted">Id: {{ usuario._id }}</p>
         <hr />
         <el-button class="w-100" v-on:click.prevent="cerrarSesion()"
           >Cerrar Sesion</el-button

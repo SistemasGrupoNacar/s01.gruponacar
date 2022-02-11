@@ -14,6 +14,9 @@
     </p>
     <el-main v-loading="cargando">
       <div class="w-100">
+        <div class="d-inline-flex align-items-center mx-2 my-2 my-lg-0">
+          Mostrar todas: <el-switch class="mx-2" v-model="filtro" />
+        </div>
         <el-select
           v-model="valor"
           placeholder="Seleccione producci&oacute;n"
@@ -22,19 +25,13 @@
           filterable
           no-data-text="No hay producciones, intente recargar la p&aacute;gina"
         >
-          <el-option-group
-            v-for="group in produccionesParaSelect"
-            :key="group.label"
-            :label="group.label"
+          <el-option
+            v-for="item in producciones"
+            :key="item._id"
+            :label="item.label"
+            :value="item._id"
           >
-            <el-option
-              v-for="item in group.options"
-              :key="item._id"
-              :label="item._id + ' - ' + item.start_date_format"
-              :value="item._id"
-            >
-            </el-option>
-          </el-option-group>
+          </el-option>
         </el-select>
       </div>
       <div class="w-100 my-2">
@@ -160,16 +157,16 @@
                   ) in produccionSeleccionada.production_costs"
                   :key="index"
                 >
-                  <p>
+                  <p class="my-0">
                     <span class="_bold">{{
                       item.total.toLocaleString("en-US", {
                         style: "currency",
                         currency: "USD",
                       })
                     }}</span
-                    ><span class="mx-2">{{
-                      item.description || "Sin descripción "
-                    }}</span>
+                    ><span class="mx-2">
+                      - {{ item.description || "Sin descripción " }}</span
+                    >
                   </p>
                 </li>
               </ul>
@@ -188,20 +185,19 @@
                   v-for="(item, index) in produccionSeleccionada.detail_sales"
                   :key="index"
                 >
-                  <p>
+                  <p class="my-0">
                     <span class="mx-2 _bold">{{
                       item.total.toLocaleString("en-US", {
                         style: "currency",
                         currency: "USD",
                       })
                     }}</span
-                    ><span>{{ item._id }}</span>
+                    ><span> - {{ item._id }}</span>
                   </p>
                 </li>
               </ul>
             </div>
             <hr v-if="!produccionSeleccionada.in_progress" />
-            {{ produccionSeleccionada }}
           </div>
           <div class="_botones _w-25 text-end">
             <el-button
@@ -234,6 +230,7 @@
           </div>
         </div>
       </div>
+      {{ produccionesParaSelect }}
     </el-main>
   </div>
 </template>
@@ -251,35 +248,40 @@ export default {
     return {
       cargando: false,
       producciones: [],
-      produccionesParaSelect: [],
       valor: null,
       produccionSeleccionada: null,
+      filtro: false,
+      is_mobile: true,
     };
   },
   mounted() {
+    //Verificar si es celular
+    if (window.innerWidth > 768) {
+      this.is_mobile = false;
+    }
     this.obtenerProducciones();
   },
   methods: {
     async obtenerProducciones() {
       this.cargando = true;
       try {
-        const respuesta = await api.obtenerTodasProducciones();
+        let respuesta;
+        if (this.filtro == true) {
+          respuesta = await api.obtenerTodasProducciones();
+        } else {
+          respuesta = await api.obtenerProduccionesEnProgreso();
+        }
+
         this.producciones = respuesta.data;
-        // Formatear para el select de grupos
-        let in_progress = {
-          label: "En progreso",
-          options: [],
-        };
-        let finished = {
-          label: "Finalizadas",
-          options: [],
-        };
         this.producciones.map((item) => {
-          item.in_progress
-            ? in_progress.options.push(item)
-            : finished.options.push(item);
+          if (this.is_mobile) {
+            item.label = `${item._id} - ${item.start_date_format}`;
+          } else {
+            item.label = `${item._id} - ${item.start_date_format} - ${
+              item.in_progress ? "En progreso" : "Finalizada"
+            }`;
+          }
         });
-        this.produccionesParaSelect = [in_progress, finished];
       } catch (error) {
         console.log(error);
       }
@@ -347,6 +349,9 @@ export default {
       this.produccionSeleccionada = this.producciones.find(
         (item) => item._id === this.valor
       );
+    },
+    filtro() {
+      this.obtenerProducciones();
     },
   },
 };

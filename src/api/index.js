@@ -685,6 +685,30 @@ async function crearProduccion(data) {
   });
 }
 
+// Cambiar contraseña de usuario
+async function cambiarContrasena(data) {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .put(API_URI + "/users/change-password", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   iniciarSesion,
   verificarToken,
@@ -733,4 +757,5 @@ export default {
   crearCostoProduccion,
   obtenerLugares,
   crearProduccion,
+  cambiarContrasena,
 };

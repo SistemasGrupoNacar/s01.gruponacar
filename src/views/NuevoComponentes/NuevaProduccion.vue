@@ -10,7 +10,7 @@
             v-model="nuevaProduccion.product"
             placeholder="Seleccione producto"
             class="w-100"
-          filterable
+            filterable
           >
             <el-option
               v-for="item in listadoProductos"
@@ -38,7 +38,7 @@
             v-model="nuevaProduccion.place"
             placeholder="Seleccione lugar de producci&oacute;n"
             class="w-100"
-          filterable
+            filterable
           >
             <el-option
               v-for="item in listadoLugares"
@@ -69,6 +69,7 @@
 <script>
 import api from "@/api/index.js";
 import { ElMessage } from "element-plus";
+import { verificarSesion } from "@/scripts/Sesion.js";
 export default {
   data() {
     return {
@@ -95,6 +96,7 @@ export default {
         this.listadoProductos = respuesta.data;
       } catch (error) {
         if (error.response) {
+          verificarSesion(error);
           ElMessage.error({
             message: error.response.data.message,
           });
@@ -113,6 +115,7 @@ export default {
         this.listadoLugares = respuesta.data;
       } catch (error) {
         if (error.response) {
+          verificarSesion(error);
           ElMessage.error({
             message: error.response.data.message,
           });
@@ -141,6 +144,7 @@ export default {
         this.$router.push("/producciones");
       } catch (error) {
         if (error.response) {
+          verificarSesion(error);
           if (error.response.status == 422) {
             error.response.data.forEach((element) => {
               ElMessage.error({

@@ -37,6 +37,8 @@
 <script>
 import { Remove, Delete, Check } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
+import { verificarSesion } from "@/scripts/Sesion.js";
+import { ElMessage } from "element-plus";
 export default {
   components: {
     Remove,
@@ -59,7 +61,12 @@ export default {
         const respuesta = await api.obtenerTodosProductos();
         this.listadoProductos = respuesta.data;
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener los productos.");
+        }
       }
       this.cargando = false;
     },
@@ -73,7 +80,12 @@ export default {
           this.obtenerProductos();
         }
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al cambiar la disponibilidad del producto.");
+        }
       }
     },
     async eliminarProducto(data) {
@@ -82,7 +94,12 @@ export default {
 
         this.obtenerProductos();
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al eliminar el producto.");
+        }
       }
     },
   },

@@ -17,7 +17,7 @@
       <router-link
         v-for="(item, index) in rutas"
         :key="index"
-        class="link _semi-bold _link"
+        class="link _semi-bold _link position-relative"
         :to="item.direccion"
         :class="{ active: item.direccion == rutaActual }"
         v-on:click="cambiarEstadoElementosMenu()"
@@ -100,7 +100,7 @@ export default {
   },
   methods: {
     obtenerUsuario() {
-      return "Grupo NACAR";
+      return "Javier Morales";
     },
     cambiarEstadoElementosMenu() {
       if (window.innerWidth < 768) {
@@ -160,9 +160,11 @@ export default {
   width: 30px;
   height: 30px;
   cursor: pointer;
+  position: absolute;
+  right: 15px;
 }
 .user-info {
-  margin: 0 auto;
+  margin: 0;
   cursor: pointer;
   font-size: 1.3rem;
 }
@@ -179,6 +181,8 @@ export default {
   display: block;
   position: relative;
   margin: 0;
+  left: 0;
+  right: auto;
   margin-left: 1rem;
   width: auto;
   background: var(--white);
@@ -215,6 +219,8 @@ export default {
   ._dropdown {
     display: none;
     position: absolute;
+    right: 0 !important;
+    left: auto;
     width: 200px;
     text-align: center;
     margin: 0;

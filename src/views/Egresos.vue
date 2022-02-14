@@ -196,6 +196,7 @@
 import api from "@/api/index.js";
 import Grafica from "@/components/Grafica.vue";
 import { ElMessage } from "element-plus";
+import { verificarSesion } from "@/scripts/Sesion.js";
 
 export default {
   components: { Grafica },
@@ -248,6 +249,7 @@ export default {
         this.egresos = respuesta.data;
       } catch (error) {
         if (error.response) {
+          verificarSesion(error);
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al realizar la petición, intente nuevamente.");
@@ -265,6 +267,7 @@ export default {
           this.egresos = respuesta.data;
         } catch (error) {
           if (error.response) {
+            verificarSesion(error);
             ElMessage.error(error.response.data.message);
           } else {
             ElMessage.error(

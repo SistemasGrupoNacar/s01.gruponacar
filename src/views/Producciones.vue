@@ -239,6 +239,7 @@ import api from "@/api/index.js";
 import { Plus, WarningFilled } from "@element-plus/icons-vue";
 import { fechaActual } from "@/scripts/Fechas.js";
 import { ElMessage } from "element-plus";
+import { verificarSesion } from "@/scripts/Sesion.js";
 export default {
   components: {
     Plus,
@@ -283,7 +284,12 @@ export default {
           }
         });
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener las producciones");
+        }
       }
       this.cargando = false;
     },
@@ -298,7 +304,12 @@ export default {
         this.valor = null;
         this.obtenerProducciones();
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al finalizar la producción");
+        }
       }
       this.cargando = false;
     },
@@ -313,7 +324,12 @@ export default {
         this.valor = null;
         this.obtenerProducciones();
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al reanudar la producción");
+        }
       }
       this.cargando = false;
     },

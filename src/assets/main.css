@@ -170,7 +170,7 @@
 
 ._btn {
   border-radius: 10px;
-  background-color: var(--white);
+  background-color: transparent;
   padding: 5px;
   transition: linear 0.3s ease;
   cursor: pointer;

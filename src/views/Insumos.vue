@@ -5,12 +5,12 @@
     content="Agrega un nuevo ingreso de insumos"
     placement="top"
   >
-      <el-button
-        class="nuevo-insumo"
-        type="primary"
-        v-on:click="nuevoIngresoInsumo()"
-        ><el-icon><Plus /> </el-icon>
-      </el-button>
+    <el-button
+      class="nuevo-insumo"
+      type="primary"
+      v-on:click="nuevoIngresoInsumo()"
+      ><el-icon><Plus /> </el-icon>
+    </el-button>
   </el-tooltip>
 
   <div class="container">
@@ -90,6 +90,8 @@
 <script>
 import { Plus } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
+import { verificarSesion } from "@/scripts/Sesion.js";
+import { ElMessage } from "element-plus";
 export default {
   components: {
     Plus,
@@ -119,16 +121,26 @@ export default {
         const respuesta = await api.obtenerPrimerosInsumos();
         this.listadoPrimerosInsumos = respuesta.data;
         this.cargandoDatosTablaInsumos = false;
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener los insumos");
+        }
       }
     },
     async obtenerTodosInsumos() {
       try {
         const respuesta = await api.obtenerTodosInsumos();
         this.listadoTodoInsumos = respuesta.data;
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener los insumos");
+        }
       }
     },
     async obtenerPrimerosHistorialEntradaInsumos() {
@@ -141,8 +153,13 @@ export default {
           item.date = item.date.split("T")[0];
         });
         this.cargandoDatosTablaHistorial = false;
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener los insumos");
+        }
       }
     },
     async eliminarInsumo(data) {
@@ -154,7 +171,12 @@ export default {
           this.idInsumoEliminar = "";
           this.actualizarTodo();
         } catch (error) {
-          console.log(error);
+          if (error.response) {
+            verificarSesion(error);
+            ElMessage.error(error.response.data.message);
+          } else {
+            ElMessage.error("Error al obtener los insumos");
+          }
         }
       }
     },

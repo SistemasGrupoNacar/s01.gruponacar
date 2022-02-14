@@ -85,6 +85,8 @@
 <script>
 import { Plus } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
+import { verificarSesion } from "@/scripts/Sesion.js";
+import { ElMessage } from "element-plus";
 export default {
   components: {
     Plus,
@@ -123,7 +125,12 @@ export default {
           item.date = item.date.split("T")[0];
         });
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener los datos");
+        }
       }
       this.cargandoDatosTablaHistorial = false;
     },
@@ -133,7 +140,12 @@ export default {
         const respuesta = await api.obtenerPrimerosProductos();
         this.listadoPrimerosProductos = respuesta.data;
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener los datos");
+        }
       }
       this.cargandoDatosTablaProductos = false;
     },
@@ -152,7 +164,12 @@ export default {
         const respuesta = await api.obtenerTodosProductos();
         this.listadoTodosProductos = respuesta.data;
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener los datos");
+        }
       }
     },
     async eliminarProducto(data) {
@@ -164,7 +181,12 @@ export default {
           this.idProductoEliminar = "";
           this.actualizarTodo();
         } catch (error) {
-          console.log(error);
+          if (error.response) {
+            verificarSesion(error);
+            ElMessage.error(error.response.data.message);
+          } else {
+            ElMessage.error("Error al eliminar el producto");
+          }
         }
       }
     },

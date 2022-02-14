@@ -12,7 +12,7 @@
             v-model="nuevoIngresoProducto.production"
             placeholder="Seleccione producción"
             class="w-100"
-          filterable
+            filterable
           >
             <el-option
               v-for="item in listadoProducciones"
@@ -71,7 +71,9 @@
   </div>
 </template>
 <script>
+import { verificarSesion } from "@/scripts/Sesion.js";
 import api from "@/api/index.js";
+import { ElMessage } from "element-plus";
 export default {
   data() {
     return {
@@ -97,7 +99,7 @@ export default {
         (item) => item.value === data
       );
       this.nuevoIngresoProducto.product = produccion.product.name;
-    }
+    },
   },
 
   methods: {
@@ -112,7 +114,12 @@ export default {
         alert("Ingreso creado con id: " + respuesta.data._id);
         this.$router.push({ name: "Productos" });
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al crear cosecha");
+        }
       }
       this.cargando = false;
     },
@@ -132,7 +139,12 @@ export default {
             item.description.slice(0, 20);
         });
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener producciones");
+        }
       }
       this.cargando = false;
     },

@@ -45,7 +45,7 @@
             v-model="insumo.availability"
             placeholder="Seleccione la disponibilidad"
             class="w-100 my-2"
-          filterable
+            filterable
           >
             <el-option
               v-for="item in options"
@@ -86,6 +86,8 @@
 </template>
 <script>
 import api from "@/api/index.js";
+import { verificarSesion } from "@/scripts/Sesion.js";
+import { ElMessage } from "element-plus";
 export default {
   data() {
     return {
@@ -112,8 +114,13 @@ export default {
         const respuesta = await api.crearInsumo(data);
         alert("Insumo creado: " + respuesta.data.name);
         this.$router.push({ name: "Insumos" });
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al crear insumo");
+        }
       }
     },
     verificarDatos(data) {

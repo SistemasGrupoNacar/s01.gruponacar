@@ -28,7 +28,7 @@
           <el-select
             v-model="productoSeleccionado.product"
             class="m-2 w-100"
-          filterable
+            filterable
             placeholder="Seleccione producto"
             size="large"
           >
@@ -46,7 +46,7 @@
             class="m-2 w-100"
             placeholder="Seleccione producción"
             size="large"
-          filterable
+            filterable
           >
             <el-option
               v-for="item in producciones"
@@ -125,6 +125,8 @@
 <script>
 import api from "@/api/index.js";
 import { useRoute } from "vue-router";
+import { verificarSesion } from "@/scripts/Sesion.js";
+import { ElMessage } from "element-plus";
 export default {
   data() {
     return {
@@ -169,16 +171,39 @@ export default {
         });
         this.cargando = false;
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener la venta");
+        }
       }
     },
     async obtenerProductos() {
-      const respuesta = await api.obtenerProductos();
-      this.productos = respuesta.data;
+      try {
+        const respuesta = await api.obtenerProductos();
+        this.productos = respuesta.data;
+      } catch (error) {
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener los productos");
+        }
+      }
     },
     async obtenerTodasProducciones() {
-      const respuesta = await api.obtenerTodasProducciones();
-      this.producciones = respuesta.data;
+      try {
+        const respuesta = await api.obtenerTodasProducciones();
+        this.producciones = respuesta.data;
+      } catch (error) {
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener las producciones");
+        }
+      }
     },
     async agregarDetalleVenta(data) {
       data.sale = this.venta._id;
@@ -198,7 +223,12 @@ export default {
         // Actualizar la venta
         this.actualizarVenta(this.venta._id);
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al agregar el detalle de venta");
+        }
       }
       this.cargando = false;
     },
@@ -208,7 +238,12 @@ export default {
         const respuesta = await api.obtenerVenta(id);
         this.venta = respuesta.data;
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al actualizar la venta");
+        }
       }
       this.cargando = false;
     },
@@ -222,7 +257,12 @@ export default {
         // Actualizar la venta
         this.actualizarVenta(this.venta._id);
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al eliminar el detalle de venta");
+        }
       }
       this.cargando = false;
     },

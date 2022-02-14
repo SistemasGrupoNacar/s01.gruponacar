@@ -191,6 +191,7 @@ import Grafica from "@/components/Grafica.vue";
 import { ElMessage } from "element-plus";
 // Importar icono de element-ui
 import { SortUp, SortDown } from "@element-plus/icons-vue";
+import { verificarSesion } from "@/scripts/Sesion.js";
 export default {
   components: { Grafica, SortUp, SortDown },
   data() {
@@ -241,6 +242,7 @@ export default {
         this.ingresos = respuesta.data;
       } catch (error) {
         if (error.response) {
+          verificarSesion(error);
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al realizar la petición, intente nuevamente.");
@@ -260,9 +262,12 @@ export default {
           this.ingresos = respuesta.data;
         } catch (error) {
           if (error.response) {
+            verificarSesion(error);
             ElMessage.error(error.response.data.message);
           } else {
-          ElMessage.error("Error al realizar la petición, intente nuevamente.");
+            ElMessage.error(
+              "Error al realizar la petición, intente nuevamente."
+            );
           }
         }
       } else {

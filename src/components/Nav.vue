@@ -1,118 +1,193 @@
 <template>
-  <div class="dropdown">
-    <input type="checkbox" id="dropdown" />
-
-    <label class="dropdown__face" for="dropdown">
-      <div class="dropdown__text">Sub menu</div>
-
-      <div class="dropdown__arrow"></div>
-    </label>
-
-    <ul class="dropdown__items">
-      <li>Producciones</li>
-      <li>Perfil</li>
-      <li>Herramientas</li>
-    </ul>
-  </div>
-
-  <svg>
-    <filter id="goo">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-      <feColorMatrix
-        in="blur"
-        type="matrix"
-        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
-        result="goo"
+  <nav class="_nav">
+    <div class="_nav-brand h-100 _w-25">
+      <img :src="require('@/assets/illustrations/options.svg')" alt="Logo" />
+      <span>Texto extra</span>
+    </div>
+    <div
+      class="_nav-options"
+      :class="{
+        '_nav-options-show': mostrarElementosMenu,
+      }"
+    >
+      <ul>
+        <router-link
+          class="_nav-item"
+          v-for="(item, index) in rutas"
+          :key="index"
+          :to="item.direccion"
+        >
+          {{ item.nombre }}
+          <ul class="position-absolute d-none">
+            <li class="position-absolute top-0 right0">asdasdasd</li>
+          </ul>
+        </router-link>
+      </ul>
+    </div>
+    <div class="_nav-burger">
+      <img
+        :src="require('@/assets/icons/menus.png')"
+        alt="burger-menu-icon"
+        class="nav-burger"
+        ref="burger"
+        v-on:click="cambiarEstadoElementosMenu"
       />
-      <feBlend in="SourceGraphic" in2="goo" />
-    </filter>
-  </svg>
+    </div>
+  </nav>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      mostrarElementosMenu: true,
+      rutas: [
+        {
+          direccion: "/",
+          nombre: "Inicio",
+          poseeDerivaciones: false,
+        },
+        {
+          direccion: "",
+          nombre: "Inventario",
+          poseeDerivaciones: true,
+          derivaciones: [
+            {
+              direccion: "/inventario/productos",
+              nombre: "Productos",
+            },
+            {
+              direccion: "/inventario/insumos",
+              nombre: "Insumos",
+            },
+          ],
+        },
+        {
+          direccion: "",
+          nombre: "Movimientos",
+          poseeDerivaciones: true,
+          derivaciones: [
+            {
+              direccion: "/movimientos/ingresos",
+              nombre: "Ingresos",
+            },
+            {
+              direccion: "/movimientos/egresos",
+              nombre: "Egresos",
+            },
+            {
+              direccion: "/movimientos/ventas",
+              nombre: "Ventas",
+            },
+            {
+              direccion: "/movimientos/extra",
+              nombre: "Extras",
+            },
+          ],
+        },
+        {
+          direccion: "/producciones",
+          nombre: "Producciones",
+          poseeDerivaciones: false,
+        },
+        {
+          direccion: "/perfil",
+          nombre: "Perfil",
+          poseeDerivaciones: false,
+        },
+      ],
+    };
+  },
+  methods: {
+    cambiarEstadoElementosMenu() {
+      this.mostrarElementosMenu = !this.mostrarElementosMenu;
+    },
+  },
+};
 </script>
 <style lang="scss">
-.dropdown {
-  position: relative;
-  width: 230px;
-  filter: url(#goo);
-
-  &__face,
-  &__items {
-    background-color: #fff;
-    padding: 5px 15px;
-    border-radius: 1px;
-  }
-
-  &__face {
-    display: block;
-    position: relative;
-  }
-
-  &__items {
-    margin: 0;
-    position: absolute;
-    right: 0;
-    top: 50%;
-    width: 100%;
-    list-style: none;
-    list-style-type: none;
+._nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  min-height: 7vh;
+}
+._nav-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #000;
+  height: 100%;
+  margin: 12px 0px;
+  background: rebeccapurple;
+}
+._nav-options {
+  display: none;
+  text-align: start;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  ul {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    visibility: hidden;
-    z-index: -1;
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.93, 0.88, 0.1, 0.8);
-
-    &::before {
-      content: "";
-      background-color: #fff;
-      position: absolute;
-      bottom: 100%;
-      right: 20%;
-      height: 40px;
-      width: 20px;
-    }
-  }
-
-  &__arrow {
-    border-bottom: 2px solid #000;
-    border-right: 2px solid #000;
-    position: absolute;
-    top: 50%;
-    right: 30px;
-    width: 10px;
-    height: 10px;
-    transform: rotate(45deg) translateY(-50%);
-    transform-origin: right;
-  }
-
-  input {
-    display: none;
-
-    &:checked ~ .dropdown__items {
-      top: calc(100% + 25px);
-      visibility: visible;
-      opacity: 1;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0;
+    ._nav-item {
+      display: block;
+      text-align: start;
+      list-style: none;
+      padding: 0.5rem 0;
+      font-size: 1rem;
+      transition: 0.5s ease;
+      text-decoration: none;
+      color: var(--gray);
+      &:hover {
+        color: var(--color-primary) !important;
+      }
     }
   }
 }
-
-body {
-  background-image: linear-gradient(140deg, #e2e2e2, #cdcdcd);
-  display: grid;
-  place-items: center;
-  font-family: "Lato", Arial, sans-serif;
-  height: 100vh;
-  margin: 0;
+._nav-options-show {
+  display: flex;
 }
-
-* {
-  box-sizing: border-box;
+.nav-burger {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  visibility: visible;
 }
-
-svg {
-  display: none;
+@media (min-width: 768px) {
+  ._nav {
+    flex-direction: row;
+    min-height: 10vh;
+  }
+  .nav-burger {
+    visibility: hidden !important;
+  }
+  ._nav-options {
+    visibility: visible;
+    min-width: 50%;
+    ul {
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      ._nav-item {
+        margin: 0;
+        padding: 5px 8px !important;
+        font-size: 1rem;
+      }
+    }
+  }
 }
 </style>

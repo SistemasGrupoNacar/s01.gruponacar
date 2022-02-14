@@ -11,7 +11,7 @@
               v-model="nuevoMovimientoExtra.type_move"
               placeholder="Seleccione tipo de movimiento"
               class="w-100"
-          filterable
+              filterable
             >
               <el-option
                 v-for="item in listadoTiposMovimiento"
@@ -66,6 +66,7 @@
 <script>
 import api from "@/api/index.js";
 import { ElMessage } from "element-plus";
+import { verificarSesion } from "@/scripts/Sesion.js";
 export default {
   data() {
     return {
@@ -95,7 +96,12 @@ export default {
             : (tipo.title_es = "Egreso");
         });
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener tipos de movimientos");
+        }
       }
       this.cargando = false;
     },
@@ -106,7 +112,12 @@ export default {
           await api.crearMovimientoExtra(nuevoMovimientoExtra);
           this.$router.push("/movimientos/extra");
         } catch (error) {
-          console.log(error);
+          if (error.response) {
+            verificarSesion(error);
+            ElMessage.error(error.response.data.message);
+          } else {
+            ElMessage.error("Error al crear movimiento extra");
+          }
         }
         this.cargando = false;
       } else {

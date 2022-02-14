@@ -11,7 +11,7 @@
           style="width: 100%"
           max-height="400"
         >
-          <el-table-column  prop="_id" label="ID" width="200" />
+          <el-table-column prop="_id" label="ID" width="200" />
           <el-table-column
             prop="inventory_product.name"
             label="Producto"
@@ -19,11 +19,15 @@
           />
 
           <el-table-column prop="quantity" label="Cantidad" width="90" />
-          
-          <el-table-column prop="unit_price_format" label="Precio Unitario" width="120" />
+
+          <el-table-column
+            prop="unit_price_format"
+            label="Precio Unitario"
+            width="120"
+          />
           <el-table-column prop="total_format" label="Total" width="120" />
           <el-table-column prop="date_format" label="Fecha" min-width="150" />
-          
+
           <el-table-column fixed="right" label="Operacion" width="100">
             <template #default="scope">
               <el-button
@@ -41,6 +45,8 @@
 <script>
 import { Delete } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
+import { verificarSesion } from "@/scripts/Sesion.js";
+import { ElMessage } from "element-plus";
 
 export default {
   data() {
@@ -62,7 +68,12 @@ export default {
         const respuesta = await api.obtenerTodosHistorialEntradaInsumos();
         this.listadoHistorialEntradaInsumos = respuesta.data;
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener las entradas de insumos");
+        }
       }
       this.cargando = false;
     },
@@ -71,7 +82,12 @@ export default {
         await api.eliminarEntradaInsumo(item._id);
         this.obtenerHistorialEntradaInsumos();
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al eliminar la entrada de insumo");
+        }
       }
     },
   },

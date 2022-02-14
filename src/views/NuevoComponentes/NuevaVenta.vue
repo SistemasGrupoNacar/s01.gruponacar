@@ -30,7 +30,7 @@
             class="m-2 w-100"
             placeholder="Seleccione producto"
             size="large"
-          filterable
+            filterable
           >
             <el-option
               v-for="item in productos"
@@ -46,7 +46,7 @@
             class="m-2 w-100"
             placeholder="Seleccione producción"
             size="large"
-          filterable
+            filterable
           >
             <el-option
               v-for="item in producciones"
@@ -126,6 +126,7 @@
 import api from "@/api/index.js";
 import { fechaActual } from "@/scripts/Fechas.js";
 
+import { verificarSesion } from "@/scripts/Sesion.js";
 import { ElMessage } from "element-plus";
 export default {
   data() {
@@ -147,16 +148,43 @@ export default {
   },
   methods: {
     async cancelarVenta() {
-      await api.cancelarVenta(this.venta._id);
-      this.$router.push("/movimientos/ventas");
+      try {
+        await api.cancelarVenta(this.venta._id);
+        this.$router.push("/movimientos/ventas");
+      } catch (error) {
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al cancelar venta");
+        }
+      }
     },
     async obtenerProductos() {
-      const respuesta = await api.obtenerProductos();
-      this.productos = respuesta.data;
+      try {
+        const respuesta = await api.obtenerProductos();
+        this.productos = respuesta.data;
+      } catch (error) {
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener productos");
+        }
+      }
     },
     async obtenerTodasProducciones() {
-      const respuesta = await api.obtenerTodasProducciones();
-      this.producciones = respuesta.data;
+      try {
+        const respuesta = await api.obtenerTodasProducciones();
+        this.producciones = respuesta.data;
+      } catch (error) {
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener producciones");
+        }
+      }
     },
     calcularTotal() {
       // Redondear a 2 decimales
@@ -190,10 +218,12 @@ export default {
         // Actualizar la venta
         this.actualizarVenta(this.venta._id);
       } catch (error) {
-        ElMessage({
-          message: "Error al agregar producto",
-          type: "error",
-        });
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al agregar detalle de venta");
+        }
       }
       this.cargando = false;
     },
@@ -204,10 +234,12 @@ export default {
         const respuesta = await api.obtenerVenta(id);
         this.venta = respuesta.data;
       } catch (error) {
-        ElMessage({
-          message: "Error al actualizar la venta",
-          type: "error",
-        });
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener venta");
+        }
       }
       this.cargando = false;
     },
@@ -222,10 +254,12 @@ export default {
         // Actualizar la venta
         this.actualizarVenta(this.venta._id);
       } catch (error) {
-        ElMessage({
-          message: "No se pudo eliminar la venta",
-          type: "error",
-        });
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al eliminar detalle de venta");
+        }
       }
       this.cargando = false;
     },
@@ -273,10 +307,12 @@ export default {
       this.obtenerTodasProducciones();
       this.cargando = false;
     } catch (error) {
-      ElMessage({
-        message: "No se pudo crear la venta",
-        type: "error",
-      });
+      if (error.response) {
+        verificarSesion(error);
+        ElMessage.error(error.response.data.message);
+      } else {
+        ElMessage.error("Error al crear venta");
+      }
     }
   },
 };

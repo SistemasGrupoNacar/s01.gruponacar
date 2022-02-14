@@ -21,7 +21,7 @@
     <el-main v-loading="cargando">
       <div class="min-h-50">
         <el-table :data="listadoHistorialMovimientosExtra" style="width: 100%">
-          <el-table-column  prop="_id" label="ID" width="120" />
+          <el-table-column prop="_id" label="ID" width="120" />
           <el-table-column prop="type_move.title" label="Tipo" width="150" />
           <el-table-column prop="total" label="Total" width="120" />
           <el-table-column prop="date" label="Fecha" width="120" />
@@ -45,7 +45,7 @@
 <script>
 import { Plus, Delete } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
-
+import { verificarSesion } from "@/scripts/Sesion.js";
 import { ElMessage } from "element-plus";
 export default {
   components: {
@@ -67,26 +67,13 @@ export default {
       try {
         const respuesta = await api.obtenerTodosMovimientosExtra();
         this.listadoHistorialMovimientosExtra = respuesta.data;
-        this.listadoHistorialMovimientosExtra.map((item) => {
-          // Convertir el total a dolar
-          item.total = item.total.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-          });
-          // Agregar titulo en español
-          if (item.type_move.title === "ingress") {
-            item.type_move.title = "Ingreso";
-          } else {
-            item.type_move.title = "Egreso";
-          }
-          // Convertir fecha a local
-          item.date = new Date(item.date).toLocaleString("es-ES", {
-            timeZone: "America/El_Salvador",
-            hour12: true,
-          });
-        });
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener los movimientos extra");
+        }
       }
       this.cargando = false;
     },
@@ -103,7 +90,12 @@ export default {
           type: "success",
         });
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al eliminar el movimiento extra");
+        }
       }
       this.cargando = false;
     },

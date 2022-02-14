@@ -11,8 +11,12 @@
           style="width: 100%"
           max-height="400"
         >
-          <el-table-column  prop="_id" label="ID" width="120" />
-          <el-table-column prop="product.name" label="Producto" min-width="170" />
+          <el-table-column prop="_id" label="ID" width="120" />
+          <el-table-column
+            prop="product.name"
+            label="Producto"
+            min-width="170"
+          />
           <el-table-column
             prop="production._id"
             label="Producción"
@@ -40,6 +44,8 @@
 <script>
 import { Delete } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
+import { verificarSesion } from "@/scripts/Sesion.js";
+import { ElMessage } from "element-plus";
 export default {
   data() {
     return {
@@ -57,7 +63,12 @@ export default {
         const respuesta = await api.obtenerTodosHistorialCosecha();
         this.listadoHistorialCosecha = respuesta.data;
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener el historial de cosechas.");
+        }
       }
       this.cargando = false;
     },
@@ -66,7 +77,12 @@ export default {
         await api.eliminarHistorialCosecha(data._id);
         this.obtenerHistorialCosecha();
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al eliminar el historial de cosecha.");
+        }
       }
     },
   },

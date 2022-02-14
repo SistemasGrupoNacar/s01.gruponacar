@@ -21,7 +21,7 @@
             v-model="nuevoGastoInsumo.inventory_product"
             placeholder="Seleccione insumo"
             class="w-100"
-          filterable
+            filterable
           >
             <el-option
               v-for="item in listadoInsumos"
@@ -75,6 +75,7 @@
 <script>
 import api from "@/api/index.js";
 import { ElMessage } from "element-plus";
+import { verificarSesion } from "@/scripts/Sesion.js";
 export default {
   data() {
     return {
@@ -100,7 +101,12 @@ export default {
         const respuesta = await api.obtenerInsumos();
         this.listadoInsumos = respuesta.data;
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener los insumos");
+        }
       }
       this.cargando = false;
     },
@@ -125,14 +131,10 @@ export default {
           this.$router.push("/producciones");
         } catch (error) {
           if (error.response) {
-            ElMessage.error({
-              message: error.response.data.message,
-            });
-            console.log(error.response.data);
+            verificarSesion(error);
+            ElMessage.error(error.response.data.message);
           } else {
-            ElMessage.error({
-              message: "Error al realizar la petición",
-            });
+            ElMessage.error("Error al agregar el gasto de insumo");
           }
         }
       } else {

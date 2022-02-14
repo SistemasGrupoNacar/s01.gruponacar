@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import api from "@/api/index.js";
 
 const routes = [
   {
@@ -172,18 +171,7 @@ function verifyLoggedUser(to, from, next) {
   if (localStorage.getItem("jwt")) isAuthenticated = true;
   else isAuthenticated = false;
   if (isAuthenticated) {
-    // Probando si el token no esta vencido
-    api
-      .verificarToken()
-      .then((response) => {
-        if (response.status == 200) {
-          next();
-        }
-      })
-      .catch(() => {
-        localStorage.removeItem("jwt");
-        next("/login");
-      });
+    next();
   } else {
     next("/login"); // go to '/login';
   }

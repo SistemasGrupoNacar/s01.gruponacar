@@ -1,12 +1,12 @@
 <template>
-  <nav-bar />
+  <nav-b />
   <router-view class="pt-3" />
 </template>
 <script>
-import NavBar from "../components/NavBar.vue";
+import NavB from "../components/NavBar.vue";
 export default {
   components: {
-    NavBar,
+    NavB,
   },
 };
 </script>

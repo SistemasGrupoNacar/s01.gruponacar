@@ -13,7 +13,7 @@
             v-model="nuevoIngresoInsumo.inventory_product"
             placeholder="Seleccione insumo"
             class="w-100"
-          filterable
+            filterable
           >
             <el-option
               v-for="item in listadoInsumos"
@@ -74,6 +74,8 @@
 </template>
 <script>
 import api from "@/api/index.js";
+import { verificarSesion } from "@/scripts/Sesion.js";
+import { ElMessage } from "element-plus";
 export default {
   data() {
     return {
@@ -98,7 +100,12 @@ export default {
         const respuesta = await api.obtenerTodosInsumos();
         this.listadoInsumos = respuesta.data;
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener los insumos");
+        }
       }
       this.cargando = false;
     },
@@ -121,7 +128,12 @@ export default {
         alert("Ingreso de Insumo creado con id: " + respuesta.data._id);
         this.$router.push({ name: "Insumos" });
       } catch (error) {
-        console.log(error);
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al crear el ingreso de insumo");
+        }
       }
       this.cargando = false;
     },

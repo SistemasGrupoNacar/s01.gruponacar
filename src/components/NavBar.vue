@@ -8,8 +8,8 @@
       v-on:click="cambiarEstadoElementosMenu"
     />
     <div class="user-info">
-      <span class="_semi-bold" v-if="obtenerUsuario() != null">
-        {{ obtenerUsuario() }}
+      <span class="_semi-bold" v-if="usuario != null">
+        {{ usuario }}
       </span>
       <p class="text-muted" v-else>G-NACAR</p>
     </div>
@@ -36,11 +36,16 @@
   </nav>
 </template>
 <script>
+import {
+  obtenerNombreDeUsuarioIniciales,
+  obtenerNombreDeUsuario,
+} from "@/scripts/Sesion.js";
 export default {
   data() {
     return {
       mostrarElementosMenu: false,
       rutaActual: "",
+      usuario: null,
       rutas: [
         {
           direccion: "/",
@@ -99,8 +104,13 @@ export default {
     };
   },
   methods: {
-    obtenerUsuario() {
-      return "Javier Morales";
+    async obtenerUsuario() {
+      this.usuario = await obtenerNombreDeUsuario();
+      return;
+    },
+    async obtenerUsuarioIniciales() {
+      this.usuario = await obtenerNombreDeUsuarioIniciales();
+      return;
     },
     cambiarEstadoElementosMenu() {
       if (window.innerWidth < 768) {
@@ -113,6 +123,9 @@ export default {
       // verificar si se mira desde telefono o computadora
       if (window.innerWidth >= 768) {
         this.mostrarElementosMenu = true;
+        this.obtenerUsuario();
+      } else {
+        this.obtenerUsuarioIniciales();
       }
     });
     // Modificar $route

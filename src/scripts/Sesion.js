@@ -1,3 +1,5 @@
+const { getPayloadToken } = require("@/scripts/Token.js");
+
 const verificarSesion = (err) => {
   if (err.response.status === 401) {
     localStorage.removeItem("jwt");
@@ -11,6 +13,27 @@ const verificarSesion = (err) => {
   return;
 };
 
+const obtenerNombreDeUsuario = async () => {
+  let jwt = await getPayloadToken();
+  if (jwt != null) {
+    return `${jwt.firstName.split(" ")[0]} ${jwt.lastName.split(" ")[0]}`;
+  } else {
+    return null;
+  }
+};
+
+const obtenerNombreDeUsuarioIniciales = async () => {
+  let jwt = await getPayloadToken();
+  if (jwt != null) {
+    console.log(`${jwt.firstName.slice(" ")[0]} ${jwt.lastName.slice(" ")[0]}`);
+    return `${jwt.firstName.slice(" ")[0]}${jwt.lastName.slice(" ")[0]}`;
+  } else {
+    return null;
+  }
+};
+
 module.exports = {
   verificarSesion,
+  obtenerNombreDeUsuario,
+  obtenerNombreDeUsuarioIniciales,
 };

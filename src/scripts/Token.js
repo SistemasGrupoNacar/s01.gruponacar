@@ -36,7 +36,7 @@ const getPayloadToken = async () => {
   if (token != null) {
     return jwt.decode(token);
   } else {
-    return;
+    return null;
   }
 };
 module.exports = {

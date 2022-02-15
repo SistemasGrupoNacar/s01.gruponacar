@@ -709,6 +709,20 @@ async function cambiarContrasena(data) {
   });
 }
 
+// Obtener datos del panel
+async function obtenerDatosPanel() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/panel")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   iniciarSesion,
   verificarToken,
@@ -758,4 +772,5 @@ export default {
   obtenerLugares,
   crearProduccion,
   cambiarContrasena,
+  obtenerDatosPanel,
 };

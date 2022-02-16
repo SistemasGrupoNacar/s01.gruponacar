@@ -5,7 +5,7 @@
     prefix="$"
     :data="datos"
     class="w-100"
-    :colors="['#409EFF', '#666']"
+    :colors="['#114B5F', '#2d2d2d']"
   ></line-chart>
 </template>
 <script>

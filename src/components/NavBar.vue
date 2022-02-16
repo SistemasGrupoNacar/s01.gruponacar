@@ -17,10 +17,9 @@
       <router-link
         v-for="(item, index) in rutas"
         :key="index"
-        class="link _semi-bold _link position-relative"
+        class="link _semi-bold _link position-relative link-upper"
         :to="item.direccion"
         :class="{ active: item.direccion == rutaActual }"
-        v-on:click="cambiarEstadoElementosMenu()"
         >{{ item.nombre }}
         <div class="_dropdown" v-if="item.poseeDerivaciones">
           <router-link
@@ -191,7 +190,7 @@ export default {
 }
 
 ._dropdown {
-  display: block;
+  display: none;
   position: relative;
   margin: 0;
   left: 0;
@@ -208,8 +207,10 @@ export default {
   display: block;
   font-size: 1.1rem;
   margin: 10px 0;
+}
 
-  &:hover div {
+.link-upper {
+  &:hover ._dropdown {
     display: block;
   }
 }

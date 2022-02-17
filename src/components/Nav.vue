@@ -1,6 +1,6 @@
 <template>
   <nav class="_nav">
-    <div class=""><span class="_bold">Grupo NACAR</span></div>
+    <div class="_nav-brand"><span class="_bold">Grupo NACAR</span></div>
     <img
       :src="imagen"
       alt="burger-menu-icon"
@@ -15,7 +15,6 @@
           class="w-100"
           filterable
           remote
-          reserve-keyword
           placeholder="Escriba ruta a buscar"
           :remote-method="buscarRuta"
           :loading="cargando"
@@ -29,19 +28,31 @@
           </el-option>
         </el-select>
       </div>
-      <div class="my-3 my-md-0 p-0 d-flex align-items-center position-relative">
+      <div
+        class="_nav-actions-links my-3 my-md-0 p-0 d-flex flex-row flex-md-column align-items-end justify-content-md-start"
+      >
         <img
           v-if="!isMobile"
-          :src="require('@/assets/illustrations/options-vertical.svg')"
+          :src="imagenSubMenu"
           alt="Opciones"
+          class="_nav-actions-links-option"
+          v-on:click.prevent="cambiarEstadoMostrarSubMenu()"
         />
-        <ul class="" v-show="isMobile" >
-          <li>Primer</li>
-          <li>Segundo</li>
-          <li>Tercero</li>
-          <li>Cuarto</li>
-          <li>Quinto</li>
-        </ul>
+        <div
+          class="_nav-actions-links-items px-0 px-lg-3"
+          v-show="mostrarSubMenu || isMobile"
+        >
+          <ul class="p-0">
+            <li v-for="(item, index) in rutasGrupos" :key="index">
+              <p class="my-0 _bold _text-small">{{ index }}</p>
+              <div class="px-1" v-for="(item2, index2) in item" :key="index2">
+                <router-link class="_link" :to="item2.url">{{
+                  item2.nombre
+                }}</router-link>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
@@ -56,14 +67,16 @@ export default {
     return {
       cargando: false,
       imagen: require("@/assets/illustrations/flecha-abajo.svg"),
+      imagenSubMenu: require("@/assets/illustrations/flecha-abajo.svg"),
       isMobile: true,
       rutaSeleccionada: "",
       mostrarMenu: false,
+      mostrarSubMenu: false,
       rutas: [
         {
           nombre: "Panel de control",
           url: "/",
-          grupo: "",
+          grupo: "General",
           palabras: [
             "panel",
             "control",
@@ -134,6 +147,7 @@ export default {
         },
       ],
       rutasCoincidentes: [],
+      rutasGrupos: [],
     };
   },
   created() {
@@ -142,6 +156,14 @@ export default {
       this.mostrarMenu = true;
       this.isMobile = false;
     }
+
+    //Agrupar las rutas
+    this.rutasGrupos = this.rutas.reduce((group, ruta) => {
+      const { grupo } = ruta;
+      group[grupo] = group[grupo] ?? [];
+      group[grupo].push(ruta);
+      return group;
+    }, {});
   },
   methods: {
     cambiarEstadoMostrarMenu() {
@@ -150,6 +172,14 @@ export default {
         this.imagen = require("@/assets/illustrations/flecha-arriba.svg");
       } else if (!this.mostrarMenu && this.isMobile) {
         this.imagen = require("@/assets/illustrations/flecha-abajo.svg");
+      }
+    },
+    cambiarEstadoMostrarSubMenu() {
+      this.mostrarSubMenu = !this.mostrarSubMenu;
+      if (this.mostrarSubMenu) {
+        this.imagenSubMenu = require("@/assets/illustrations/flecha-arriba.svg");
+      } else if (!this.mostrarSubMenu && this.isMobile) {
+        this.imagenSubMenu = require("@/assets/illustrations/flecha-abajo.svg");
       }
     },
     buscarRuta(palabraBusqueda) {
@@ -200,7 +230,7 @@ export default {
   justify-content: space-between;
   background-color: var(--white);
   padding: 1rem;
-  z-index: 99;
+  z-index: 199;
   height: auto;
 }
 
@@ -209,6 +239,39 @@ export default {
   margin: 0 auto;
 }
 
+._nav-actions-links {
+  width: 100%;
+
+  ._nav-actions-links-items {
+    border-radius: 0;
+    width: 100%;
+    font-size: 1rem;
+    letter-spacing: 0.2px;
+    line-height: 25px;
+    list-style: none;
+    margin: 0;
+    padding: 0 1rem;
+    background: var(--white);
+    // box shadow only bottom
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+    text-align: start;
+    ul {
+      li {
+        list-style: none;
+        margin: 5px 0;
+        &:hover {
+          color: var(--primary);
+        }
+        ._link {
+          color: var(--black);
+          cursor: pointer;
+          font-size: 1.1rem;
+          letter-spacing: -0.5px;
+        }
+      }
+    }
+  }
+}
 ._nav-burger {
   display: block;
   width: 32px;
@@ -224,6 +287,10 @@ export default {
   ._nav {
   }
 
+  ._nav-brand {
+    width: 33.33%;
+  }
+
   ._nav-actions {
     display: flex;
     position: unset;
@@ -236,12 +303,23 @@ export default {
     display: none;
   }
   ._nav-actions-search {
-    width: 60%;
+    width: 33.33%;
     margin: 0 auto;
   }
 
+  ._nav-actions-links {
+    width: 33.33%;
+  }
   ._nav-burger {
     display: none !important;
+  }
+  ._link {
+    font-size: 1rem;
+  }
+  ._nav-actions-links-items {
+    text-align: start;
+    max-width: 200px;
+    border-radius: 5px !important;
   }
 }
 </style>

@@ -15,7 +15,7 @@
           class="w-100"
           filterable
           remote
-          placeholder="Escriba ruta a buscar"
+          placeholder="Escriba apartado a buscar"
           :remote-method="buscarRuta"
           :loading="cargando"
         >
@@ -46,10 +46,19 @@
             <li v-for="(item, index) in rutasGrupos" :key="index">
               <p class="my-0 _bold _text-small">{{ index }}</p>
               <div class="px-1" v-for="(item2, index2) in item" :key="index2">
-                <router-link class="_link" :to="item2.url">{{
-                  item2.nombre
-                }}</router-link>
+                <router-link
+                  class="_link"
+                  :to="item2.url"
+                  v-on:click.prevent="cambiarRuta()"
+                  >{{ item2.nombre }}</router-link
+                >
               </div>
+            </li>
+            <hr />
+            <li>
+              <p class="_bold _link" v-on:click.prevent="cerrarSesion()">
+                Cerrar Sesi&oacute;n
+              </p>
             </li>
           </ul>
         </div>
@@ -59,6 +68,7 @@
 </template>
 <script>
 //import { Search } from "@element-plus/icons-vue";
+import { removeToken } from "@/scripts/Token";
 export default {
   components: {
     //Search,
@@ -118,7 +128,7 @@ export default {
         },
         {
           nombre: "Extras",
-          url: "/movimientos/extras",
+          url: "/movimientos/extra",
           grupo: "Movimientos",
           palabras: ["extras", "extra"],
         },
@@ -178,7 +188,7 @@ export default {
       this.mostrarSubMenu = !this.mostrarSubMenu;
       if (this.mostrarSubMenu) {
         this.imagenSubMenu = require("@/assets/illustrations/flecha-arriba.svg");
-      } else if (!this.mostrarSubMenu && this.isMobile) {
+      } else if (!this.mostrarSubMenu) {
         this.imagenSubMenu = require("@/assets/illustrations/flecha-abajo.svg");
       }
     },
@@ -194,6 +204,17 @@ export default {
         this.rutasCoincidentes = [];
       }
       this.cargando = false;
+    },
+    cambiarRuta() {
+      if (!this.isMobile) {
+        this.mostrarSubMenu = !this.mostrarSubMenu;
+      } else {
+        this.mostrarMenu = !this.mostrarMenu;
+      }
+    },
+    async cerrarSesion() {
+      await removeToken();
+      this.$router.push("/login");
     },
   },
   watch: {
@@ -215,6 +236,7 @@ export default {
   align-items: center;
   flex-direction: row;
   height: 10vh;
+  min-height: 70px;
   padding: 0 2rem;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
   position: relative;

@@ -20,15 +20,23 @@
     </p>
     <el-main v-loading="cargando">
       <div class="min-h-50">
-        <el-table :data="listadoHistorialMovimientosExtra" style="width: 100%">
+        <el-table
+          :data="listadoHistorialMovimientosExtra"
+          style="width: 100%"
+          max-height="700"
+        >
           <el-table-column prop="_id" label="ID" width="120" />
-          <el-table-column prop="type_move.title" label="Tipo" width="150" />
-          <el-table-column prop="total" label="Total" width="120" />
-          <el-table-column prop="date" label="Fecha" width="120" />
+          <el-table-column
+            prop="type_move.title_translate"
+            label="Tipo"
+            width="150"
+          />
+          <el-table-column prop="total_format" label="Total" width="120" />
+          <el-table-column prop="date_format" label="Fecha" width="150" />
           <el-table-column
             prop="description"
             label="Descripción"
-            min-width="150"
+            min-width="250"
           />
           <el-table-column fixed="right" label="Operacion" width="100">
             <template #default="scope">

@@ -36,6 +36,22 @@
   background-color: var(--dark-white) !important;
 }
 
+._color-primary {
+  color: var(--color-primary) !important;
+}
+
+._color-secondary {
+  color: var(--color-secondary) !important;
+}
+
+._color-white {
+  color: var(--white) !important;
+}
+
+._color-black {
+  color: var(--black) !important;
+}
+
 ._c-white {
   color: var(--white) !important;
 }
@@ -147,6 +163,10 @@
 }
 ._h-100 {
   height: 100vh;
+}
+
+._h-90 {
+  height: 90vh;
 }
 ._hv-100 {
   height: 25vh;

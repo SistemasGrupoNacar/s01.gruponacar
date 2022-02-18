@@ -9,9 +9,9 @@
         <el-table
           :data="listadoHistorialCosecha"
           style="width: 100%"
-          max-height="400"
+          max-height="700"
         >
-          <el-table-column prop="_id" label="ID" width="120" />
+          <el-table-column prop="_id" label="ID" width="200" />
           <el-table-column
             prop="product.name"
             label="Producto"

@@ -9,7 +9,7 @@
         <el-table
           :data="listadoHistorialEntradaInsumos"
           style="width: 100%"
-          max-height="400"
+          max-height="700"
         >
           <el-table-column prop="_id" label="ID" width="200" />
           <el-table-column

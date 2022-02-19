@@ -1,6 +1,8 @@
 <template>
   <nav class="_nav">
-    <div class="_nav-brand"><span class="_bold">Grupo NACAR</span></div>
+    <div class="_nav-brand">
+      <span class="_bold">Grupo NACAR</span>
+    </div>
     <img
       :src="imagen"
       alt="burger-menu-icon"
@@ -42,7 +44,7 @@
           class="_nav-actions-links-items px-0 px-lg-3"
           v-show="mostrarSubMenu || isMobile"
         >
-          <ul class="p-0">
+          <ul class="px-0 px-md-4">
             <li v-for="(item, index) in rutasGrupos" :key="index">
               <p class="my-0 _bold _text-small">{{ index }}</p>
               <div class="px-1" v-for="(item2, index2) in item" :key="index2">
@@ -144,17 +146,6 @@ export default {
           grupo: "Usuario",
           palabras: ["perfil", "perfiles", "cuenta", "cuentas", "yo"],
         },
-        {
-          nombre: "Cambiar contraseña",
-          url: "/perfil/cambiar-contrasena",
-          grupo: "Usuario",
-          palabras: [
-            "contraseña",
-            "contraseñas",
-            "cambiar",
-            "cambiar contraseña",
-          ],
-        },
       ],
       rutasCoincidentes: [],
       rutasGrupos: [],
@@ -235,21 +226,28 @@ export default {
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  height: 10vh;
+  flex-wrap: wrap;
+  height: auto;
   min-height: 70px;
   padding: 0 2rem;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
   position: relative;
 }
 
+._nav-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  width: 75%;
+}
+
 ._nav-actions {
   display: flex;
-  position: absolute;
-  top: 10vh;
-  right: 0;
   width: 100%;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   background-color: var(--white);
   padding: 1rem;
   z-index: 199;
@@ -289,6 +287,9 @@ export default {
           cursor: pointer;
           font-size: 1.1rem;
           letter-spacing: -0.5px;
+          &:hover {
+            letter-spacing: 0px;
+          }
         }
       }
     }
@@ -310,15 +311,16 @@ export default {
   }
 
   ._nav-brand {
-    width: 33.33%;
+    display: block;
+    width: 33.33% !important;
+    height: auto;
   }
 
   ._nav-actions {
     display: flex;
-    position: unset;
     background-color: transparent;
     flex-direction: row;
-    min-width: 65%;
+    max-width: 65%;
     height: 100%;
   }
   ._nav-actions::after {
@@ -339,8 +341,12 @@ export default {
     font-size: 1rem;
   }
   ._nav-actions-links-items {
+    position: absolute;
+    top: 50px;
+    right: 3rem;
+    padding: 0 15px;
     text-align: start;
-    max-width: 200px;
+    max-width: 250px;
     border-radius: 5px !important;
   }
 }

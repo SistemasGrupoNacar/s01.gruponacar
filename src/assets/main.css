@@ -255,6 +255,14 @@
   align-items: center;
   justify-content: center;
 }
+
+._big-container {
+  height: 80vh;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
 @media (min-width: 768px) {
   ._w-50 {
     width: 50% !important;

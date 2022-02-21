@@ -1,6 +1,6 @@
 <template>
   <el-main v-loading="cargando" class="container">
-    <div class="_big-container">
+    <div class="_big-container _noreverse">
       <div class="_w-50 px-2 px-lg-5 py-2">
         <p class="_bold _text-justify _text-big">
           Detalle de Costo / Beneficio
@@ -55,12 +55,12 @@
         </div>
       </div>
     </div>
-    <div class="_big-container">
+    <div class="_big-container _noreverse">
       <div class="_w-75">
         <p class="_bold _text-justify _text-big">
           Control de ventas en proceso
         </p>
-        <p class="_text-justify">
+        <p class="_text-justify ">
           Espacio para controlar las ventas que no han sido finalizadas y
           requieren de atenci&oacute;n.
         </p>

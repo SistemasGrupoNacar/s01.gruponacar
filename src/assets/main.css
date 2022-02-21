@@ -263,7 +263,7 @@
 ._big-container {
   height: 80vh;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-around;
   border-bottom: 1px solid var(--gray);

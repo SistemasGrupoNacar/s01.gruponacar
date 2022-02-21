@@ -135,7 +135,10 @@ export default {
         const response = await api.obtenerVentas();
         this.ventas = response.data;
         this.ventas.forEach((element) => {
-          element.status = this.formatearEstado(element.status);
+          element.status = this.formatearEstado(
+            element.status,
+            element.pending
+          );
         });
       } catch (error) {
         if (error.response) {
@@ -162,7 +165,10 @@ export default {
               );
               this.ventas = response.data.data;
               this.ventas.forEach((element) => {
-                element.status = this.formatearEstado(element.status);
+                element.status = this.formatearEstado(
+                  element.status,
+                  element.pending
+                );
               });
             } catch (error) {
               if (error.response) {
@@ -178,7 +184,10 @@ export default {
               const response = await api.obtenerVentasTodas();
               this.ventas = response.data;
               this.ventas.forEach((element) => {
-                element.status = this.formatearEstado(element.status);
+                element.status = this.formatearEstado(
+                  element.status,
+                  element.pending
+                );
               });
             } catch (error) {
               if (error.response) {
@@ -202,7 +211,10 @@ export default {
               );
               this.ventas = response.data.data;
               this.ventas.forEach((element) => {
-                element.status = this.formatearEstado(element.status);
+                element.status = this.formatearEstado(
+                  element.status,
+                  element.pending
+                );
               });
             } catch (error) {
               if (error.response) {
@@ -217,7 +229,10 @@ export default {
               const response = await api.obtenerVentas();
               this.ventas = response.data;
               this.ventas.forEach((element) => {
-                element.status = this.formatearEstado(element.status);
+                element.status = this.formatearEstado(
+                  element.status,
+                  element.pending
+                );
               });
             } catch (error) {
               if (error.response) {
@@ -241,11 +256,15 @@ export default {
         fechaFin,
       };
     },
-    formatearEstado(estado) {
+    formatearEstado(estado, pendiente) {
       if (!estado) {
         return "Cancelada";
       } else {
-        return "Activa";
+        if (pendiente) {
+          return "Pendiente";
+        } else {
+          return "Activa";
+        }
       }
     },
   },

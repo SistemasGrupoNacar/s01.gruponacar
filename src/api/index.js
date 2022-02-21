@@ -447,6 +447,34 @@ async function obtenerPrimerosVentas() {
   });
 }
 
+// Obtener ventas pendientes
+async function obtenerVentasPendientes() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/sales/pending")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Finalizar venta (cambiar pending a false)
+async function finalizarVenta(id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(API_URI + "/sales/pending/" + id + "/false")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 // Obtener todas las ventas con rango de fechas
 async function obtenerVentasTodasFecha(fechaInicio, fechaFin) {
   return new Promise((resolve, reject) => {
@@ -753,7 +781,9 @@ export default {
   crearDetalleVenta,
   obtenerVenta,
   eliminarDetalleVenta,
+  finalizarVenta,
   obtenerVentas,
+  obtenerVentasPendientes,
   obtenerVentasTodasFecha,
   obtenerVentasFecha,
   obtenerPrimerosVentas,

@@ -19,8 +19,7 @@
         </el-button>
       </div>
     </div>
-    <hr />
-    <el-main v-loading="cargando" class="w-100">
+    <el-main v-loading="cargando" class="w-100 main">
       <div class="row my-1">
         <div class="col-12 col-lg-4 px-lg-2">
           <p class="_bold">Seleccion de producto</p>
@@ -296,11 +295,23 @@ export default {
             100
         ) / 100;
     },
-    finalizarVenta() {
+    async finalizarVenta() {
       if (this.detalleVenta.length == 0) {
         this.cancelarVenta();
       } else {
-        this.$router.push("/movimientos/ventas");
+        try {
+          this.cargando = true;
+          await api.finalizarVenta(this.venta._id);
+          ElMessage.success("Venta cerrada");
+          this.$router.push("/movimientos/ventas");
+        } catch (error) {
+          if (error.response) {
+            verificarSesion(error);
+            ElMessage.error(error.response.data.message);
+          } else {
+            ElMessage.error("Error al finalizar la venta");
+          }
+        }
       }
     },
   },

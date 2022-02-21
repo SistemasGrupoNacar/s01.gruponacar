@@ -19,7 +19,6 @@
         </el-button>
       </div>
     </div>
-    <hr />
     <el-main v-loading="cargando" class="w-100 main">
       <div class="row my-1">
         <div class="col-12 col-lg-4 px-lg-2">

@@ -55,12 +55,12 @@
         </div>
       </div>
     </div>
-    <div class="_big-container">
+    <div class="_big-container _noreverse">
       <div class="_w-75">
         <p class="_bold _text-justify _text-big">
           Control de ventas en proceso
         </p>
-        <p class="_text-justify">
+        <p class="_text-justify ">
           Espacio para controlar las ventas que no han sido finalizadas y
           requieren de atenci&oacute;n.
         </p>

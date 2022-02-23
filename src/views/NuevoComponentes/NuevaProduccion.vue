@@ -2,7 +2,7 @@
   <div class="container">
     <p class="_title">Nueva Producci&oacute;n</p>
     <p class="_subtitle">Creaci&oacute;n de nueva producci&oacute;n.</p>
-    <el-main v-loading="cargando">
+    <el-main v-loading.fullscreen.lock="cargando">
       <div class="row">
         <div class="col-12 col-md-6 my-2">
           <span class="text-muted">Producto</span>

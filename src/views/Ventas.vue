@@ -13,6 +13,7 @@
     <p class="_title text-start">Detalle de ventas</p>
     <p class="_subtitle text-muted text-start">Listado de ventas realizadas.</p>
     <p class="_semi-bold m-0">Filtros</p>
+
     <div class="d-inline-flex align-items-center mx-2 my-2 my-lg-0">
       Mostrar todas: <el-switch class="mx-2" v-model="filtro.todas" />
     </div>
@@ -27,11 +28,11 @@
         end-placeholder="Fecha de finalizacion"
       ></el-date-picker>
     </div>
-    <el-button type="primary" v-on:click="verificarFiltros()"
+    <el-button class="mx-2" type="primary" v-on:click="verificarFiltros()"
       >Filtrar
     </el-button>
   </div>
-  <el-main v-loading="cargando" class="container">
+  <el-main v-loading.fullscreen.lock="cargando" class="container">
     <el-table :data="ventas" class="_w-75 mx-auto" max-height="700">
       <el-table-column prop="_id" label="ID" width="250" />
       <el-table-column prop="date_format" label="Fecha" width="150" />
@@ -60,31 +61,47 @@
   <el-dialog
     v-model="mostrarDetalle"
     title="Detalle de Venta"
-    :md="4"
+    width="80%"
     :before-close="cerrarDetalle"
     center
+    class="px-0 px-md-5 _text-normal"
   >
-    <span class="_bold">ID: {{ ventaDetalle._id }}</span>
-
-    <el-tag
-      class="mx-2"
-      type="danger"
-      v-if="ventaDetalle.status === 'Cancelada'"
-    >
-      Cancelada</el-tag
-    >
-    <hr class="m-1" />
-    <span class="_semi-bold">Fecha: {{ ventaDetalle.date }}</span>
-    <hr class="m-1" />
-    <span class="_bold">Productos: </span>
-    <div v-for="item in ventaDetalle.detail_sale" :key="item._id" class="mx-1">
-      <p class="m-0 _semi-bold">{{ item.product.name }}</p>
-      <p class="m-0">Cantidad: {{ item.quantity }}</p>
-      <p class="m-0">Precio Unitario: $ {{ item.sub_total }}</p>
-      <p class="m-0">Sub-Total: $ {{ item.total }}</p>
-      <hr class="m-1" />
+    <div class="text-center _border my-2">
+      <p class="_text-big">
+        Numero de Venta: {{ ventaDetalle._id
+        }}<el-tag
+          class="mx-4"
+          type="danger"
+          v-if="ventaDetalle.status === 'Cancelada'"
+        >
+          Cancelada</el-tag
+        >
+      </p>
     </div>
-    <span class="_semi-bold">Total: {{ ventaDetalle.total }}</span>
+    <div class="text-center _border my-2">
+      <p class="_bold _text-normal">Generalidades</p>
+      <p class="_text-normal my-0">Fecha: {{ ventaDetalle.date_format }}</p>
+      <p class="_text-normal mt-0">
+        Estado: {{ ventaDetalle.pending ? "Pendiente" : "Cerrada" }}
+      </p>
+    </div>
+
+    <div class="text-center my-2 _text-normal">
+      <span class="_bold">Productos: </span>
+      <div
+        v-for="item in ventaDetalle.detail_sale"
+        :key="item._id"
+        class="mx-1"
+      >
+        <p class="m-0 _semi-bold">{{ item.product.name }}</p>
+        <p class="m-0">Cantidad: {{ item.quantity }}</p>
+        <p class="m-0">
+          Precio Unitario: $ {{ formatearMoneda(item.sub_total) }}
+        </p>
+        <p class="m-0">Sub-Total: $ {{ formatearMoneda(item.total) }}</p>
+      </div>
+      <span class="_semi-bold">Total: {{ ventaDetalle.total_format }}</span>
+    </div>
   </el-dialog>
 </template>
 <script>
@@ -112,6 +129,12 @@ export default {
     this.obtenerVentas();
   },
   methods: {
+    formatearMoneda(valor) {
+      return valor.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      });
+    },
     nuevaVenta() {
       this.$router.push("/movimientos/ventas/nueva");
     },
@@ -132,7 +155,7 @@ export default {
     async obtenerVentas() {
       this.cargando = true;
       try {
-        const response = await api.obtenerVentas();
+        const response = await api.obtenerVentasHoy();
         this.ventas = response.data;
         this.ventas.forEach((element) => {
           element.status = this.formatearEstado(
@@ -143,6 +166,7 @@ export default {
       } catch (error) {
         if (error.response) {
           verificarSesion(error);
+          console.log(error.response.data);
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error de conexión");
@@ -152,6 +176,7 @@ export default {
     },
     async verificarFiltros() {
       this.cargando = true;
+
       switch (this.filtro.todas) {
         case true:
           if (this.filtro.date.length > 0) {
@@ -226,7 +251,7 @@ export default {
             }
           } else {
             try {
-              const response = await api.obtenerVentas();
+              const response = await api.obtenerVentasHoy();
               this.ventas = response.data;
               this.ventas.forEach((element) => {
                 element.status = this.formatearEstado(
@@ -277,5 +302,12 @@ export default {
   bottom: 10px;
   right: 10px;
   z-index: 10;
+}
+
+._border {
+  border-bottom: 1px solid var(--light-black);
+}
+._text-normal {
+  font-size: 1rem;
 }
 </style>

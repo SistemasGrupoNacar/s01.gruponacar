@@ -4,7 +4,7 @@
     <p class="_subtitle text-muted">
       Listado de ingresos de productos al sistema (Cosechas).
     </p>
-    <el-main v-loading="cargando">
+    <el-main v-loading.fullscreen.lock="cargando">
       <div class="min-h-50">
         <el-table
           :data="listadoHistorialCosecha"

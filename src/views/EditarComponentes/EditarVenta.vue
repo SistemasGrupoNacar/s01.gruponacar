@@ -19,7 +19,7 @@
         </el-button>
       </div>
     </div>
-    <el-main v-loading="cargando" class="w-100 main">
+    <el-main v-loading.fullscreen.lock="cargando" class="w-100 main">
       <div class="row my-1">
         <div class="col-12 col-lg-4 px-lg-2">
           <p class="_bold">Seleccion de producto</p>

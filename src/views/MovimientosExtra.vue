@@ -18,7 +18,7 @@
     <p class="_subtitle text-muted">
       Listado de movimientos extra tanto egresos como ingresos.
     </p>
-    <el-main v-loading="cargando">
+    <el-main v-loading.fullscreen.lock="cargando">
       <div class="min-h-50">
         <el-table
           :data="listadoHistorialMovimientosExtra"

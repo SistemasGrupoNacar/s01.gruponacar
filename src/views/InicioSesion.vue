@@ -7,7 +7,7 @@
       >
     </div>
   </span>
-  <el-main v-loading="cargando"
+  <el-main v-loading.fullscreen.lock="cargando"
     ><div class="row _h-90 w-100 p-0 m-0">
       <div
         class="col-12 col-md-6 _details text-center d-flex justify-content-center align-items-center"

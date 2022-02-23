@@ -12,7 +12,7 @@
     <p class="_subtitle text-muted text-start">
       Control de eventos y acciones en producciones.
     </p>
-    <el-main v-loading="cargando">
+    <el-main v-loading.fullscreen.lock="cargando">
       <div class="w-100">
         <div class="d-inline-flex align-items-center mx-2 my-2 my-lg-0">
           Mostrar todas: <el-switch class="mx-2" v-model="filtro" />

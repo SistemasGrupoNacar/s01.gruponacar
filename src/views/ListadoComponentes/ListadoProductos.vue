@@ -4,7 +4,7 @@
     <p class="_subtitle text-muted">
       Listado de productos para la venta en el sistema.
     </p>
-    <el-main v-loading="cargando">
+    <el-main v-loading.fullscreen.lock="cargando">
       <div class="min-h-50">
         <el-table :data="listadoProductos" style="width: 100%" max-height="400">
           <el-table-column prop="name" label="Nombre" width="250" />

@@ -433,6 +433,20 @@ async function obtenerVentas() {
   });
 }
 
+// Obtener solo las ventas de hoy
+async function obtenerVentasHoy() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/sales/today")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 // Obtener primeras 5 ventas
 async function obtenerPrimerosVentas() {
   return new Promise((resolve, reject) => {
@@ -780,6 +794,7 @@ export default {
   cancelarVenta,
   crearDetalleVenta,
   obtenerVenta,
+  obtenerVentasHoy,
   eliminarDetalleVenta,
   finalizarVenta,
   obtenerVentas,

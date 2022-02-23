@@ -19,7 +19,7 @@
         </el-button>
       </div>
     </div>
-    <el-main v-loading="cargando" class="w-100 main">
+    <el-main v-loading.fullscreen.lock="cargando" class="w-100 main">
       <div class="row my-1">
         <div class="col-12 col-lg-4 px-lg-2">
           <p class="_bold">Seleccion de producto</p>
@@ -124,7 +124,6 @@
 <script>
 import api from "@/api/index.js";
 import { fechaActual } from "@/scripts/Fechas.js";
-
 import { verificarSesion } from "@/scripts/Sesion.js";
 import { ElMessage } from "element-plus";
 export default {
@@ -285,11 +284,23 @@ export default {
       return true;
     },
 
-    finalizarVenta() {
+    async finalizarVenta() {
       if (this.detalleVenta.length == 0) {
         this.cancelarVenta();
       } else {
-        this.$router.push("/movimientos/ventas");
+        try {
+          this.cargando = true;
+          await api.finalizarVenta(this.venta._id);
+          ElMessage.success("Venta cerrada");
+          this.$router.push("/movimientos/ventas");
+        } catch (error) {
+          if (error.response) {
+            verificarSesion(error);
+            ElMessage.error(error.response.data.message);
+          } else {
+            ElMessage.error("Error al finalizar la venta");
+          }
+        }
       }
     },
   },

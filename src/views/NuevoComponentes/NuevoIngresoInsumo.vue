@@ -5,7 +5,7 @@
       Formulario de registro para el ingreso de nueva mercader&iacute;a de
       insumo.
     </p>
-    <el-main v-loading="cargando" class="my-2">
+    <el-main v-loading.fullscreen.lock="cargando" class="my-2">
       <div class="row">
         <div class="col-12 col-md-5 my-2 my-lg-0">
           <span class="text-muted">Insumo</span>

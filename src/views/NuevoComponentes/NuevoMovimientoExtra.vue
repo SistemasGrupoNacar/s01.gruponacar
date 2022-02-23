@@ -2,7 +2,7 @@
   <div class="container">
     <p class="_title">Nuevo movimiento extra</p>
     <p class="_subtitle">Creaci&oacute;n de nuevo ingreso o egreso</p>
-    <el-main v-loading="cargando" class="my-2">
+    <el-main v-loading.fullscreen.lock="cargando" class="my-2">
       <div class="row">
         <div class="col-12 col-md-4">
           <div class="my-1">

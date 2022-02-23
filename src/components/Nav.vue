@@ -261,7 +261,6 @@ export default {
 
 ._nav-actions-links {
   width: 100%;
-
   ._nav-actions-links-items {
     border-radius: 0;
     width: 100%;

@@ -4,7 +4,10 @@
     <p class="_subtitle text-muted text-start">
       Informaci&oacute;n gerencial de egresos.
     </p>
-    <el-main v-loading="cargando" class="m-0">
+    <el-main
+      v-loading.fullscreen.lock="cargando"
+      class="m-0"
+    >
       <div class="d-inline-flex align-items-center mx-2 my-2 my-lg-0">
         <span>Fecha: </span>
         <el-date-picker

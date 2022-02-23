@@ -1,5 +1,5 @@
 <template>
-  <el-main v-loading="cargando">
+  <el-main v-loading.fullscreen.lock="cargando">
     <div
       class="d-flex flex-column flex-md-row justify-content-center align-items-center min-h-50 px-2 px-md-5 py-2 mx-auto"
     >

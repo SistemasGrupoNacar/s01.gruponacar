@@ -713,6 +713,62 @@ async function obtenerLugares() {
   });
 }
 
+// Cambiar disponibilidad lugar
+async function cambiarDisponibilidadLugar(id, disponibilidad) {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(API_URI + "/places/" + id + "/" + disponibilidad)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Obtener todos los lugares
+async function obtenerLugaresTodos() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/places/all")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Eliminar lugar
+async function eliminarLugar(id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(API_URI + "/places/" + id)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Crear lugar
+async function crearLugar(data) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(API_URI + "/places", data)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 // Crear nueva produccion
 async function crearProduccion(data) {
   return new Promise((resolve, reject) => {
@@ -815,6 +871,10 @@ export default {
   reanudarProduccion,
   crearCostoProduccion,
   obtenerLugares,
+  obtenerLugaresTodos,
+  crearLugar,
+  eliminarLugar,
+  cambiarDisponibilidadLugar,
   crearProduccion,
   cambiarContrasena,
   obtenerDatosPanel,

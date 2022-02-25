@@ -147,6 +147,11 @@ const routes = [
         component: () =>
           import("../views/NuevoComponentes/NuevoMovimientoExtra.vue"),
       },
+      {
+        path: "lugares",
+        name: "Lugares",
+        component: () => import("../views/Lugares.vue"),
+      },
     ],
   },
   {

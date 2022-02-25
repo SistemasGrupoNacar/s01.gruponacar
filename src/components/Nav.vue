@@ -141,6 +141,12 @@ export default {
           palabras: ["producciones", "produccion", "producción"],
         },
         {
+          nombre: "Lugares",
+          url: "/lugares",
+          grupo: "Control",
+          palabras: ["lugares", "lugar", "casa", "casa de campo", "malla", "terreno", "campo"],
+        },
+        {
           nombre: "Perfil",
           url: "/perfil",
           grupo: "Usuario",

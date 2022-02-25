@@ -8,7 +8,8 @@
       <div class="min-h-50">
         <el-table :data="listadoInsumos" style="width: 100%" max-height="400">
           <el-table-column prop="name" label="Nombre" width="150" />
-          <el-table-column prop="_id" label="ID" width="140" />
+          <el-table-column prop="_id" label="ID" width="180" />
+          <el-table-column prop="stock" label="Stock" width="100" />
           <el-table-column prop="cost_format" label="Costo" width="100" />
           <el-table-column
             prop="description"

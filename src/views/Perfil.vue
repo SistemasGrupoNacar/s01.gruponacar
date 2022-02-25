@@ -8,18 +8,16 @@
         <p class="_subtitle">Perfil de trabajador</p>
       </div>
       <div
-        class="mx-0 mx-lg-3 my-3 my-md-0 text-start _w-40"
+        class="mx-0 mx-lg-3 my-3 my-md-0 text-start _w-40 px-3 py-2"
         v-if="usuario != null"
       >
         <p class="_bold _letter-spacing-1 _text-bigger my-0">
           {{ usuario.firstName }}
         </p>
         <p class="mx-4 my-0 _text-big">{{ usuario.lastName }}</p>
-        <hr />
-        <p class="mx-4 my-1 text-muted">DUI: {{ usuario.dui }}</p>
-        <p class="mx-4 my-1 _bold">Tel&eacute;fono: {{ usuario.phone }}</p>
-        <p class="mx-4 my-1 text-muted">Id: {{ usuario._id }}</p>
-        <hr />
+        <p class="mx-4 my-2 ">DUI: {{ usuario.dui }}</p>
+        <p class="mx-4 my-2">Tel&eacute;fono: {{ usuario.phone }}</p>
+        <p class="mx-4 my-2 ">Id: {{ usuario._id }}</p>
         <el-button class="w-100" v-on:click.prevent="cerrarSesion()"
           >Cerrar Sesion</el-button
         >

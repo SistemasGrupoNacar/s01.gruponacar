@@ -1,6 +1,6 @@
 <template>
   <el-main v-loading.fullscreen.lock="cargando" class="container">
-    <div class="_big-container">
+    <div class="_big-container _noreverse">
       <div class="_w-50 px-2 px-lg-5 py-2">
         <p class="_bold _text-justify _text-big">
           Detalle de Costo / Beneficio

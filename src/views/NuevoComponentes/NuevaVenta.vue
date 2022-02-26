@@ -48,9 +48,9 @@
             filterable
           >
             <el-option
-              v-for="item in producciones"
+              v-for="item in produccionesFiltradas"
               :key="item._id"
-              :label="item._id"
+              :label="item._id + ' - ' + item.product.name"
               :value="item._id"
             >
             </el-option>
@@ -133,6 +133,7 @@ export default {
       cargando: false,
       productos: [],
       producciones: [],
+      produccionesFiltradas: [],
       productoSeleccionado: {
         sale: "",
         product: "",
@@ -203,6 +204,14 @@ export default {
         });
         return;
       }
+      if (this.validarProductoProduccion()) {
+        ElMessage({
+          message: "Seleccione la producción correspondiente al productoz",
+          type: "warning",
+        });
+        return;
+      }
+
       this.cargando = true;
       try {
         const respuesta = await api.crearDetalleVenta(data);
@@ -226,6 +235,14 @@ export default {
       this.cargando = false;
     },
 
+    validarProductoProduccion() {
+      // Verificar si la produccion se encuntra en produccionesFiltradas
+      return (
+        this.produccionesFiltradas.find(
+          (item) => item._id === this.productoSeleccionado.production
+        ) === undefined
+      );
+    },
     async actualizarVenta(id) {
       this.cargando = true;
       try {
@@ -324,6 +341,17 @@ export default {
         ElMessage.error("Error al crear venta");
       }
     }
+  },
+  watch: {
+    productoSeleccionado: {
+      handler(element) {
+        this.produccionesFiltradas = this.producciones.filter(
+          (item) => item.product._id == element.product
+        );
+      },
+
+      deep: true,
+    },
   },
 };
 </script>

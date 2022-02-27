@@ -5,6 +5,8 @@ import store from "./store";
 import "bootstrap/dist/css/bootstrap.css";
 import "@/assets/main.css";
 import "@/assets/index.scss";
+import Vue3Geolocation from "vue3-geolocation";
+import * as VueGoogleMaps from "vue3-google-map";
 
 import ElementPlus from "element-plus";
 //import "element-plus/dist/index.css";
@@ -21,4 +23,11 @@ createApp(App)
     locale: es,
   })
   .use(VueChartkick)
+  .use(Vue3Geolocation)
+  .use(VueGoogleMaps, {
+    load: {
+      key: "",
+    },
+    installComponents: false,
+  })
   .mount("#app");

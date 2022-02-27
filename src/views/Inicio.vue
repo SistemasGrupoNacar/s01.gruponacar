@@ -1,6 +1,6 @@
 <template>
   <el-main v-loading.fullscreen.lock="cargando" class="container">
-    <div class="_big-container _noreverse ">
+    <div class="_big-container _noreverse">
       <div class="_w-50 px-2 px-lg-5 py-2">
         <p class="_bold _text-justify _text-big">
           Detalle de Costo / Beneficio
@@ -60,7 +60,7 @@
         <p class="_bold _text-justify _text-big">
           Control de ventas en proceso
         </p>
-        <p class="_text-justify ">
+        <p class="_text-justify">
           Espacio para controlar las ventas que no han sido finalizadas y
           requieren de atenci&oacute;n.
         </p>
@@ -107,6 +107,10 @@ export default {
   },
   mounted() {
     this.obtenerDatosPanel();
+    // Obtener la ubicacion actual
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position);
+    });
   },
   methods: {
     async obtenerDatosPanel() {

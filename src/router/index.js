@@ -152,6 +152,11 @@ const routes = [
         name: "Lugares",
         component: () => import("../views/Lugares.vue"),
       },
+      {
+        path: "jornadas",
+        name: "Jornadas",
+        component: () => import("../views/Jornadas.vue"),
+      }
     ],
   },
   {

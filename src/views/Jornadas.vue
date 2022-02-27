@@ -8,7 +8,7 @@
         <span class="_bold">Longuitud: {{ coordenadas.lng }}</span>
       </p>
       <GoogleMap
-        api-key="AIzaSyDLxDg0yfvpZr6U3QNNnfOgqxDmJw3Rui4"
+        api-key="AIzaSyBS3Ui-nZifQQJs030dE46Poa_8cMLHfVU"
         style="width: 100%; height: 250px"
         :center="coordenadas"
         :zoom="15"
@@ -23,7 +23,7 @@
         <span class="_bold">Longuitud: {{ coordenadas.lng }}</span>
       </p>
       <GoogleMap
-        api-key="AIzaSyDLxDg0yfvpZr6U3QNNnfOgqxDmJw3Rui4"
+        api-key="AIzaSyBS3Ui-nZifQQJs030dE46Poa_8cMLHfVU"
         style="width: 100%; height: 250px"
         :center="coordenadas"
         :zoom="15"
@@ -46,7 +46,9 @@ export default {
         lat: 0,
         lng: 0,
       },
+
     };
+  }, mounted() {
   },
   created() {
     this.$getLocation()

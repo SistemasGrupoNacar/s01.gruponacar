@@ -144,7 +144,21 @@ export default {
           nombre: "Lugares",
           url: "/lugares",
           grupo: "Control",
-          palabras: ["lugares", "lugar", "casa", "casa de campo", "malla", "terreno", "campo"],
+          palabras: [
+            "lugares",
+            "lugar",
+            "casa",
+            "casa de campo",
+            "malla",
+            "terreno",
+            "campo",
+          ],
+        },
+        {
+          nombre: "Empleados",
+          url: "/empleados",
+          grupo: "Control",
+          palabras: ["empleados", "empleado", "trabajador"],
         },
         {
           nombre: "Perfil",

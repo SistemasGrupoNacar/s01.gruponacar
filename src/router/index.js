@@ -156,8 +156,31 @@ const routes = [
         path: "jornadas",
         name: "Jornadas",
         component: () => import("../views/Jornadas.vue"),
-      }
+      },
+      {
+        path: "empleados",
+        name: "Empleados",
+        component: () => import("../views/Empleados.vue"),
+      },
+      {
+        path: "empleados/listado",
+        name: "ListadoEmpleados",
+        component: () =>
+          import("../views/ListadoComponentes/ListadoEmpleados.vue"),
+      },
+      {
+        path: "empleados/nuevo",
+        name: "NuevoEmpleado",
+        component: () => import("../views/NuevoComponentes/NuevoEmpleado.vue"),
+      },
     ],
+  },
+  {
+    path: "/empleados/detalle-nuevo",
+    name: "DetalleNuevoEmpleado",
+    props: true,
+    component: () =>
+      import("../views/DetalleComponentes/EmpleadoDetalleComponente.vue"),
   },
   {
     path: "/login",

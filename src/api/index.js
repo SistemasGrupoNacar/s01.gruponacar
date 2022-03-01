@@ -42,9 +42,19 @@ async function verificarToken() {
 
 // Obtener todos los productos
 async function obtenerTodosProductos() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
     axios
-      .get(API_URI + "/products/all")
+      .get(API_URI + "/products/all", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
@@ -56,9 +66,19 @@ async function obtenerTodosProductos() {
 
 // Obtener productos disponibles
 async function obtenerProductos() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
     axios
-      .get(API_URI + "/products/")
+      .get(API_URI + "/products", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
@@ -821,6 +841,128 @@ async function obtenerDatosPanel() {
   });
 }
 
+// Obtener los ultimos empleados en entrar a la empresa
+async function obtenerUltimosEmpleados() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/employees/")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Obtiene los empleados de la empresa
+async function obtenerEmpleados() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/employees")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Obtiene todos los empleados
+async function obtenerEmpleadosTodos() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/employees/all")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Eliminar empleado
+async function eliminarEmpleado(id) {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete(API_URI + "/employees/" + id)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Cambiar estado de empleado
+async function cambiarEstadoEmpleado(id, estado) {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(API_URI + "/employees/" + id + "/status/" + estado)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Crear empleado
+async function crearEmpleado(data) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(API_URI + "/employees", data)
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Obtener posiciones o cargos
+async function obtenerPosiciones() {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(API_URI + "/positions")
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Cambiar contraseña de empleado
+async function cambiarContrasenaEmpleado(username, data) {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .put(API_URI + "/users/" + username + "/change-password", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   iniciarSesion,
   verificarToken,
@@ -878,4 +1020,12 @@ export default {
   crearProduccion,
   cambiarContrasena,
   obtenerDatosPanel,
+  obtenerUltimosEmpleados,
+  obtenerEmpleados,
+  obtenerEmpleadosTodos,
+  eliminarEmpleado,
+  cambiarEstadoEmpleado,
+  crearEmpleado,
+  obtenerPosiciones,
+  cambiarContrasenaEmpleado,
 };

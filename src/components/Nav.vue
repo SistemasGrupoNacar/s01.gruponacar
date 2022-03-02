@@ -161,6 +161,19 @@ export default {
           palabras: ["empleados", "empleado", "trabajador"],
         },
         {
+          nombre: "Jornadas",
+          url: "/jornadas",
+          grupo: "Control",
+          palabras: [
+            "jornadas",
+            "jornada",
+            "laboral",
+            "trabajo",
+            "dias",
+            "días",
+          ],
+        },
+        {
           nombre: "Perfil",
           url: "/perfil",
           grupo: "Usuario",

@@ -963,6 +963,78 @@ async function cambiarContrasenaEmpleado(username, data) {
   });
 }
 
+// Obtener ultimas jornadas
+async function obtenerUltimasJornadas() {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .get(API_URI + "/journeys/last", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Obtener jornadas
+async function obtenerJornadas() {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .get(API_URI + "/journeys", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Obtener jornadas en proceso
+async function obtenerJornadasEnProceso() {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .get(API_URI + "/journeys/in-progress", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   iniciarSesion,
   verificarToken,
@@ -1028,4 +1100,7 @@ export default {
   crearEmpleado,
   obtenerPosiciones,
   cambiarContrasenaEmpleado,
+  obtenerJornadas,
+  obtenerUltimasJornadas,
+  obtenerJornadasEnProceso,
 };

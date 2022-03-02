@@ -84,8 +84,8 @@ export default {
       listPositions: [],
       empleado: {
         dui: "",
-        firstName: "Keny Lizbeth",
-        lastName: "Chávez Torres",
+        firstName: "",
+        lastName: "",
         email: "",
         phone: "",
         position: "",

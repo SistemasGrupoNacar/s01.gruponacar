@@ -158,6 +158,17 @@ const routes = [
         component: () => import("../views/Jornadas.vue"),
       },
       {
+        path: "jornadas/nueva",
+        name: "NuevaJornada",
+        //component: () => import("../views/NuevoComponentes/NuevaJornada.vue"),
+      },
+      {
+        path: "jornadas/listado",
+        name: "ListadoJornadas",
+        component: () =>
+          import("../views/ListadoComponentes/ListadoJornadas.vue"),
+      },
+      {
         path: "empleados",
         name: "Empleados",
         component: () => import("../views/Empleados.vue"),

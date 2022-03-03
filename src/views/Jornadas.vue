@@ -34,13 +34,13 @@
         </el-table>
         <el-button
           class="d-block mx-auto my-3"
-          v-on:click="listadoEmpleadosMetodo()"
+          v-on:click="listadoJornadas()"
           >Mostrar todos</el-button
         >
       </div>
       <div class="col-12 col-md-5 my-3">
         <p class="_text-bigger text-center">Jornadas en progreso</p>
-        <ul class="list-group" v-if="listadoJornadasEnProgreso.length > 0">
+        <ul class="mx-2" v-if="listadoJornadasEnProgreso.length > 0">
           <li
             class="_light"
             v-for="(item, index) in listadoJornadasEnProgreso"
@@ -52,64 +52,6 @@
         </ul>
         <p class="text-center text-muted my-5" v-else>No hay registros</p>
       </div>
-      <div class="col-12 my-3">
-        <p class="_text-bigger text-center">Detalle de jornadas laborales</p>
-        <div class="d-flex justify-content-center align-items-start">
-          <div class="_w-40">
-            <el-select
-              v-model="idJornadaDetalle"
-              placeholder="Seleccione jornada a estudiar"
-              clearable
-              filterable
-              class="w-100 d-block mx-auto"
-            >
-              <el-option
-                v-for="item in listadoJornadas"
-                :key="item._id"
-                :label="item.check_in_format + ' - ' + item.employee.first_name"
-                :value="item._id"
-              >
-              </el-option>
-            </el-select>
-          </div>
-          <div class="_w-60 py-2 px-3" v-if="jornadaSeleccionada != null">
-            <p>
-              {{ jornadaSeleccionada.employee.first_name }} 
-              <span class="_bold">{{ jornadaSeleccionada.check_in_format }} </span>
-              <span>{{ jornadaSeleccionada.check_out_format }}</span>
-            </p>
-            <div class="row">
-              <div class="col-12 col-md-6 px-1 px-md-4 py-2">
-                <GoogleMap
-                  api-key="AIzaSyBS3Ui-nZifQQJs030dE46Poa_8cMLHfVU"
-                  style="width: 100%; height: 100px;"
-                  :center="jornadaSeleccionada.inCoordinates"
-                  :zoom="15"
-                >
-                  <Marker
-                    :options="{ position: jornadaSeleccionada.inCoordinates }"
-                  />
-                </GoogleMap>
-              </div>
-              <div class="col-12 col-md-6 px-1 px-md-4 py-2">
-                <GoogleMap
-                  api-key="AIzaSyBS3Ui-nZifQQJs030dE46Poa_8cMLHfVU"
-                  style="width: 100%; height: 100px"
-                  :center="jornadaSeleccionada.outCoordinates"
-                  :zoom="15"
-                >
-                  <Marker
-                    :options="{ position: jornadaSeleccionada.outCoordinates }"
-                  />
-                </GoogleMap>
-              </div>
-            </div>
-          </div>
-          <div class="_w-60 py-2 px-3" v-else>
-            <p class="_light text-center">No hay seleccionado</p>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -117,11 +59,11 @@
 import { Plus } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
 import { ElMessage } from "element-plus";
-import { GoogleMap, Marker } from "vue3-google-map";
+//import { GoogleMap, Marker } from "vue3-google-map";
 export default {
   components: {
-    GoogleMap,
-    Marker,
+    //GoogleMap,
+    //Marker,
     Plus,
   },
   data() {
@@ -129,32 +71,22 @@ export default {
       listadoUltimasJornadas: [],
       listadoJornadasEnProgreso: [],
       idJornadaEliminar: "",
-      idJornadaDetalle: "",
-      jornadaSeleccionada: null,
-      listadoJornadas: [],
       cargando: false,
-      coordenadas: {
-        lat: 0,
-        lng: 0,
-      },
     };
   },
-  watch: {
-    idJornadaDetalle(val) {
-      this.jornadaSeleccionada = this.listadoJornadas.find(
-        (item) => item._id === val
-      );
-    },
-  },
+  watch: {},
   mounted() {
     this.obtenerUltimasJornadas();
-    this.obtenerJornadas();
     this.obtenerJornadasEnProceso();
   },
   methods: {
     nuevaJornada() {
       this.$router.push("/jornadas/nuevo");
     },
+    listadoJornadas(){
+      this.$router.push("/jornadas/listado");
+    },
+    
     async obtenerUltimasJornadas() {
       this.cargando = true;
       try {
@@ -169,30 +101,7 @@ export default {
       }
       this.cargando = false;
     },
-    async obtenerJornadas() {
-      this.cargando = true;
-      try {
-        const respuesta = await api.obtenerJornadas();
-        this.listadoJornadas = respuesta.data;
-        this.listadoJornadas.forEach((element) => {
-          element.inCoordinates = {
-            lat: element.inCoordinatesLat,
-            lng: element.inCoordinatesLng,
-          };
-          element.outCoordinates = {
-            lat: element.outCoordinatesLat,
-            lng: element.outCoordinatesLng,
-          };
-        });
-      } catch (error) {
-        if (error.response) {
-          ElMessage.error(error.response.data.message);
-        } else {
-          ElMessage.error("Error al realizar la petición");
-        }
-      }
-      this.cargando = false;
-    },
+
     async obtenerJornadasEnProceso() {
       this.cargando = true;
       try {
@@ -209,13 +118,13 @@ export default {
     },
   },
   created() {
-    this.$getLocation()
+    /*this.$getLocation()
       .then((response) => {
         this.coordenadas = response;
       })
       .catch((error) => {
         console.log(error);
-      });
+      });*/
   },
 };
 </script>

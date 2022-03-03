@@ -1035,6 +1035,30 @@ async function obtenerJornadasEnProceso() {
   });
 }
 
+// Eliminar jornada
+async function eliminarJornada(id) {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .delete(API_URI + "/journeys/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   iniciarSesion,
   verificarToken,
@@ -1103,4 +1127,5 @@ export default {
   obtenerJornadas,
   obtenerUltimasJornadas,
   obtenerJornadasEnProceso,
+  eliminarJornada,
 };

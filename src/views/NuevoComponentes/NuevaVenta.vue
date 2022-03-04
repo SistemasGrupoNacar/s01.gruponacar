@@ -149,7 +149,7 @@ export default {
     async cancelarVenta() {
       try {
         await api.cancelarVenta(this.venta._id);
-        this.$router.push("/movimientos/ventas");
+        this.$router.replace("/movimientos/ventas");
       } catch (error) {
         if (error.response) {
           verificarSesion(error);
@@ -206,7 +206,7 @@ export default {
       }
       if (this.validarProductoProduccion()) {
         ElMessage({
-          message: "Seleccione la producción correspondiente al productoz",
+          message: "Seleccione la producción correspondiente al producto",
           type: "warning",
         });
         return;
@@ -309,7 +309,7 @@ export default {
           this.cargando = true;
           await api.finalizarVenta(this.venta._id);
           ElMessage.success("Venta cerrada");
-          this.$router.push("/movimientos/ventas");
+          this.$router.replace("/movimientos/ventas");
         } catch (error) {
           if (error.response) {
             verificarSesion(error);

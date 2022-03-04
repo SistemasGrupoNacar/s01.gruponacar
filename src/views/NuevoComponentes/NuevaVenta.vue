@@ -8,7 +8,7 @@
         </p>
       </div>
 
-      <p class="_text-bigger _bold text-end px-5">$ {{ venta.total || 0 }}</p>
+      <p class="_text-bigger _bold text-end px-5">{{ venta.total_format  }}</p>
 
       <div class="text-center px-2">
         <el-button class="my-2" type="primary" v-on:click="cancelarVenta()"
@@ -96,12 +96,12 @@
             />
             <el-table-column prop="quantity" label="Cantidad" width="120" />
             <el-table-column
-              prop="sub_total"
+              prop="sub_total_format"
               label="Precio Unitario"
               width="120"
             />
             <el-table-column
-              prop="total"
+              prop="total_format"
               label="Sub-Total"
               width="120"
             /><el-table-column fixed="right" label="Acción" width="120">

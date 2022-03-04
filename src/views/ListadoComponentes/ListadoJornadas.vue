@@ -4,8 +4,31 @@
     <p class="_subtitle text-muted">
       Listado de jornadas laborales de la empresa.
       <el-main v-loading.fullscreen.lock="cargando">
+        <div class="d-flex flex-wrap justify-content-center align-items-center">
+          <div class="my-2 mx-1 mx-md-3">
+            <label for="" class="_light">Por nombre</label>
+            <el-input
+              autocomplete="false"
+              v-model="filtro.name"
+              placeholder="Cristian Pérez"
+              @input="filtroJornadas(filtro, 'name')"
+            ></el-input>
+          </div>
+          <div class="my-2 mx-1 mx-md-3">
+            <label for="">Por d&iacute;a</label>
+            <el-date-picker
+              v-model="filtro.date"
+              type="date"
+              placeholder="Escoge una fecha"
+              class="w-100"
+              clearable
+              @change="filtroJornadas(filtro, 'date')"
+            >
+            </el-date-picker>
+          </div>
+        </div>
         <div class="min-h-50">
-          <el-table :data="listadoJornadas" style="width: 100%">
+          <el-table :data="listadoMostrarJornadas" style="width: 100%">
             <el-table-column type="expand">
               <template #default="props">
                 <div class="row">
@@ -114,8 +137,11 @@
                           >Salida de la empresa</span
                         >
                       </div>
-                      <div class="col-6 d-flex align-items-center justify-content-center"  v-else>
-                          <p class=" _bold">La jornada sigue en proceso.</p>
+                      <div
+                        class="col-6 d-flex align-items-center justify-content-center"
+                        v-else
+                      >
+                        <p class="_bold">La jornada sigue en proceso.</p>
                       </div>
                     </div>
                   </div>
@@ -140,11 +166,26 @@ export default {
     GoogleMap,
     Marker,
   },
+  watch: {
+    filtro: {
+      date: {
+        deep: true,
+        handler(val) {
+          this.filtroJornadas(val, "date");
+        },
+      },
+    },
+  },
 
   data() {
     return {
       cargando: false,
       listadoJornadas: [],
+      listadoMostrarJornadas: [],
+      filtro: {
+        name: "",
+        date: null,
+      },
       optionsMap: [
         {
           stylers: [
@@ -182,6 +223,7 @@ export default {
             }
           }
         });
+        this.listadoMostrarJornadas = this.listadoJornadas;
       } catch (error) {
         if (error.response) {
           ElMessage.error({
@@ -215,6 +257,44 @@ export default {
         }
       }
       this.cargando = false;
+    },
+    filtroJornadas(dato, filtro) {
+      let DATE_END, DATE_START;
+      if (filtro == "date" && dato.date != null) {
+        DATE_START = dato.date.toISOString();
+        DATE_END = moment(dato.date).add(1, "days").toISOString();
+      }
+      switch (filtro) {
+        case "name":
+          // Seteando el valor da la fecha a nulo
+          this.filtro.date = null;
+          // Filtrando por nombre
+          this.listadoMostrarJornadas = this.listadoJornadas.filter((jornada) =>
+            jornada.employee.first_name
+              .toLowerCase()
+              .includes(dato.name.toLowerCase())
+          );
+          break;
+        case "date":
+          // Seteando el valor de name a vacio
+          this.filtro.name = "";
+          if (dato.date == null) {
+            this.listadoMostrarJornadas = this.listadoJornadas;
+            return;
+          }
+          // Filtrando por fecha
+          this.listadoMostrarJornadas = this.listadoJornadas.filter(
+            (jornada) => {
+              return moment(jornada.check_in).isBetween(
+                moment(DATE_START),
+                moment(DATE_END),
+                null,
+                "[]"
+              );
+            }
+          );
+          break;
+      }
     },
   },
 };

@@ -168,6 +168,9 @@
 ._h-90 {
   height: 90vh;
 }
+.h-100{
+  height: 100%;
+}
 ._hv-100 {
   height: 25vh;
 }
@@ -308,6 +311,16 @@
   height: 150px;
   padding: 10px 5px;
   border-radius: 50px;
+}
+
+._clickable {
+  cursor: pointer;
+  color: var(--light-black);
+  transition: all .3s ease-in-out;
+}
+
+._clickable:hover {
+  color: var(--color-primary);
 }
 
 @media (min-width: 768px) {

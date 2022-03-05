@@ -8,7 +8,7 @@
         </p>
       </div>
 
-      <p class="_text-bigger _bold text-end px-5">{{ venta.total_format  }}</p>
+      <p class="_text-bigger _bold text-end px-5">{{ venta.total_format }}</p>
 
       <div class="text-center px-2">
         <el-button class="my-2" type="primary" v-on:click="cancelarVenta()"
@@ -123,7 +123,6 @@
 </template>
 <script>
 import api from "@/api/index.js";
-import { fechaActual } from "@/scripts/Fechas.js";
 import { verificarSesion } from "@/scripts/Sesion.js";
 import { ElMessage } from "element-plus";
 export default {
@@ -323,6 +322,7 @@ export default {
   },
 
   async mounted() {
+    const fechaActual = new Date().toISOString();
     try {
       this.cargando = true;
       this.fecha = fechaActual;

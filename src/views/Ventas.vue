@@ -33,7 +33,7 @@
     </el-button>
   </div>
   <el-main v-loading.fullscreen.lock="cargando" class="container">
-    <el-table :data="ventas" class="_w-75 mx-auto" max-height="700">
+    <el-table :data="ventas" class="_w-75 mx-auto" max-height="400">
       <el-table-column prop="_id" label="ID" width="250" />
       <el-table-column prop="date_format" label="Fecha" width="150" />
       <el-table-column prop="status" sortable label="Estado" width="150" />

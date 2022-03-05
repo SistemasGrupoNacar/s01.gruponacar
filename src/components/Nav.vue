@@ -44,7 +44,7 @@
           class="_nav-actions-links-items px-0 px-lg-3"
           v-show="mostrarSubMenu || isMobile"
         >
-          <ul class="px-0 px-md-4">
+          <ul class="px-0 px-md-2">
             <li v-for="(item, index) in rutasGrupos" :key="index">
               <p class="my-0 _bold _text-small">{{ index }}</p>
               <div class="px-1" v-for="(item2, index2) in item" :key="index2">
@@ -282,7 +282,7 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: var(--white);
-  padding: 1rem;
+  padding: 1rem 0;
   z-index: 199;
   height: auto;
 }
@@ -296,7 +296,7 @@ export default {
   width: 100%;
   ._nav-actions-links-items {
     border-radius: 0;
-    width: 100%;
+    width: 100% !important;
     font-size: 1rem;
     letter-spacing: 0.2px;
     line-height: 25px;
@@ -359,7 +359,7 @@ export default {
     display: none;
   }
   ._nav-actions-search {
-    width: 33.33%;
+    width: 60%;
     margin: 0 auto;
   }
 
@@ -375,11 +375,12 @@ export default {
   ._nav-actions-links-items {
     position: absolute;
     top: 50px;
-    right: 3rem;
+    right: 2rem;
     padding: 0 15px;
     text-align: start;
-    max-width: 250px;
+    max-width: 225px;
     border-radius: 5px !important;
+    box-shadow: -3px 30px 45px rgba(0, 0, 0, 0.1) !important;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <p class="_title">Historial Productos</p>
+    <p class="_title">Historial Cosechas</p>
     <p class="_subtitle text-muted">
       Listado de ingresos de productos al sistema (Cosechas).
     </p>
@@ -9,7 +9,7 @@
         <el-table
           :data="listadoHistorialCosecha"
           style="width: 100%"
-          max-height="700"
+          max-height="400"
         >
           <el-table-column prop="_id" label="ID" width="200" />
           <el-table-column

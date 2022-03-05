@@ -125,7 +125,9 @@ export default {
       this.cargando = true;
       try {
         const respuesta = await api.crearIngresoInsumo(data);
-        alert("Ingreso de Insumo creado con id: " + respuesta.data._id);
+         ElMessage.success({
+          message: "Se ha creado el ingreso de insumo con ID: " + respuesta.data._id,
+        });
         this.$router.push({ name: "Insumos" });
       } catch (error) {
         if (error.response) {

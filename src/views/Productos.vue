@@ -61,7 +61,7 @@
     </div>
     <div class="row">
       <div class="col-12 my-3">
-        <p class="_text-bigger text-center">Historial de Ingresos</p>
+        <p class="_text-bigger text-center">Historial de Cosechas</p>
         <el-table
           v-loading.fullscreen.lock="cargandoDatosTablaHistorial"
           :data="listadoHistorialCosecha"

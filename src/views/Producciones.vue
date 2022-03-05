@@ -150,7 +150,7 @@
               Detalle de costos de producci&oacute;n
             </p>
             <div class="container" v-if="!produccionSeleccionada.in_progress">
-              <ul>
+              <ul class="_max-list">
                 <li
                   v-for="(
                     item, index
@@ -180,7 +180,7 @@
               Detalle de ventas de producci&oacute;n
             </p>
             <div class="container" v-if="!produccionSeleccionada.in_progress">
-              <ul>
+              <ul class="_max-list">
                 <li
                   v-for="(item, index) in produccionSeleccionada.detail_sales"
                   :key="index"
@@ -230,14 +230,12 @@
           </div>
         </div>
       </div>
-      {{ produccionesParaSelect }}
     </el-main>
   </div>
 </template>
 <script>
 import api from "@/api/index.js";
 import { Plus, WarningFilled } from "@element-plus/icons-vue";
-import { fechaActual } from "@/scripts/Fechas.js";
 import { ElMessage } from "element-plus";
 import { verificarSesion } from "@/scripts/Sesion.js";
 export default {
@@ -295,6 +293,7 @@ export default {
     },
     async finalizarProduccion(id) {
       this.cargando = true;
+      const fechaActual = new Date().toISOString();
       try {
         const respuesta = await api.finalizarProduccion(id, fechaActual);
         ElMessage({
@@ -389,6 +388,11 @@ export default {
     // Cambiar el fondo de texto a gris
     color: rgb(100, 100, 100);
   }
+}
+
+._max-list{
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 ._listado {

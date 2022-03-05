@@ -111,7 +111,9 @@ export default {
       this.cargando = true;
       try {
         const respuesta = await api.crearCosecha(data);
-        alert("Ingreso creado con id: " + respuesta.data._id);
+        ElMessage.success({
+          message: "Se ha creado la cosecha con ID: " + respuesta.data._id,
+        });
         this.$router.push({ name: "Productos" });
       } catch (error) {
         if (error.response) {

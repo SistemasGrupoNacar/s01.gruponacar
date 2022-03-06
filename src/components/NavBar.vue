@@ -1,8 +1,7 @@
 <template>
   <nav class="_nav">
-    <div class="_nav-brand"></div>
-    <div class="_nav-burger">
-      <img :src="imgMenu" alt="icono de opciones" />
+    <div class="_nav-brand">
+      Grupo Nacar 
     </div>
     <div class="_nav-search">
       <el-input
@@ -144,7 +143,6 @@ export default {
   },
   methods: {
     navOptionsSwitcher() {
-      // Verifica si esta abierto el menu de opciones
       this.$refs.navOptions.classList.toggle("_nav-options-active");
       this.$refs.navOptionsActivator.classList.toggle(
         "_nav-options-activator-active"
@@ -161,14 +159,21 @@ export default {
 </script>
 <style lang="scss">
 ._nav {
-  height: 60px;
+  min-height: 60px !important;
   background-color: var(--white);
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: space-between;
   position: relative;
   padding: 10px 15px;
+}
+
+._nav-brand{
+  display: flex;
+  align-items: center;
+  height: calc(60px - 10px);
 }
 
 ._nav-burger {
@@ -176,6 +181,7 @@ export default {
 }
 
 ._nav-search {
+  display:none;
   flex: 1;
   padding: 10px 20px;
 }
@@ -186,12 +192,36 @@ export default {
   height: 28px;
 }
 
+._nav-options{
+  position: relative;
+  display: none;
+  width: 100%;
+  margin-top: 20px; 
+    transition: all 0.3s ease-in-out;
+}
+
+._nav-options-active{
+  display: block;
+}
+
+
 @media screen and (min-width: 768px) {
   ._nav {
+    flex-wrap: nowrap;
   }
 
   ._nav-burger {
     display: none;
+  }
+
+  // Brand
+  ._nav-brand {
+    min-width: 250px;
+  }
+
+  // Barra de busqueda
+  ._nav-search {
+    display: block;
   }
 
   // Menu de opciones
@@ -203,9 +233,8 @@ export default {
     padding: 10px 20px;
     transform: translateX(250px);
     visibility: hidden;
-    transition: all 0.3s ease-in-out;
     border-radius: 5px;
-    min-width: 250px;
+    width: 250px;
     z-index: -2;
     z-index: 1000;
     box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.1);
@@ -223,7 +252,7 @@ export default {
     padding: 5px;
   }
   ._nav-options-activator-active {
-    transform: rotate(180deg);
+    transform: rotate(90deg);
     background-color: var(--dark-white);
   }
 }

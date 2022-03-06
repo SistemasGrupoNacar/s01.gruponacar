@@ -3,7 +3,7 @@
   <router-view class="pt-3" />
 </template>
 <script>
-import NavB from "../components/Nav.vue";
+import NavB from "../components/NavBar.vue";
 export default {
   components: {
     NavB,

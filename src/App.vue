@@ -9,4 +9,8 @@
   -moz-osx-font-smoothing: grayscale;
   font-size: 1rem;
 }
+
+html, body{
+  overflow-x: hidden;
+}
 </style>

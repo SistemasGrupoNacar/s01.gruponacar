@@ -1,279 +1,230 @@
 <template>
-  <nav class="nav">
-    <img
-      :src="require('@/assets/icons/menus.png')"
-      alt="burger-menu-icon"
-      class="nav-burger"
-      ref="burger"
-      v-on:click="cambiarEstadoElementosMenu"
-    />
-    <div class="user-info">
-      <span class="_semi-bold" v-if="usuario != null">
-        {{ usuario }}
-      </span>
-      <p class="text-muted" v-else>G-NACAR</p>
+  <nav class="_nav">
+    <div class="_nav-brand"></div>
+    <div class="_nav-burger">
+      <img :src="imgMenu" alt="icono de opciones" />
     </div>
-    <div class="elements" v-show="mostrarElementosMenu">
-      <router-link
-        v-for="(item, index) in rutas"
-        :key="index"
-        class="link _semi-bold _link position-relative link-upper"
-        :to="item.direccion"
-        :class="{ active: item.direccion == rutaActual }"
-        >{{ item.nombre }}
-        <div class="_dropdown" v-if="item.poseeDerivaciones">
-          <router-link
-            v-for="(itemDerivacion, index) in item.derivaciones"
-            :key="index"
-            :to="itemDerivacion.direccion"
-            class="link-dropdown _link"
-            >{{ itemDerivacion.nombre }}</router-link
-          >
-        </div>
-      </router-link>
+    <div class="_nav-search">
+      <el-input
+        class=""
+        placeholder="Ingrese secci&oacute;n que desea visitar"
+      ></el-input>
+    </div>
+    <div
+      class="_nav-options-activator"
+      ref="navOptionsActivator"
+      v-on:click.prevent="navOptionsSwitcher()"
+    >
+      <img
+        :src="images.imgOptionsVertical"
+        ref="navOptionsActivatorIcon"
+        alt="icono de opciones"
+        class="_icon"
+      />
+    </div>
+    <div class="_nav-options" ref="navOptions">
+      <p class="my-0" v-for="(item, index) in rutas" :key="index">
+        <router-link :to="item.url">{{ item.nombre }}</router-link>
+      </p>
     </div>
   </nav>
 </template>
 <script>
-import {
-  obtenerNombreDeUsuarioIniciales,
-  obtenerNombreDeUsuario,
-} from "@/scripts/Sesion.js";
+import imgMenu from "@/assets/illustrations/Menu.svg";
+import imgPlus from "@/assets/illustrations/Plus.svg";
+import imgOptionsVertical from "@/assets/illustrations/options-vertical.svg";
+import imgClose from "@/assets/illustrations/close.svg";
+
 export default {
   data() {
     return {
-      mostrarElementosMenu: false,
-      rutaActual: "",
-      usuario: null,
+      images: {
+        imgMenu,
+        imgPlus,
+        imgOptionsVertical,
+        imgClose,
+      },
       rutas: [
         {
-          direccion: "/",
-          nombre: "Inicio",
-          poseeDerivaciones: false,
-        },
-        {
-          direccion: "",
-          nombre: "Inventario",
-          poseeDerivaciones: true,
-          derivaciones: [
-            {
-              direccion: "/inventario/productos",
-              nombre: "Productos",
-            },
-            {
-              direccion: "/inventario/insumos",
-              nombre: "Insumos",
-            },
+          nombre: "Panel de control",
+          url: "/",
+          grupo: "General",
+          palabras: [
+            "panel",
+            "control",
+            "panel de control",
+            "inicio",
+            "dashboard",
+            "home",
           ],
         },
         {
-          direccion: "",
-          nombre: "Movimientos",
-          poseeDerivaciones: true,
-          derivaciones: [
-            {
-              direccion: "/movimientos/ingresos",
-              nombre: "Ingresos",
-            },
-            {
-              direccion: "/movimientos/egresos",
-              nombre: "Egresos",
-            },
-            {
-              direccion: "/movimientos/ventas",
-              nombre: "Ventas",
-            },
-            {
-              direccion: "/movimientos/extra",
-              nombre: "Extras",
-            },
-          ],
+          nombre: "Insumos",
+          url: "/inventario/insumos",
+          grupo: "Inventario",
+          palabras: ["insumos", "insumo"],
         },
         {
-          direccion: "/producciones",
+          nombre: "Productos",
+          url: "/inventario/productos",
+          grupo: "Inventario",
+          palabras: ["productos", "producto"],
+        },
+        {
+          nombre: "Ingresos",
+          url: "/movimientos/ingresos",
+          grupo: "Movimientos",
+          palabras: ["ingresos", "ingreso"],
+        },
+        {
+          nombre: "Egresos",
+          url: "/movimientos/egresos",
+          grupo: "Movimientos",
+          palabras: ["egresos", "egreso"],
+        },
+        {
+          nombre: "Ventas",
+          url: "/movimientos/ventas",
+          grupo: "Movimientos",
+          palabras: ["ventas", "venta"],
+        },
+        {
+          nombre: "Extras",
+          url: "/movimientos/extra",
+          grupo: "Movimientos",
+          palabras: ["extras", "extra"],
+        },
+        {
           nombre: "Producciones",
-          poseeDerivaciones: false,
+          url: "/producciones",
+          grupo: "Control",
+          palabras: ["producciones", "produccion", "producción"],
         },
         {
-          direccion: "/perfil",
+          nombre: "Lugares",
+          url: "/lugares",
+          grupo: "Control",
+          palabras: [
+            "lugares",
+            "lugar",
+            "casa",
+            "casa de campo",
+            "malla",
+            "terreno",
+            "campo",
+          ],
+        },
+        {
+          nombre: "Empleados",
+          url: "/empleados",
+          grupo: "Control",
+          palabras: ["empleados", "empleado", "trabajador"],
+        },
+        {
+          nombre: "Jornadas",
+          url: "/jornadas",
+          grupo: "Control",
+          palabras: [
+            "jornadas",
+            "jornada",
+            "laboral",
+            "trabajo",
+            "dias",
+            "días",
+          ],
+        },
+        {
           nombre: "Perfil",
-          poseeDerivaciones: false,
+          url: "/perfil",
+          grupo: "Usuario",
+          palabras: ["perfil", "perfiles", "cuenta", "cuentas", "yo"],
         },
       ],
     };
   },
   methods: {
-    async obtenerUsuario() {
-      this.usuario = await obtenerNombreDeUsuario();
-      return;
-    },
-    async obtenerUsuarioIniciales() {
-      this.usuario = await obtenerNombreDeUsuarioIniciales();
-      return;
-    },
-    cambiarEstadoElementosMenu() {
-      if (window.innerWidth < 768) {
-        this.mostrarElementosMenu = !this.mostrarElementosMenu;
-      }
-    },
-  },
-  mounted() {
-    this.$nextTick(() => {
-      // verificar si se mira desde telefono o computadora
-      if (window.innerWidth >= 768) {
-        this.mostrarElementosMenu = true;
-        this.obtenerUsuario();
-      } else {
-        this.obtenerUsuarioIniciales();
-      }
-    });
-    // Modificar $route
-    this.rutaActual = this.$route.path;
-  },
-  watch: {
-    $route() {
-      const urlCortada = this.$route.path.split("/");
-      if (urlCortada.length >= 2) {
-        this.rutaActual = urlCortada[0] + "/" + urlCortada[1];
-      } else if (this.$router.path == "") {
-        this.rutaActual = "/";
-      } else {
-        this.rutaActual = this.$route.path;
-      }
-    },
+    navOptionsSwitcher() {
+      // Verifica si esta abierto el menu de opciones
+      this.$refs.navOptions.classList.toggle("_nav-options-active");
+      this.$refs.navOptionsActivator.classList.toggle(
+        "_nav-options-activator-active"
+      );
 
-    // Watcher de ruta actual
-    rutaActual() {
-      const urlCortada = this.$route.path.split("/");
-      if (urlCortada.length >= 2) {
-        this.rutaActual = urlCortada[0] + "/" + urlCortada[1];
-      } else if (this.$router.path == "") {
-        this.rutaActual = "/";
-      } else {
-        this.rutaActual = this.$route.path;
-      }
+      // Cambiar el icono del activador
+      this.$refs.navOptionsActivatorIcon.src =
+        this.$refs.navOptions.classList.contains("_nav-options-active")
+          ? this.images.imgClose
+          : this.images.imgOptionsVertical;
     },
   },
 };
 </script>
 <style lang="scss">
-.nav {
-  padding: 15px 5%;
-  // can not select text
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  // Agregar sombra al final
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-}
-
-.nav-burger {
-  display: block;
-  width: 30px;
-  height: 30px;
-  cursor: pointer;
-  position: absolute;
-  right: 15px;
-}
-.user-info {
-  margin: 0;
-  cursor: pointer;
-  font-size: 1.3rem;
-}
-
-.elements {
-  width: 100%;
-}
-
-.active {
-  color: var(--color-primary) !important;
-}
-
-._dropdown {
-  display: none;
+._nav {
+  height: 60px;
+  background-color: var(--white);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
   position: relative;
-  margin: 0;
-  left: 0;
-  right: auto;
-  margin-left: 1rem;
-  width: auto;
-  background: var(--white);
-  border-radius: 5px;
-  padding: 0;
-  z-index: 99;
+  padding: 10px 15px;
 }
 
-.link {
+._nav-burger {
   display: block;
-  font-size: 1.1rem;
-  margin: 10px 0;
 }
 
-.link-upper {
-  &:hover ._dropdown {
-    display: block;
+._nav-search {
+  flex: 1;
+  padding: 10px 20px;
+}
+
+//Icono
+._icon {
+  width: 28px;
+  height: 28px;
+}
+
+@media screen and (min-width: 768px) {
+  ._nav {
   }
-}
 
-.link-dropdown {
-  display: block;
-  font-weight: 500;
-  margin: 10px 0;
-  text-decoration: transparent !important;
-}
-
-.link-dropdown:hover {
-  letter-spacing: 0.3px;
-}
-/* Medium devices (tablets, 768px and up)*/
-@media (min-width: 768px) {
-  .nav-burger {
+  ._nav-burger {
     display: none;
   }
-  ._dropdown {
-    display: none;
+
+  // Menu de opciones
+  ._nav-options {
     position: absolute;
-    right: 0 !important;
-    left: auto;
-    width: 200px;
-    text-align: center;
-    margin: 0;
-    background: var(--dark-white);
+    background: var(--white);
+    top: 60px;
+    right: 0px;
+    padding: 10px 20px;
+    transform: translateX(250px);
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+    border-radius: 5px;
+    min-width: 250px;
+    z-index: -2;
+    z-index: 1000;
+    box-shadow: -10px 10px 20px rgba(0, 0, 0, 0.1);
   }
-  .nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 15px 10%;
-    height: 75px;
-    align-items: center;
+  ._nav-options-active {
+    transform: translateX(0px) !important;
+    visibility: visible;
   }
-  .user-info {
-    display: block;
-    margin: 0;
-    font-size: 1.2rem;
+  // Activador del menu de opciones
+  ._nav-options-activator {
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    background: transparent;
+    border-radius: 50%;
+    padding: 5px;
   }
-  .elements {
-    width: auto;
+  ._nav-options-activator-active {
+    transform: rotate(180deg);
+    background-color: var(--dark-white);
   }
-  .link {
-    display: inline-block;
-    margin: 8px;
-    font-size: 0.9rem;
-  }
-  .link-dropdown {
-    margin: 12px 0px;
-  }
-  .active {
-    text-decoration-color: var(--color-primary);
-  }
-}
-
-/* Large devices (desktops, 992px and up)*/
-@media (min-width: 992px) {
-}
-
-/* Extra large devices (large desktops, 1200px and up)*/
-@media (min-width: 1200px) {
 }
 </style>

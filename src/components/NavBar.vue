@@ -1,13 +1,24 @@
 <template>
   <nav class="_nav">
-    <div class="_nav-brand">
-      Grupo Nacar 
-    </div>
+    <div class="_nav-brand">Grupo Nacar</div>
     <div class="_nav-search">
-      <el-input
-        class=""
-        placeholder="Ingrese secci&oacute;n que desea visitar"
-      ></el-input>
+      <el-select
+        v-model="rutaSeleccionada"
+        class="w-50 d-block mx-auto"
+        filterable
+        remote
+        placeholder="Escriba apartado a buscar"
+        :remote-method="buscarRuta"
+        :loading="cargando"
+      >
+        <el-option
+          v-for="item in rutasCoincidentes"
+          :key="item.url"
+          :label="item.nombre"
+          :value="item.url"
+        >
+        </el-option>
+      </el-select>
     </div>
     <div
       class="_nav-options-activator"
@@ -22,9 +33,29 @@
       />
     </div>
     <div class="_nav-options" ref="navOptions">
-      <p class="my-0" v-for="(item, index) in rutas" :key="index">
-        <router-link :to="item.url">{{ item.nombre }}</router-link>
-      </p>
+      <el-menu @open="handleOpen" @close="handleClose">
+        <el-sub-menu
+          v-for="(item, index) in rutasAgrupadas"
+          :key="index"
+          :index="index.toString()"
+        >
+          <template #title>
+            <span class="_semi-bold">{{ item.nombre }}</span>
+          </template>
+          <el-menu-item
+            v-for="(itemA, indexA) in item.rutas"
+            :key="indexA"
+            class="p-0"
+          >
+            <router-link
+              :to="itemA.url"
+              class="px-4 w-100 text-start _link"
+              v-on:click.prevent="cerrarMenu()"
+              >{{ itemA.nombre }}</router-link
+            >
+          </el-menu-item>
+        </el-sub-menu>
+      </el-menu>
     </div>
   </nav>
 </template>
@@ -43,6 +74,9 @@ export default {
         imgOptionsVertical,
         imgClose,
       },
+      rutasCoincidentes: [],
+      rutaSeleccionada: "",
+      rutasAgrupadas: [],
       rutas: [
         {
           nombre: "Panel de control",
@@ -135,11 +169,21 @@ export default {
         {
           nombre: "Perfil",
           url: "/perfil",
-          grupo: "Usuario",
+          grupo: "General",
           palabras: ["perfil", "perfiles", "cuenta", "cuentas", "yo"],
         },
       ],
     };
+  },
+  mounted() {
+    this.rutasAgrupadas = this.agruparRutas(this.rutas);
+  },
+  watch: {
+    rutaSeleccionada(nuevaRuta) {
+      if (nuevaRuta != "") {
+        this.$router.replace(nuevaRuta);
+      }
+    },
   },
   methods: {
     navOptionsSwitcher() {
@@ -153,6 +197,44 @@ export default {
         this.$refs.navOptions.classList.contains("_nav-options-active")
           ? this.images.imgClose
           : this.images.imgOptionsVertical;
+    },
+    buscarRuta(palabraBusqueda) {
+      this.cargando = true;
+      if (palabraBusqueda != "") {
+        this.rutasCoincidentes = this.rutas.filter((ruta) => {
+          return ruta.palabras.some((palabra) => {
+            return palabra.includes(palabraBusqueda.toLowerCase());
+          });
+        });
+      } else {
+        this.rutasCoincidentes = [];
+      }
+      this.cargando = false;
+    },
+    agruparRutas(rutas) {
+      let routes = [];
+      rutas.forEach((ruta) => {
+        let grupoNombre = ruta.grupo;
+        let grupoExistente = routes.find(
+          (grupo) => grupo.nombre == grupoNombre
+        );
+        if (grupoExistente) {
+          grupoExistente.rutas.push(ruta);
+        } else {
+          routes.push({
+            nombre: grupoNombre,
+            rutas: [ruta],
+          });
+        }
+      });
+      return routes;
+    },
+    cerrarMenu() {
+      this.$refs.navOptions.classList.remove("_nav-options-active");
+      this.$refs.navOptionsActivator.classList.remove(
+        "_nav-options-activator-active"
+      );
+      this.$refs.navOptionsActivatorIcon.src = this.images.imgOptionsVertical;
     },
   },
 };
@@ -170,7 +252,7 @@ export default {
   padding: 10px 15px;
 }
 
-._nav-brand{
+._nav-brand {
   display: flex;
   align-items: center;
   height: calc(60px - 10px);
@@ -181,7 +263,7 @@ export default {
 }
 
 ._nav-search {
-  display:none;
+  display: none;
   flex: 1;
   padding: 10px 20px;
 }
@@ -192,18 +274,17 @@ export default {
   height: 28px;
 }
 
-._nav-options{
+._nav-options {
   position: relative;
   display: none;
   width: 100%;
-  margin-top: 20px; 
-    transition: all 0.3s ease-in-out;
+  margin-top: 20px;
+  transition: all 0.3s ease-in-out;
 }
 
-._nav-options-active{
+._nav-options-active {
   display: block;
 }
-
 
 @media screen and (min-width: 768px) {
   ._nav {
@@ -251,9 +332,11 @@ export default {
     border-radius: 50%;
     padding: 5px;
   }
+  ._nav-options-activator:hover {
+    background: var(--dark-white);
+  }
   ._nav-options-activator-active {
     transform: rotate(90deg);
-    background-color: var(--dark-white);
   }
 }
 </style>

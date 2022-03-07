@@ -339,8 +339,6 @@ export default {
 }*/
 
 @media (min-width: 768px) {
-  ._nav {
-  }
 
   ._nav-brand {
     display: block;

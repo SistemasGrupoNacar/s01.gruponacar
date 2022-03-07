@@ -25,7 +25,6 @@ const obtenerNombreDeUsuario = async () => {
 const obtenerNombreDeUsuarioIniciales = async () => {
   let jwt = await getPayloadToken();
   if (jwt != null) {
-    console.log(`${jwt.firstName.slice(" ")[0]} ${jwt.lastName.slice(" ")[0]}`);
     return `${jwt.firstName.slice(" ")[0]}${jwt.lastName.slice(" ")[0]}`;
   } else {
     return null;

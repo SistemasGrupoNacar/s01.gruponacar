@@ -108,9 +108,9 @@ export default {
   mounted() {
     this.obtenerDatosPanel();
     // Obtener la ubicacion actual
-    navigator.geolocation.getCurrentPosition((position) => {
+    /*navigator.geolocation.getCurrentPosition((position) => {
       console.log(position);
-    });
+    });*/
   },
   methods: {
     async obtenerDatosPanel() {

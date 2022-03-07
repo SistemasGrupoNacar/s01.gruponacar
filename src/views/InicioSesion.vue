@@ -43,6 +43,7 @@
           class="_w-50 m-2"
           placeholder="Ingrese contrase&ntilde;a"
           type="password"
+          @keyup.enter ="iniciarSesion(credenciales)"
           show-password
         >
           <template #prefix>

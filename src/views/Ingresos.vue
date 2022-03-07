@@ -252,11 +252,9 @@ export default {
     },
     async filtrar(data) {
       this.cargando = true;
-      console.log(data);
       if (data.date != null) {
         const startDate = data.date[0].toISOString();
         const endDate = data.date[1].toISOString();
-        console.log(startDate);
         try {
           const respuesta = await api.obtenerIngresosFecha(startDate, endDate);
           this.ingresos = respuesta.data;

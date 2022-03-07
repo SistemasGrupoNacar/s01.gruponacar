@@ -132,7 +132,6 @@ export default {
             _id: respuesta.data._id,
           },
         });
-        console.log(respuesta);
       } catch (error) {
         if (error.response) {
           if (error.response.status == 422) {

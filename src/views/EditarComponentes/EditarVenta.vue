@@ -15,7 +15,7 @@
           >Cancelar Venta
         </el-button>
         <el-button class="my-2 text-end" type="" v-on:click="finalizarVenta()"
-          >Finalizar Venta
+          >Terminar Edici&oacute;n
         </el-button>
       </div>
     </div>

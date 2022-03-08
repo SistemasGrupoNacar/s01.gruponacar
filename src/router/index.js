@@ -106,16 +106,6 @@ const routes = [
         component: () => import("../views/Ventas.vue"),
       },
       {
-        path: "movimientos/ventas/nueva",
-        name: "NuevaVenta",
-        component: () => import("../views/NuevoComponentes/NuevaVenta.vue"),
-      },
-      {
-        path: "movimientos/ventas/editar/:id",
-        name: "EditarVenta",
-        component: () => import("../views/EditarComponentes/EditarVenta.vue"),
-      },
-      {
         path: "producciones/detalle",
         name: "DetalleProduccion",
         component: () => import("../views/DetalleProduccion.vue"),
@@ -192,6 +182,16 @@ const routes = [
     props: true,
     component: () =>
       import("../views/DetalleComponentes/EmpleadoDetalleComponente.vue"),
+  },
+  {
+    path: "/movimientos/ventas/nueva",
+    name: "NuevaVenta",
+    component: () => import("../views/NuevoComponentes/NuevaVenta.vue"),
+  },
+  {
+    path: "/movimientos/ventas/editar/:id",
+    name: "EditarVenta",
+    component: () => import("../views/EditarComponentes/EditarVenta.vue"),
   },
   {
     path: "/login",

@@ -1083,6 +1083,54 @@ async function cambiarAvatarEmpleado(username, data) {
   });
 }
 
+// Obtener ultimos usuarios
+async function obtenerUltimosUsuarios() {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .get(API_URI + "/users/last", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Obtener los usuarios completos
+async function obtenerUsuarios() {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .get(API_URI + "/users", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   iniciarSesion,
   verificarToken,
@@ -1153,4 +1201,6 @@ export default {
   obtenerJornadasEnProceso,
   eliminarJornada,
   cambiarAvatarEmpleado,
+  obtenerUltimosUsuarios,
+  obtenerUsuarios,
 };

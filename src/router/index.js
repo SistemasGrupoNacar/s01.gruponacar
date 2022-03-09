@@ -174,6 +174,11 @@ const routes = [
         name: "NuevoEmpleado",
         component: () => import("../views/NuevoComponentes/NuevoEmpleado.vue"),
       },
+      {
+        path: "usuarios",
+        name: "Usuarios",
+        component: () => import("../views/Usuarios.vue"),
+      },
     ],
   },
   {
@@ -194,9 +199,15 @@ const routes = [
     component: () => import("../views/EditarComponentes/EditarVenta.vue"),
   },
   {
+    path: "/usuarios/editar/:id",
+    name: "EditarUsuario",
+    component: () => import("../views/EditarComponentes/EditarUsuario.vue"),
+  },
+  {
     path: "/login",
     name: "InicioSesion",
     component: () => import("../views/InicioSesion.vue"),
+    props: true,
   },
 ];
 

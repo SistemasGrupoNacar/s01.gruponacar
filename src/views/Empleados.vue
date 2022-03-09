@@ -6,7 +6,7 @@
     placement="top"
   >
     <el-button
-      class="nuevo-empleado"
+      class="nuevo-empleado "
       type="primary"
       v-on:click="nuevoEmpleado()"
       ><el-icon><Plus /> </el-icon>

@@ -172,6 +172,19 @@ export default {
           grupo: "General",
           palabras: ["perfil", "perfiles", "cuenta", "cuentas", "yo"],
         },
+        {
+          nombre: "Usuarios",
+          url: "/usuarios",
+          grupo: "General",
+          palabras: [
+            "usuarios",
+            "usuario",
+            "persona",
+            "token",
+            "empleado",
+            "yo",
+          ],
+        },
       ],
     };
   },

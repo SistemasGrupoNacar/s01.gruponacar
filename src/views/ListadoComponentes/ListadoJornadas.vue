@@ -45,23 +45,12 @@
                         Terminada</span
                       >
                     </p>
+
                     <p class="my-1">
                       Empleado -
                       <span class="_letter-spacing-1 _semi-bold">
                         {{ props.row.employee.first_name }}
                         {{ props.row.employee.last_name }}
-                      </span>
-                    </p>
-                    <p class="my-1">
-                      Entrada -
-                      <span class="_letter-spacing-1 _semi-bold">
-                        {{ props.row.check_in_format }}
-                      </span>
-                    </p>
-                    <p v-if="props.row.check_out != null" class="my-1">
-                      Salida -
-                      <span class="_letter-spacing-1 _semi-bold">
-                        {{ props.row.check_out_format }}
                       </span>
                     </p>
                     <p class="my-1" v-if="props.row.hours">
@@ -70,6 +59,21 @@
                         {{ props.row.hours }}
                       </span>
                     </p>
+                    <el-timeline class="my-1">
+                      <el-timeline-item
+                        :key="props.row._id"
+                        :timestamp="props.row.check_in_format"
+                      >
+                        Entrada
+                      </el-timeline-item>
+                      <el-timeline-item
+                        v-if="props.row.check_out != null"
+                        :key="props.row._id"
+                        :timestamp="props.row.check_out_format"
+                      >
+                        Salida
+                      </el-timeline-item>
+                    </el-timeline>
                     <el-popconfirm
                       confirm-button-text="Si"
                       cancel-button-text="No"

@@ -1,10 +1,12 @@
 <template>
-  <div class="container py-3">
+  <el-page-header class="my-3" content="Nueva venta" @back="finalizarVenta()" />
+  <hr />
+  <div class="container">
     <div class="_detail">
       <div class="px-5">
         <p class="_text-bigger text-center my-0">{{ venta._id }}</p>
         <p class="my-0 _light text-end" v-if="venta.date">
-          {{ venta.date.slice(0, 10) }}
+          {{venta.date_format}}
         </p>
       </div>
 
@@ -19,8 +21,8 @@
         </el-button>
       </div>
     </div>
-    <el-main v-loading.fullscreen.lock="cargando" class="w-100 main">
-      <div class="row my-1">
+    <el-main v-loading.fullscreen.lock="cargando" class="w-100 main my-0 py-0">
+      <div class="row">
         <div class="col-12 col-lg-4 px-lg-2">
           <p class="_bold">Seleccion de producto</p>
           <span class="text-muted">Producto: </span>
@@ -63,7 +65,7 @@
             class="w-100 my-2"
             @change="calcularTotal()"
           />
-          <span class="text-muted">Sub-total: </span>
+          <span class="text-muted">Precio Unitario: </span>
           <el-input-number
             v-model="productoSeleccionado.sub_total"
             :min="0.01"
@@ -71,7 +73,7 @@
             class="w-100 my-2"
             @change="calcularTotal()"
           ></el-input-number>
-          <span class="text-muted">Total: </span>
+          <span class="text-muted">Sub-Total: </span>
           <el-input-number
             v-model="productoSeleccionado.total"
             class="w-100 my-2"
@@ -85,7 +87,7 @@
             >Agregar Producto
           </el-button>
         </div>
-        <div class="col-12 col-lg-8 px-lg-2">
+        <div class="col-12 col-lg-8 px-lg-2 ">
           <p class="_bold">Detalle de Venta</p>
           <el-table :data="detalleVenta" style="width: 100%">
             <el-table-column prop="_id" label="ID" width="180" />

@@ -32,24 +32,27 @@
           ><el-table-column prop="check_out_format" label="Salida" width="200">
           </el-table-column>
         </el-table>
-        <el-button
-          class="d-block mx-auto my-3"
-          v-on:click="listadoJornadas()"
+        <el-button class="d-block mx-auto my-3" v-on:click="listadoJornadas()"
           >Mostrar todos</el-button
         >
       </div>
       <div class="col-12 col-md-5 my-3">
         <p class="_text-bigger text-center">Jornadas en progreso</p>
-        <ul class="mx-2" v-if="listadoJornadasEnProgreso.length > 0">
-          <li
-            class="_light"
-            v-for="(item, index) in listadoJornadasEnProgreso"
-            :key="index"
-          >
-            {{ item.employee.first_name }} {{ item.employee.last_name }} -
-            {{ item.check_in_format }}
-          </li>
-        </ul>
+        <div v-if="listadoJornadasEnProgreso.length > 0">
+          <div v-for="(item, index) in listadoJornadasEnProgreso" :key="index">
+            <div class="row">
+              <div class="col-4 _semi-bold">
+                {{ item.employee.first_name }}
+              </div>
+              <div class="col-8">
+                <p>
+                  Hora ingreso: <span>{{ item.check_in_format }}</span>
+                </p>
+              </div>
+            </div>
+            <hr />
+          </div>
+        </div>
         <p class="text-center text-muted my-5" v-else>No hay registros</p>
       </div>
     </div>
@@ -83,10 +86,10 @@ export default {
     nuevaJornada() {
       this.$router.push("/jornadas/nuevo");
     },
-    listadoJornadas(){
+    listadoJornadas() {
       this.$router.push("/jornadas/listado");
     },
-    
+
     async obtenerUltimasJornadas() {
       this.cargando = true;
       try {

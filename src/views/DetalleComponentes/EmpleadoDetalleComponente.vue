@@ -1,14 +1,16 @@
 <template>
-  <el-main
-    class="_h-100 container py-2 px-1 px-lg-4 my-1"
-    v-loading.fullscreen.lock="cargando"
-  >
-    >
-    <p class="_title text-start">Administraci&oacute;n de empleado</p>
-    <p class="_subtitle text-muted text-start">
-      Administraci&oacute;n de usuario del empleado
-    </p>
+  <el-main class="py-2 px-1 px-lg-4" v-loading.fullscreen.lock="cargando">
+    <el-page-header
+      class="my-3"
+      content="Personalización de usuario"
+      @back="irEmpleados()"
+    /> <hr>
     <div class="row px-1 my-2">
+      <div class="col-12 col-md-4 my-2 text-center">
+        <p class="_text-bigger text-center">Detalles de usuario</p>
+        <el-avatar :size="128" :src="avatar"></el-avatar>
+        <p class="_subtitle">{{ username }}</p>
+      </div>
       <div class="col-12 col-md-4 my-2">
         <p class="_text-bigger text-center">
           Selecci&oacute;n de &aacute;vatar
@@ -21,6 +23,13 @@
           >
             <el-avatar :size="64" :src="item"></el-avatar>
           </span>
+
+          <el-button
+            v-on:click.prevent="cambiarAvatar(avatar)"
+            class="w-100 my-2"
+          >
+            Cambiar &aacute;vatar
+          </el-button>
         </div>
       </div>
       <div class="col-12 col-md-4 my-2">
@@ -61,30 +70,24 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-md-4 my-2 text-center">
-        <p class="_text-bigger text-center">Detalles de usuario</p>
-        <el-avatar :size="128" :src="avatar"></el-avatar>
-        <p class="_subtitle">{{ username }}</p>
-
-        <el-button
-          v-on:click.prevent="cambiarAvatar(avatar)"
-          class="w-100 my-2"
-        >
-          Cambiar &aacute;vatar
-        </el-button>
-      </div>
     </div>
 
-    <router-link to="/empleados">Volver a listado de empleados</router-link>
+    <p class="_link _semi-bold my-4 my-md-1 mx-4" v-on:click.prevent="irEmpleados()">
+      <el-icon><arrow-right /></el-icon> Ir a listado de empleados
+    </p>
   </el-main>
 </template>
 <script>
 import api from "@/api/index.js";
+import { ArrowRight } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 const URL =
   "https://firebasestorage.googleapis.com/v0/b/s01-gruponacar.appspot.com/o/";
 export default {
   props: ["username", "_id"],
+  components: {
+    ArrowRight,
+  },
   data() {
     return {
       cargando: false,
@@ -222,6 +225,9 @@ export default {
         }
       }
       this.cargando = false;
+    },
+    irEmpleados() {
+      this.$router.replace("/empleados");
     },
   },
 };

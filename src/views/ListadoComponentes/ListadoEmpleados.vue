@@ -16,7 +16,6 @@
             <el-table-column prop="dui" label="Dui" width="100" />
             <el-table-column prop="phone" label="Tel&eacute;fono" width="100" />
             <el-table-column prop="email" label="Correo" width="250" />
-
             <el-table-column
               prop="journeys_count"
               label="Jornadas"

@@ -1131,6 +1131,54 @@ async function obtenerUsuarios() {
   });
 }
 
+// Obtener un usuario especifico
+async function obtenerUsuario(id) {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .get(API_URI + "/users/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Eliminar usuario
+async function eliminarUsuario(id) {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .delete(API_URI + "/users/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   iniciarSesion,
   verificarToken,
@@ -1203,4 +1251,6 @@ export default {
   cambiarAvatarEmpleado,
   obtenerUltimosUsuarios,
   obtenerUsuarios,
+  obtenerUsuario,
+  eliminarUsuario,
 };

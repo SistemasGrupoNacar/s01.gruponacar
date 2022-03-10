@@ -11,7 +11,7 @@
   </el-tooltip>
   <div class="container">
     <div class="row">
-      <div class="col-12 my-3">
+      <div class="col-12 col-md-7 my-3">
         <p class="_text-bigger text-center">Listado de usuarios</p>
         <el-table
           v-loading="cargando"
@@ -24,7 +24,7 @@
             </template> </el-table-column
           ><el-table-column prop="username" label="Usuario" width="180">
           </el-table-column>
-          <el-table-column prop="role.title" label="Rol" width="120">
+          <el-table-column prop="role.title_format" label="Rol" width="150">
           </el-table-column>
           <el-table-column fixed="right" label="Accion" width="100">
             <template #default="scope">
@@ -79,10 +79,11 @@ export default {
     async eliminarUsuario(usuario) {
       this.cargando = true;
       try {
-        const response = await api.eliminarUsuario(usuario.id);
+        const response = await api.eliminarUsuario(usuario);
         ElMessage.success(response.data.message);
         this.obtenerUltimosUsuarios();
       } catch (error) {
+        console.log(error)
         if (error.response) {
           ElMessage.error(error.response.data.message);
         } else {
@@ -93,7 +94,7 @@ export default {
     },
     async obtenerUltimosUsuarios() {
       try {
-        const respuesta = await api.obtenerUsuarios();
+        const respuesta = await api.obtenerUltimosUsuarios();
         this.listadoUltimosUsuarios = respuesta.data;
       } catch (error) {
         if (error.response) {

@@ -1060,7 +1060,7 @@ async function eliminarJornada(id) {
 }
 
 // Cambiar avatar de usuario de empleado
-async function cambiarAvatarEmpleado(username, data) {
+async function cambiarAvatar(username, data) {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
@@ -1068,6 +1068,7 @@ async function cambiarAvatarEmpleado(username, data) {
         message: "Token no encontrado",
       });
     }
+    console.log(data);
     axios
       .put(API_URI + "/users/" + username + "/change-avatar", data, {
         headers: {
@@ -1179,6 +1180,78 @@ async function eliminarUsuario(id) {
   });
 }
 
+// Obtener roles
+async function obtenerRoles() {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .get(API_URI + "/roles", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+//Verificar nombre de usuario
+async function verificarUsuario(username) {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .post(API_URI + "/users/verify-username", username, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// Crear usuario
+async function crearUsuario(data) {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .post(API_URI + "/users", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   iniciarSesion,
   verificarToken,
@@ -1248,9 +1321,12 @@ export default {
   obtenerUltimasJornadas,
   obtenerJornadasEnProceso,
   eliminarJornada,
-  cambiarAvatarEmpleado,
+  cambiarAvatar,
   obtenerUltimosUsuarios,
   obtenerUsuarios,
   obtenerUsuario,
   eliminarUsuario,
+  obtenerRoles,
+  verificarUsuario,
+  crearUsuario,
 };

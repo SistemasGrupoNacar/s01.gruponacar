@@ -79,11 +79,11 @@ export default {
     async eliminarUsuario(usuario) {
       this.cargando = true;
       try {
-        const response = await api.eliminarUsuario(usuario);
-        ElMessage.success(response.data.message);
+        await api.eliminarUsuario(usuario);
+        ElMessage.success("Usuario eliminado");
         this.obtenerUltimosUsuarios();
       } catch (error) {
-        console.log(error)
+        console.log(error);
         if (error.response) {
           ElMessage.error(error.response.data.message);
         } else {
@@ -111,6 +111,9 @@ export default {
           id: id,
         },
       });
+    },
+    nuevoUsuario() {
+      this.$router.push("/usuarios/nuevo");
     },
   },
 };

@@ -1,7 +1,12 @@
 <template>
+  <el-page-header
+    class="my-3"
+    content="Creaci&oacute;n de empleado"
+    @back="irEmpleados()"
+  />
+  <hr />
   <div class="container">
-    <p class="_title">Nuevo empleado</p>
-    <p class="_subtitle">Creaci&oacute;n de nuevo empleado para la empresa.</p>
+    
     <div class="row">
       <div class="col-12 col-md-6 my-2">
         <span class="text-muted">Nombres</span>
@@ -160,6 +165,9 @@ export default {
         return false;
       }
       return true;
+    },
+    irEmpleados() {
+      this.$router.replace("/empleados");
     },
   },
 };

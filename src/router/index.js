@@ -194,6 +194,16 @@ const routes = [
     component: () => import("../views/NuevoComponentes/NuevaVenta.vue"),
   },
   {
+    path: "/usuarios/nuevo",
+    name: "NuevoUsuario",
+    component: () => import("../views/NuevoComponentes/NuevoUsuario.vue"),
+  },
+  {
+    path: "/empleados/nuevo",
+    name: "NuevoEmpleado",
+    component: () => import("../views/NuevoComponentes/NuevoEmpleado.vue"),
+  },
+  {
     path: "/movimientos/ventas/editar/:id",
     name: "EditarVenta",
     component: () => import("../views/EditarComponentes/EditarVenta.vue"),

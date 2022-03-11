@@ -1,45 +1,52 @@
 <template>
   <el-main v-loading.fullscreen.lock="cargando" class="min-h-50">
-    <div
-      class="w-100 px-3 py-2 d-flex flex-column flex-md-row justify-content-center align-items-center"
-    >
-      <div class="mx-0 mx-md-3 my-3 my-md-0 px-3 py-2">
-        <p class="_title">Grupo NACAR</p>
-        <p class="_subtitle">Perfil de trabajador</p>
-      </div>
-      <div
-        class="mx-0 mx-lg-3 my-3 my-md-0 text-start _w-40 px-3 py-2"
-        v-if="usuario != null"
-      >
-        <p class="_bold _letter-spacing-1 _text-bigger my-0">
-          {{ usuario.firstName }}
-        </p>
-        <p class="mx-4 my-0 _text-big">{{ usuario.lastName }}</p>
-        <p class="mx-4 my-2 ">DUI: {{ usuario.dui }}</p>
-        <p class="mx-4 my-2">Tel&eacute;fono: {{ usuario.phone }}</p>
-        <p class="mx-4 my-2 ">Id: {{ usuario._id }}</p>
-        <el-button class="w-100" v-on:click.prevent="cerrarSesion()"
-          >Cerrar Sesion</el-button
+    <div class="container my-2" v-if="usuario != null">
+      <div class="row">
+        <div class="col-12 col-md-5 text-center">
+          <el-avatar
+            :size="128"
+            :src="usuario.user.avatar"
+            class="_avatar"
+          ></el-avatar>
+        </div>
+        <div
+          class="col-12 col-md-7 d-flex flex-wrap flex-column align-items-center justify-content-center"
         >
+          <p class="_letter-spacing-1">
+            Nombre de usuario:
+            <span class="_semi-bold">{{ usuario.user.username }}</span>
+          </p>
+          <p class="_letter-spacing-1">
+            Tipo de usuario:
+            <span class="_semi-bold">{{ usuario.user.role.title_format }}</span>
+          </p>
+        </div>
+        <div class="col-12 my-2">
+          <el-button class="d-block _w-50 mx-auto" v-on:click.prevent="cerrarSesion()"
+            >Cerrar Sesi&oacute;n</el-button
+          >
+        </div>
       </div>
     </div>
   </el-main>
-  <div class=" px-5 py-3">
+  <div class="px-5 py-3">
     <p class="_subtitle my-3">M&aacute;s acciones</p>
-    <p class="my-1 _text-small _hover" v-on:click.prevent="cambiarContrasena()">
+    <p class="my-1 _hover" v-on:click.prevent="cambiarContrasena()">
       - Cambiar contrase&ntilde;a
     </p>
-    <p class="my-1 _text-small _hover" v-on:click.prevent="reportarProblema()">
+    <p class="my-1 _hover" v-on:click.prevent="reportarProblema()">
       - Reportar un problema
     </p>
   </div>
 </template>
 <script>
 import { getPayloadToken } from "@/scripts/Token.js";
+import api from "@/api/index.js";
 import { ElMessage } from "element-plus";
 export default {
   data() {
     return {
+      payloadToken: "",
       usuario: null,
       cargando: false,
     };
@@ -51,7 +58,9 @@ export default {
     async obtenerDatosUsuario() {
       this.cargando = true;
       try {
-        this.usuario = await getPayloadToken();
+        this.payloadToken = await getPayloadToken();
+        const respuesta = await api.obtenerUsuario(this.payloadToken._id);
+        this.usuario = respuesta.data;
       } catch (error) {
         ElMessage.error({
           message: "Error al obtener datos del usuario",

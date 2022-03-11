@@ -185,6 +185,12 @@ export default {
             "yo",
           ],
         },
+        {
+          nombre: "Salarios",
+          url: "/salarios",
+          grupo: "Control",
+          palabras: ["salarios", "salario", "salario mínimo", "dinero"],
+        },
       ],
     };
   },

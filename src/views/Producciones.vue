@@ -129,7 +129,8 @@
                   Costos =
                   <span class="_bold">{{
                     calcularCostoProduccion(
-                      produccionSeleccionada.production_costs
+                      produccionSeleccionada.production_costs,
+                      produccionSeleccionada.salaries
                     )
                   }}</span>
                 </p></el-badge
@@ -335,9 +336,12 @@ export default {
     agregarGastoInsumo(id) {
       this.$router.push("/producciones/nuevo-gasto-insumo/" + id);
     },
-    calcularCostoProduccion(productionCosts) {
+    calcularCostoProduccion(productionCosts, salaries) {
       let costo = 0;
       productionCosts.map((item) => {
+        costo += item.total;
+      });
+      salaries.map((item) => {
         costo += item.total;
       });
       return costo.toLocaleString("en-US", {
@@ -390,7 +394,7 @@ export default {
   }
 }
 
-._max-list{
+._max-list {
   max-height: 300px;
   overflow-y: auto;
 }

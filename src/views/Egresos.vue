@@ -4,10 +4,7 @@
     <p class="_subtitle text-muted text-start">
       Informaci&oacute;n gerencial de egresos.
     </p>
-    <el-main
-      v-loading.fullscreen.lock="cargando"
-      class="m-0"
-    >
+    <el-main v-loading.fullscreen.lock="cargando" class="m-0">
       <div class="d-inline-flex align-items-center mx-2 my-2 my-lg-0">
         <span>Fecha: </span>
         <el-date-picker
@@ -139,7 +136,47 @@
           <div class="row">
             <div class="col-12 col-md-7 my-2">
               <p class="_semi-bold my-1">Gr&aacute;fico de Costos/Fechas</p>
-              <grafica :datos="null" />
+              <grafica :datos="egresos.salaries.graphic" />
+            </div>
+            <div class="col-12 col-lg-5 my-2">
+              <p class="_semi-bold my-1">Detalle de Egresos por otros</p>
+              <hr />
+              <div class="container my-3 text-center">
+                <div class="_light">
+                  <span class="">
+                    {{ egresos.salaries.startDateFormat }}
+                  </span>
+                  <span class="mx-1">-</span>
+                  <span class="">
+                    {{ egresos.salaries.endDateFormat }}
+                  </span>
+                  <el-tag
+                    class="mx-auto"
+                    type="info"
+                    v-show="egresos.salaries.filtered"
+                    >Filtrado</el-tag
+                  >
+                </div>
+                <hr />
+                <div class="container my-2">
+                  <el-icon><SortUp /> </el-icon>
+                  <span class="mx-2"
+                    >Egreso mayor: {{ egresos.salaries.max }}</span
+                  >
+                </div>
+                <div class="container my-2">
+                  <el-icon><SortDown /> </el-icon>
+                  <span class="mx-2"
+                    >Egreso menor: {{ egresos.salaries.min }}</span
+                  >
+                </div>
+                <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
+                  <el-icon><Money /> </el-icon>
+                  <span class="_bold mx-2"
+                    >Total: $ {{ egresos.salaries.total }}</span
+                  >
+                </div>
+              </div>
             </div>
           </div>
         </el-tab-pane>

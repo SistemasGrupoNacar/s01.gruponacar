@@ -179,6 +179,12 @@ export default {
           grupo: "Usuario",
           palabras: ["perfil", "perfiles", "cuenta", "cuentas", "yo"],
         },
+        {
+          nombre: "Salarios",
+          url: "/salarios",
+          grupo: "Control",
+          palabras: ["salarios", "salario", "sueldo", "dinero"],
+        },
       ],
       rutasCoincidentes: [],
       rutasGrupos: [],
@@ -339,7 +345,6 @@ export default {
 }*/
 
 @media (min-width: 768px) {
-
   ._nav-brand {
     display: block;
     width: 33.33% !important;

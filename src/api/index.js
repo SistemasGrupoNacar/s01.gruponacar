@@ -1348,6 +1348,30 @@ async function eliminarSalario(id) {
   });
 }
 
+// Obtener el total de salarios del mes de un empleado especifico
+async function obtenerTotalSalarios(id) {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .get(API_URI + "/salaries/total/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 export default {
   iniciarSesion,
   verificarToken,
@@ -1429,4 +1453,5 @@ export default {
   obtenerSalarios,
   crearSalario,
   eliminarSalario,
+  obtenerTotalSalarios,
 };

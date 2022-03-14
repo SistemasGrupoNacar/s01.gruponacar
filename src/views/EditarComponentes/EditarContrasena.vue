@@ -79,7 +79,7 @@ export default {
         try {
           await api.cambiarContrasena(datos);
           ElMessage.success("Contraseña cambiada con exito");
-          this.$router.push("/perfil");
+          this.cerrarSesion();
         } catch (error) {
           this.cargando = false;
           if (error.response) {
@@ -100,6 +100,10 @@ export default {
       }
       this.cargando = false;
       return;
+    },
+    cerrarSesion() {
+      localStorage.removeItem("jwt");
+      this.$router.go("/login");
     },
     verificarContrasena(datos) {
       if (datos.password === null) {

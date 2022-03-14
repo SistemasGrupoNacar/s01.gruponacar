@@ -184,6 +184,12 @@ const routes = [
         name: "Salarios",
         component: () => import("../views/Salarios.vue"),
       },
+      {
+        path: "salarios/listado",
+        name: "ListadoSalarios",
+        component: () =>
+          import("../views/ListadoComponentes/ListadoSalarios.vue"),
+      },
     ],
   },
   {

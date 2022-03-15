@@ -1,124 +1,144 @@
 <template>
-  <div class="container py-3">
-    <div class="_detail">
-      <div class="px-5">
-        <p class="_text-bigger text-center my-0">{{ venta._id }}</p>
-        <p class="my-0 _light text-end" v-if="venta.date">
-          {{ venta.date.slice(0, 10) }}
-        </p>
+  <el-page-header
+    class="my-3"
+    content="Editar venta"
+    @back="finalizarVenta()"
+  />
+  <hr />
+  <el-main v-loading.fullscreen.lock="cargando" class="w-100">
+    <div class="row">
+      <div
+        class="col-12 d-flex my-2 justify-content-between align-items-center flex-wrap flex-column flex-md-row my-2"
+      >
+        <div class="_text-bigger">
+          # <span class="_semi-bold">{{ venta._id }}</span>
+        </div>
+        <div class="d-flex flex-column">
+          <span> {{ venta.date_format }}</span>
+          <span class="_text-bigger"
+            >Total:
+            <span v-if="venta.total_format">{{ venta.total_format }} </span>
+            <span v-else>$0.00</span>
+          </span>
+        </div>
       </div>
-
-      <p class="_text-bigger _bold text-end px-5">$ {{ venta.total || 0 }}</p>
-
-      <div class="text-center px-2">
-        <el-button class="my-2" type="primary" v-on:click="cancelarVenta()"
-          >Cancelar Venta
-        </el-button>
-        <el-button class="my-2 text-end" type="" v-on:click="finalizarVenta()"
-          >Terminar Edici&oacute;n
-        </el-button>
+      <div class="col-12 px-1 px-md-5 my-2">
+        <p class="_semi-bold _text-small">Detalle de venta</p>
+        <div class="row">
+          <div class="col-12 col-md-3">
+            <span class="_semi-bold _text-small">Producto</span>
+            <el-select
+              v-model="productoSeleccionado.product"
+              class="m-2 w-100"
+              placeholder="Seleccione producto"
+              size="large"
+              filterable
+            >
+              <el-option
+                v-for="item in productos"
+                :key="item._id"
+                :label="item.name"
+                :value="item._id"
+              >
+              </el-option>
+            </el-select>
+          </div>
+          <div class="col-6 col-md-2">
+            <span class="_semi-bold _text-small">Cantidad</span>
+            <el-input-number
+              v-model="productoSeleccionado.quantity"
+              :min="1"
+              :step="1"
+              class="w-100 my-2"
+              @change="calcularTotal()"
+            />
+          </div>
+          <div class="col-6 col-md-2">
+            <span class="_semi-bold _text-small">Precio unitario</span>
+            <el-input-number
+              v-model="productoSeleccionado.sub_total"
+              :min="0.01"
+              :step="0.01"
+              class="w-100 my-2"
+              @change="calcularTotal()"
+            ></el-input-number>
+          </div>
+          <div class="col-12 col-md-2">
+            <span class="_semi-bold _text-small">Sub-total</span>
+            <el-input-number
+              v-model="productoSeleccionado.total"
+              class="w-100 my-2"
+              disabled
+            ></el-input-number>
+          </div>
+          <div class="col-12 col-md-2">
+            <span class="_semi-bold _text-small">Producci&oacute;n</span>
+            <el-select
+              v-model="productoSeleccionado.production"
+              class="m-2 w-100"
+              placeholder="Seleccione producción"
+              size="large"
+              filterable
+            >
+              <el-option
+                v-for="item in produccionesFiltradas"
+                :key="item._id"
+                :label="item._id + ' - ' + item.product.name"
+                :value="item._id"
+              >
+              </el-option>
+            </el-select>
+          </div>
+          <div class="col-12 col-md-1">
+            <el-button
+              class="my-2 w-100"
+              style="height: 100%"
+              type=""
+              v-on:click="agregarDetalleVenta(productoSeleccionado)"
+              >+
+            </el-button>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 my-2">
+        <el-table :data="detalleVenta" style="width: 100%" max-height="300">
+          <el-table-column prop="_id" label="ID" width="220" />
+          <el-table-column
+            prop="name"
+            label="Nombre de Producto"
+            min-width="220"
+          />
+          <el-table-column prop="quantity" label="Cantidad" width="150" />
+          <el-table-column
+            prop="sub_total_format"
+            label="Precio Unitario"
+            width="150"
+          />
+          <el-table-column
+            prop="total_format"
+            label="Sub-Total"
+            width="150"
+          /><el-table-column fixed="right" label="Acción" width="120">
+            <template #default="scope">
+              <el-button
+                type="text"
+                size="small"
+                @click.prevent="eliminarDetalleVenta(scope.row)"
+              >
+                Quitar
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
     </div>
-    <el-main v-loading.fullscreen.lock="cargando" class="w-100 main">
-      <div class="row my-1">
-        <div class="col-12 col-lg-4 px-lg-2">
-          <p class="_bold">Seleccion de producto</p>
-          <span class="text-muted">Producto: </span>
-          <el-select
-            v-model="productoSeleccionado.product"
-            class="m-2 w-100"
-            filterable
-            placeholder="Seleccione producto"
-            size="large"
-          >
-            <el-option
-              v-for="item in productos"
-              :key="item._id"
-              :label="item.name"
-              :value="item._id"
-            >
-            </el-option>
-          </el-select>
-          <span class="text-muted">Producci&oacute;n: </span>
-          <el-select
-            v-model="productoSeleccionado.production"
-            class="m-2 w-100"
-            placeholder="Seleccione producción"
-            size="large"
-            filterable
-          >
-            <el-option
-              v-for="item in producciones"
-              :key="item._id"
-              :label="item._id"
-              :value="item._id"
-            >
-            </el-option>
-          </el-select>
-          <span class="text-muted">Cantidad: </span>
-          <el-input-number
-            v-model="productoSeleccionado.quantity"
-            :min="1"
-            :step="1"
-            class="w-100 my-2"
-            @change="calcularTotal()"
-          />
-          <span class="text-muted">Sub-total: </span>
-          <el-input-number
-            v-model="productoSeleccionado.sub_total"
-            :min="0.01"
-            :step="0.01"
-            class="w-100 my-2"
-            @change="calcularTotal()"
-          ></el-input-number>
-          <span class="text-muted">Total: </span>
-          <el-input-number
-            v-model="productoSeleccionado.total"
-            class="w-100 my-2"
-            disabled
-          ></el-input-number>
-
-          <el-button
-            class="my-2 w-100"
-            type=""
-            v-on:click="agregarDetalleVenta(productoSeleccionado)"
-            >Agregar Producto
-          </el-button>
-        </div>
-        <div class="col-12 col-lg-8 px-lg-2">
-          <p class="_bold">Detalle de Venta</p>
-          <el-table :data="detalleVenta" style="width: 100%">
-            <el-table-column prop="_id" label="ID" width="180" />
-            <el-table-column
-              prop="name"
-              label="Nombre de Producto"
-              width="180"
-            />
-            <el-table-column prop="quantity" label="Cantidad" width="120" />
-            <el-table-column
-              prop="sub_total"
-              label="Precio Unitario"
-              width="120"
-            />
-            <el-table-column
-              prop="total"
-              label="Sub-Total"
-              width="120"
-            /><el-table-column fixed="right" label="Acción" width="120">
-              <template #default="scope">
-                <el-button
-                  type="text"
-                  size="small"
-                  @click.prevent="eliminarDetalleVenta(scope.row)"
-                >
-                  Quitar
-                </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </div>
-    </el-main>
+  </el-main>
+  <div class="_nuevo">
+    <el-button class="my-2" type="primary" v-on:click="cancelarVenta()"
+      >Cancelar Venta </el-button
+    ><el-button class="my-2 text-end" type="" v-on:click="finalizarVenta()"
+      >Finalizar Edici&oacute;n
+    </el-button>
   </div>
 </template>
 <script>

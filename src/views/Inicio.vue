@@ -29,10 +29,10 @@
       </div>
       <div class="_w-75 px-2 px-lg-5 py-2">
         <p class="_bold _text-justify _text-big">
-          Notificaciones de productos escasos
+          Notificaciones de insumos escasos
         </p>
         <p class="_text-justify">
-          Apartado para alertar al usuario de los productos que necesitan
+          Apartado para alertar al usuario de los insumos que necesitan
           suministro.
         </p>
 
@@ -49,8 +49,8 @@
           </li>
         </ul>
         <div class="text-center">
-          <el-button v-on:click.prevent="irProductos()"
-            >Ir a productos</el-button
+          <el-button v-on:click.prevent="irInsumos()"
+            >Ir a insumos</el-button
           >
         </div>
       </div>
@@ -134,8 +134,8 @@ export default {
     irIngresos() {
       this.$router.push("/movimientos/ingresos");
     },
-    irProductos() {
-      this.$router.push("/inventario/productos");
+    irInsumos() {
+      this.$router.push("/inventario/insumos");
     },
     irVentas() {
       this.$router.push("/movimientos/ventas");

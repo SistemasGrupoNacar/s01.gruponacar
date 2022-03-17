@@ -54,12 +54,19 @@
           >
           </el-option>
         </el-select>
-
-        <el-button
-          class="d-block mx-auto my-1"
-          v-on:click="eliminarInsumo(idInsumoEliminar)"
-          >Eliminar</el-button
+        <el-popconfirm
+          confirm-button-text="Si"
+          cancel-button-text="No"
+          :icon="InfoFilled"
+          icon-color="#114B5F"
+          title="¿Está seguro de eliminar este insumo?"
+          @confirm="eliminarInsumo(idInsumoEliminar)"
+          @cancel="cancelEvent"
         >
+          <template #reference>
+            <el-button class="d-block mx-auto my-1">Eliminar</el-button>
+          </template>
+        </el-popconfirm>
       </div>
     </div>
     <div class="row">
@@ -163,20 +170,17 @@ export default {
       }
     },
     async eliminarInsumo(data) {
-      let confirmacion = confirm("¿Esta seguro de eliminar este insumo?");
-      if (confirmacion) {
-        try {
-          const respuesta = await api.eliminarInsumo(data);
-          alert("Eliminado el insumo " + respuesta.data.name);
-          this.idInsumoEliminar = "";
-          this.actualizarTodo();
-        } catch (error) {
-          if (error.response) {
-            verificarSesion(error);
-            ElMessage.error(error.response.data.message);
-          } else {
-            ElMessage.error("Error al obtener los insumos");
-          }
+      try {
+        const respuesta = await api.eliminarInsumo(data);
+        ElMessage.success(`Producto ${respuesta.data.name} eliminado`);
+        this.idInsumoEliminar = "";
+        this.actualizarTodo();
+      } catch (error) {
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al obtener los insumos");
         }
       }
     },

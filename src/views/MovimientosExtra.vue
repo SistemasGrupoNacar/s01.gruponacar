@@ -23,7 +23,7 @@
         <el-table
           :data="listadoHistorialMovimientosExtra"
           style="width: 100%"
-          max-height="700"
+          max-height="400"
         >
           <el-table-column prop="_id" label="ID" width="120" />
           <el-table-column

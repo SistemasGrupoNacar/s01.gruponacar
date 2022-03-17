@@ -50,13 +50,20 @@
             :label="item.name"
             :value="item._id"
           >
-          </el-option>
-        </el-select>
-        <el-button
-          class="d-block mx-auto my-1"
-          v-on:click="eliminarProducto(idProductoEliminar)"
-          >Eliminar</el-button
+          </el-option> </el-select
+        ><el-popconfirm
+          confirm-button-text="Si"
+          cancel-button-text="No"
+          :icon="InfoFilled"
+          icon-color="#114B5F"
+          title="¿Está seguro de eliminar este producto?"
+          @confirm="eliminarProducto(idProductoEliminar)"
+          @cancel="cancelEvent"
         >
+          <template #reference>
+            <el-button class="d-block mx-auto my-1">Eliminar</el-button>
+          </template>
+        </el-popconfirm>
       </div>
     </div>
     <div class="row">
@@ -173,20 +180,21 @@ export default {
       }
     },
     async eliminarProducto(data) {
-      let confirmacion = confirm("¿Esta seguro de eliminar este producto?");
-      if (confirmacion) {
-        try {
-          const respuesta = await api.eliminarProducto(data);
-          alert("Eliminado el producto " + respuesta.data.name);
-          this.idProductoEliminar = "";
-          this.actualizarTodo();
-        } catch (error) {
-          if (error.response) {
-            verificarSesion(error);
-            ElMessage.error(error.response.data.message);
-          } else {
-            ElMessage.error("Error al eliminar el producto");
-          }
+      try {
+        if (data === "") {
+          ElMessage.warning("Seleccione un producto para eliminar");
+          return;
+        }
+        const respuesta = await api.eliminarProducto(data);
+        alert("Eliminado el producto " + respuesta.data.name);
+        this.idProductoEliminar = "";
+        this.actualizarTodo();
+      } catch (error) {
+        if (error.response) {
+          verificarSesion(error);
+          ElMessage.error(error.response.data.message);
+        } else {
+          ElMessage.error("Error al eliminar el producto");
         }
       }
     },

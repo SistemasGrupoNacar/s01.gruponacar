@@ -11,7 +11,7 @@
   </el-tooltip>
   <div class="container">
     <div class="row">
-      <div class="col-12 col-md-7 my-3">
+      <div class="col-12 col-md-8 my-3">
         <p class="_text-bigger text-center">Listado de usuarios</p>
         <el-table
           v-loading="cargando"
@@ -22,7 +22,7 @@
             <template #default="scope">
               <el-avatar :size="64" :src="scope.row.avatar"></el-avatar>
             </template> </el-table-column
-          ><el-table-column prop="username" label="Usuario" width="180">
+          ><el-table-column prop="username" label="Usuario" min-width="180">
           </el-table-column>
           <el-table-column prop="role.title_format" label="Rol" width="150">
           </el-table-column>
@@ -54,6 +54,20 @@
             </template>
           </el-table-column>
         </el-table>
+      </div>
+      <div class="col-12 col-md-4 my-3">
+        <p class="_bold _text-big">Aspecto importante</p>
+        <p class="_text-justify">
+          La asignaci&oacute;n de usuarios se realiza automaticamente a los
+          empleados, si por alguna raz&oacute;n se elimina el usuario de un
+          empleado espec&iacute;fico, se deber&aacute; asignar un nuevo usuario
+          relacionado al perfil del empleado.
+        </p>
+        <img
+          :src="require('@/assets/illustrations/chica-foco.svg')"
+          alt="Se espera una imagen de una persona sosteniendo un foco"
+          class="_img-svg"
+        />
       </div>
     </div>
   </div>

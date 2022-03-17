@@ -10,6 +10,11 @@
           <el-table-column prop="name" label="Nombre" width="150" />
           <el-table-column prop="_id" label="ID" width="180" />
           <el-table-column prop="stock" label="Stock" width="100" />
+          <el-table-column
+            prop="min_stock"
+            label="Stock M&iacute;nimo"
+            width="150"
+          />
           <el-table-column prop="cost_format" label="Costo" width="100" />
           <el-table-column
             prop="description"

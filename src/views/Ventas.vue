@@ -32,10 +32,10 @@
       >Filtrar
     </el-button>
   </div>
-  <el-main v-loading.fullscreen.lock="cargando" class="">
+  <el-main v-loading="cargando" class="">
     <el-table :data="ventas" class="_w-75 mx-auto" max-height="400">
       <el-table-column prop="_id" label="ID" width="250" />
-      <el-table-column prop="date_format" label="Fecha" width="200" />
+      <el-table-column prop="date_format" sortable label="Fecha" width="200" />
       <el-table-column prop="status" sortable label="Estado" width="150" />
       <el-table-column prop="total_format" label="Total" />
       <el-table-column fixed="right" label="Acción" width="120">

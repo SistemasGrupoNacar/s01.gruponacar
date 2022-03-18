@@ -18,7 +18,7 @@
       <div class="col-12 col-md-7 my-3">
         <p class="_text-bigger text-center">Listado de Productos</p>
         <el-table
-          v-loading.fullscreen.lock="cargandoDatosTablaProductos"
+          v-loading="cargandoDatosTablaProductos"
           :data="listadoPrimerosProductos"
         >
           <el-table-column prop="_id" label="ID"> </el-table-column>
@@ -76,7 +76,7 @@
       <div class="col-12 my-3">
         <p class="_text-bigger text-center">Historial de Cosechas</p>
         <el-table
-          v-loading.fullscreen.lock="cargandoDatosTablaHistorial"
+          v-loading="cargandoDatosTablaHistorial"
           :data="listadoHistorialCosecha"
           class="w-100"
         >

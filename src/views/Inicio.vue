@@ -1,5 +1,5 @@
 <template>
-  <el-main v-loading.fullscreen.lock="cargando" class="container">
+  <el-main class="container">
     <div class="_big-container _noreverse">
       <div class="_w-50 px-2 px-lg-5 py-2">
         <p class="_bold _text-justify _text-big">
@@ -15,9 +15,9 @@
           <el-button v-on:click.prevent="irEgresos()">Ir a egresos</el-button>
         </div>
       </div>
-      <div class="_w-75">
+      <el-main class="_w-75" v-loading="cargando">
         <grafica :datos="datos.graphic" />
-      </div>
+      </el-main>
     </div>
     <div class="_big-container _reverse">
       <div class="_w-40">
@@ -35,23 +35,26 @@
           Apartado para alertar al usuario de los insumos que necesitan
           suministro.
         </p>
+        <el-container v-loading="cargando" style="min-height: 100px">
+          <ul class="_list">
+            <li
+              v-for="(item, index) in datos.productsWithLessStock"
+              :key="index"
+            >
+              {{
+                item.name +
+                " - Actual: " +
+                item.stock +
+                " - M&iacute;nimo: " +
+                item.min_stock
+              }}
+              (unidades)
+            </li>
+          </ul>
+        </el-container>
 
-        <ul class="_list">
-          <li v-for="(item, index) in datos.productsWithLessStock" :key="index">
-            {{
-              item.name +
-              " - Actual: " +
-              item.stock +
-              " - M&iacute;nimo: " +
-              item.min_stock
-            }}
-            (unidades)
-          </li>
-        </ul>
         <div class="text-center">
-          <el-button v-on:click.prevent="irInsumos()"
-            >Ir a insumos</el-button
-          >
+          <el-button v-on:click.prevent="irInsumos()">Ir a insumos</el-button>
         </div>
       </div>
     </div>
@@ -65,11 +68,14 @@
           requieren de atenci&oacute;n.
         </p>
 
-        <ul class="_list">
-          <li v-for="(item, index) in datos.salesPending" :key="index">
-            {{ item._id + " - " + item.date_format }}
-          </li>
-        </ul>
+        <el-container v-loading="cargando" style="min-height: 100px">
+          <ul class="_list">
+            <li v-for="(item, index) in datos.salesPending" :key="index">
+              {{ item._id + " - " + item.date_format }}
+            </li>
+          </ul></el-container
+        >
+
         <div class="text-center">
           <el-button v-on:click.prevent="irVentas()">Ir a ventas</el-button>
         </div>

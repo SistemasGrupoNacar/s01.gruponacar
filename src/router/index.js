@@ -98,12 +98,7 @@ const routes = [
         name: "DetalleProduccion",
         component: () => import("../views/DetalleProduccion.vue"),
       },
-      {
-        path: "producciones/nueva",
-        name: "NuevaProduccion",
-        component: () =>
-          import("../views/NuevoComponentes/NuevaProduccion.vue"),
-      },
+
       {
         path: "movimientos/ingresos",
         name: "Ingresos",
@@ -200,6 +195,11 @@ const routes = [
     path: "/movimientos/ventas/nueva",
     name: "NuevaVenta",
     component: () => import("../views/NuevoComponentes/NuevaVenta.vue"),
+  },
+  {
+    path: "/producciones/nueva",
+    name: "NuevaProduccion",
+    component: () => import("../views/NuevoComponentes/NuevaProduccion.vue"),
   },
   {
     path: "/salarios/nuevo",

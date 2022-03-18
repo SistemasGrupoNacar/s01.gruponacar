@@ -1,31 +1,41 @@
 <template>
-  <el-main v-loading.fullscreen.lock="cargando" class="min-h-50">
-    <div class="container my-2" v-if="usuario != null">
-      <div class="row">
-        <div class="col-12 col-md-5 text-center">
-          <el-avatar
-            :size="128"
-            :src="usuario.user.avatar"
-            class="_avatar"
-          ></el-avatar>
-        </div>
-        <div
-          class="col-12 col-md-7 d-flex flex-wrap flex-column align-items-center justify-content-center"
-        >
-          <p class="_letter-spacing-1">
-            Nombre de usuario:
-            <span class="_semi-bold">{{ usuario.user.username }}</span>
-          </p>
-          <p class="_letter-spacing-1">
-            Tipo de usuario:
-            <span class="_semi-bold">{{ usuario.user.role.title_format }}</span>
-          </p>
-        </div>
-        <div class="col-12 my-2">
-          <el-button class="d-block _w-50 mx-auto" v-on:click.prevent="cerrarSesion()"
-            >Cerrar Sesi&oacute;n</el-button
+  <el-main>
+    <div class="container my-2">
+      <el-container
+        class="w-100 my-2"
+        style="min-height: 100px"
+        v-loading="cargando"
+      >
+        <div class="row w-100" v-if="usuario != null">
+          <div class="col-12 col-md-5 text-center">
+            <el-avatar
+              :size="128"
+              :src="usuario.user.avatar"
+              class="_avatar"
+            ></el-avatar>
+          </div>
+          <div
+            class="col-12 col-md-7 d-flex flex-wrap flex-column align-items-center justify-content-center"
           >
+            <p class="_letter-spacing-1">
+              Nombre de usuario:
+              <span class="_semi-bold">{{ usuario.user.username }}</span>
+            </p>
+            <p class="_letter-spacing-1">
+              Tipo de usuario:
+              <span class="_semi-bold">{{
+                usuario.user.role.title_format
+              }}</span>
+            </p>
+          </div>
         </div>
+      </el-container>
+      <div class="">
+        <el-button
+          class="d-block _w-50 mx-auto"
+          v-on:click.prevent="cerrarSesion()"
+          >Cerrar Sesi&oacute;n</el-button
+        >
       </div>
     </div>
   </el-main>

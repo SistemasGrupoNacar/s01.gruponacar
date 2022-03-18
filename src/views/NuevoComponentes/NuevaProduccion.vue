@@ -1,70 +1,72 @@
 <template>
-  <div class="container">
-    <p class="_title">Nueva Producci&oacute;n</p>
-    <p class="_subtitle">Creaci&oacute;n de nueva producci&oacute;n.</p>
-    <el-main v-loading.fullscreen.lock="cargando">
-      <div class="row">
-        <div class="col-12 col-md-6 my-2">
-          <span class="text-muted">Producto</span>
-          <el-select
-            v-model="nuevaProduccion.product"
-            placeholder="Seleccione producto"
-            class="w-100"
-            filterable
-          >
-            <el-option
-              v-for="item in listadoProductos"
-              :key="item._id"
-              :label="item.name"
-              :value="item._id"
-            >
-            </el-option>
-          </el-select>
-        </div>
-        <div class="col-12 col-md-6 my-2">
-          <span class="text-muted">Fecha</span>
-          <el-date-picker
-            v-model="nuevaProduccion.start_date"
-            type="datetime"
-            placeholder="Escoge una fecha"
-            class="w-100"
-            clearable
-          >
-          </el-date-picker>
-        </div>
-        <div class="col-12 col-md-3 my-2">
-          <span class="text-muted">Lugar</span>
-          <el-select
-            v-model="nuevaProduccion.place"
-            placeholder="Seleccione lugar de producci&oacute;n"
-            class="w-100"
-            filterable
-          >
-            <el-option
-              v-for="item in listadoLugares"
-              :key="item._id"
-              :label="item.description"
-              :value="item._id"
-            >
-            </el-option>
-          </el-select>
-        </div>
-        <div class="col-12 col-md-9 my-2">
-          <span class="text-muted">Descripci&oacute;n</span>
-          <el-input
-            v-model="nuevaProduccion.description"
-            placeholder="Ingrese descripción"
-          >
-          </el-input>
-        </div>
-        <el-button
-          class="d-block mx-auto my-2 w-50"
-          v-on:click="crearProduccion(nuevaProduccion)"
-          >Crear Producci&oacute;n</el-button
+  <el-page-header
+    class="my-3"
+    content="Nueva producci&oacute;n"
+    @back="irProducciones()"
+  />
+  <hr />
+  <el-main v-loading.fullscreen.lock="cargando">
+    <div class="row">
+      <div class="col-12 col-md-6 my-2">
+        <span class="text-muted">Producto</span>
+        <el-select
+          v-model="nuevaProduccion.product"
+          placeholder="Seleccione producto"
+          class="w-100"
+          filterable
         >
+          <el-option
+            v-for="item in listadoProductos"
+            :key="item._id"
+            :label="item.name"
+            :value="item._id"
+          >
+          </el-option>
+        </el-select>
       </div>
-    </el-main>
-  </div>
+      <div class="col-12 col-md-6 my-2">
+        <span class="text-muted">Fecha</span>
+        <el-date-picker
+          v-model="nuevaProduccion.start_date"
+          type="datetime"
+          placeholder="Escoge una fecha"
+          class="w-100"
+          clearable
+        >
+        </el-date-picker>
+      </div>
+      <div class="col-12 col-md-3 my-2">
+        <span class="text-muted">Lugar</span>
+        <el-select
+          v-model="nuevaProduccion.place"
+          placeholder="Seleccione lugar de producci&oacute;n"
+          class="w-100"
+          filterable
+        >
+          <el-option
+            v-for="item in listadoLugares"
+            :key="item._id"
+            :label="item.description"
+            :value="item._id"
+          >
+          </el-option>
+        </el-select>
+      </div>
+      <div class="col-12 col-md-9 my-2">
+        <span class="text-muted">Descripci&oacute;n</span>
+        <el-input
+          v-model="nuevaProduccion.description"
+          placeholder="Ingrese descripción"
+        >
+        </el-input>
+      </div>
+      <el-button
+        class="d-block mx-auto my-2 w-50"
+        v-on:click="crearProduccion(nuevaProduccion)"
+        >Crear Producci&oacute;n</el-button
+      >
+    </div>
+  </el-main>
 </template>
 <script>
 import api from "@/api/index.js";
@@ -178,6 +180,9 @@ export default {
         return false;
       }
       return true;
+    },
+    irProducciones() {
+      this.$router.push("/producciones");
     },
   },
 };

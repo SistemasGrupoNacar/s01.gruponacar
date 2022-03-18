@@ -107,6 +107,7 @@ export default {
       this.cargando = false;
     },
     async obtenerUltimosUsuarios() {
+      this.cargando = true;
       try {
         const respuesta = await api.obtenerUltimosUsuarios();
         this.listadoUltimosUsuarios = respuesta.data;
@@ -117,6 +118,7 @@ export default {
           ElMessage.error("Error al obtener los usuarios");
         }
       }
+      this.cargando = false;
     },
     irEditarUsuario(id) {
       this.$router.push({

@@ -1,12 +1,14 @@
 <template>
-  <div class="container">
-    <p class="_title">Listado de Insumos</p>
-    <p class="_subtitle text-muted">
-      Listado de insumos para la cosecha en el sistema.
-    </p>
+  <el-page-header
+    class="my-3"
+    content="Listado de Insumos"
+    @back="irInsumos()"
+  />
+  <hr />
+  <div class="">
     <el-main v-loading.fullscreen.lock="cargando">
       <div class="min-h-50">
-        <el-table :data="listadoInsumos" style="width: 100%" max-height="400">
+        <el-table :data="listadoInsumos" style="width: 100%" max-height="500">
           <el-table-column prop="name" label="Nombre" width="150" />
           <el-table-column prop="_id" label="ID" width="180" />
           <el-table-column prop="stock" label="Stock" width="100" />
@@ -102,6 +104,9 @@ export default {
           ElMessage.error("Error al cambiar la disponibilidad del insumo.");
         }
       }
+    },
+    irInsumos() {
+      this.$router.push("/inventario/insumos");
     },
     async eliminarInsumo(data) {
       try {

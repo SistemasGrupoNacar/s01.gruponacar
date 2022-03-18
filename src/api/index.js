@@ -40,6 +40,30 @@ async function verificarToken() {
   });
 }
 
+// Obtener un producto en especifico
+async function obtenerProducto(id) {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      reject({
+        message: "Token no encontrado",
+      });
+    }
+    axios
+      .get(API_URI + "/products/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
 // Obtener todos los productos
 async function obtenerTodosProductos() {
   const token = await tokenActions.getToken();
@@ -1375,6 +1399,7 @@ async function obtenerTotalSalarios(id) {
 export default {
   iniciarSesion,
   verificarToken,
+  obtenerProducto,
   obtenerTodosProductos,
   obtenerProductos,
   obtenerPrimerosProductos,

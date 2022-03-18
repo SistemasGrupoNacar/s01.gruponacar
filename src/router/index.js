@@ -78,18 +78,6 @@ const routes = [
           import("../views/HistorialComponentes/HistorialIngresoProducto.vue"),
       },
       {
-        path: "inventario/productos/listado",
-        name: "ListadoProductos",
-        component: () =>
-          import("../views/ListadoComponentes/ListadoProductos.vue"),
-      },
-      {
-        path: "inventario/insumos/listado",
-        name: "ListadoInsumos",
-        component: () =>
-          import("../views/ListadoComponentes/ListadoInsumos.vue"),
-      },
-      {
         path: "producciones",
         name: "Producciones",
         component: () => import("../views/Producciones.vue"),
@@ -152,23 +140,13 @@ const routes = [
         name: "NuevaJornada",
         //component: () => import("../views/NuevoComponentes/NuevaJornada.vue"),
       },
-      {
-        path: "jornadas/listado",
-        name: "ListadoJornadas",
-        component: () =>
-          import("../views/ListadoComponentes/ListadoJornadas.vue"),
-      },
+
       {
         path: "empleados",
         name: "Empleados",
         component: () => import("../views/Empleados.vue"),
       },
-      {
-        path: "empleados/listado",
-        name: "ListadoEmpleados",
-        component: () =>
-          import("../views/ListadoComponentes/ListadoEmpleados.vue"),
-      },
+
       {
         path: "empleados/nuevo",
         name: "NuevoEmpleado",
@@ -184,13 +162,32 @@ const routes = [
         name: "Salarios",
         component: () => import("../views/Salarios.vue"),
       },
-      {
-        path: "salarios/listado",
-        name: "ListadoSalarios",
-        component: () =>
-          import("../views/ListadoComponentes/ListadoSalarios.vue"),
-      },
     ],
+  },
+  {
+    path: "/inventario/productos/listado",
+    name: "ListadoProductos",
+    component: () => import("../views/ListadoComponentes/ListadoProductos.vue"),
+  },
+  {
+    path: "/inventario/insumos/listado",
+    name: "ListadoInsumos",
+    component: () => import("../views/ListadoComponentes/ListadoInsumos.vue"),
+  },
+  {
+    path: "/jornadas/listado",
+    name: "ListadoJornadas",
+    component: () => import("../views/ListadoComponentes/ListadoJornadas.vue"),
+  },
+  {
+    path: "/empleados/listado",
+    name: "ListadoEmpleados",
+    component: () => import("../views/ListadoComponentes/ListadoEmpleados.vue"),
+  },
+  {
+    path: "/salarios/listado",
+    name: "ListadoSalarios",
+    component: () => import("../views/ListadoComponentes/ListadoSalarios.vue"),
   },
   {
     path: "/empleados/detalle-nuevo",

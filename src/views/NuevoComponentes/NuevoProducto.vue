@@ -10,6 +10,11 @@
             v-model="product.name"
             class="w-100 my-2"
             placeholder="Ingrese nombre del producto"
+          /><span class="text-muted">Unidad de medida</span>
+          <el-input
+            v-model="product.unitOfMeasurement"
+            class="w-100 my-2"
+            placeholder="Ingrese la unidad de medida"
           />
           <span class="text-muted">Descripci&oacute;n</span>
           <el-input
@@ -44,6 +49,9 @@
         <p class="_subtitle" v-show="product.description != ''">
           {{ product.description }}
         </p>
+        <p class="_subtitle" v-show="product.unitOfMeasurement != ''">
+          {{ product.unitOfMeasurement }}
+        </p>
         <p class="_subtitle" v-show="product.availability != null">
           Disponibilidad:
           <span v-if="product.availability">Si</span> <span v-else>No</span>
@@ -68,6 +76,7 @@ export default {
         name: "",
         description: "",
         availability: null,
+        unitOfMeasurement: "",
       },
       options: {
         true: {
@@ -84,12 +93,16 @@ export default {
   methods: {
     async crearProducto(data) {
       if (!this.verificarDatos(data)) {
-        alert("Data incorrecta");
+        ElMessage.warning({
+          message: "Debe ingresar todos los datos",
+        });
         return;
       }
       try {
         const respuesta = await api.crearProducto(data);
-        alert("Producto creado: " + respuesta.data.name);
+        ElMessage.success({
+          message: `Producto ${respuesta.data.name} creado con exito`,
+        });
         this.$router.push({ name: "Productos" });
       } catch (error) {
         if (error.response) {
@@ -105,6 +118,9 @@ export default {
         return false;
       }
       if (data.availability == null) {
+        return false;
+      }
+      if (data.unitOfMeasurement == "") {
         return false;
       }
       return true;

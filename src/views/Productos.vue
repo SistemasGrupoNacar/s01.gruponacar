@@ -24,7 +24,13 @@
           <el-table-column prop="_id" label="ID"> </el-table-column>
           <el-table-column prop="name" label="Nombre"> </el-table-column
           ><el-table-column prop="stock" label="Stock" width="75">
-          </el-table-column> </el-table
+          </el-table-column>
+          <el-table-column
+            prop="unit_of_measurement"
+            label="Unidad de medida"
+            width="150"
+          >
+          </el-table-column></el-table
         ><el-button
           class="my-2"
           size="small"
@@ -73,11 +79,17 @@
           v-loading.fullscreen.lock="cargandoDatosTablaHistorial"
           :data="listadoHistorialCosecha"
           class="w-100"
-          ><el-table-column prop="_id" label="ID"> </el-table-column>
+        >
           <el-table-column prop="date" label="Fecha"> </el-table-column
-          ><el-table-column prop="product.name" label="Nombre de Producto">
+          ><el-table-column
+            prop="product.name"
+            label="Nombre de Producto"
+            min-width="220"
+          >
           </el-table-column>
-          <el-table-column prop="quantity" label="Cantidad (Sacos)">
+          <el-table-column prop="quantity" label="Cantidad" width="130">
+          </el-table-column
+          ><el-table-column prop="_id" label="ID" width="220">
           </el-table-column>
         </el-table>
         <el-button

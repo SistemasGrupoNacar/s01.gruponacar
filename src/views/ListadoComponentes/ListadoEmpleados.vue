@@ -1,55 +1,43 @@
 <template>
-  <div class="container">
-    <p class="_title">Listado de Empleados</p>
-    <p class="_subtitle text-muted">
-      Listado de empleados activos e inactivos de la empresa.
-      <el-main v-loading.fullscreen.lock="cargando">
-        <div class="min-h-50">
-          <el-table
-            :data="listadoEmpleados"
-            style="width: 100%"
-            max-height="400"
-          >
-            <el-table-column prop="first_name" label="Nombres" width="150" />
-            <el-table-column prop="last_name" label="Apellidos" width="150" />
-            <el-table-column prop="_id" label="ID" width="200" />
-            <el-table-column prop="dui" label="Dui" width="100" />
-            <el-table-column prop="phone" label="Tel&eacute;fono" width="100" />
-            <el-table-column prop="email" label="Correo" width="250" />
-            <el-table-column
-              prop="journeys_count"
-              label="Jornadas"
-              width="100"
-            />
-            <el-table-column
-              prop="is_active_format"
-              label="Estado"
-              width="140"
-            />
-            <el-table-column fixed="right" label="Operaciones" width="150">
-              <template #default="scope">
-                <el-button
-                  type=""
-                  v-on:click="cambiarEstadoEmpleado(scope.row)"
-                  v-if="scope.row.is_active"
-                  ><el-icon><Remove /> </el-icon> </el-button
-                ><el-button
-                  type=""
-                  v-on:click="cambiarEstadoEmpleado(scope.row)"
-                  v-else
-                  ><el-icon><Check /> </el-icon>
-                </el-button>
-                <el-button
-                  type="primary"
-                  v-on:click="eliminarEmpleado(scope.row)"
-                  ><el-icon><Delete /> </el-icon>
-                </el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-      </el-main>
-    </p>
+  <el-page-header
+    class="my-3"
+    content="Listado de Empleados"
+    @back="irEmpleados()"
+  />
+  <hr />
+  <div class="">
+    <el-main v-loading.fullscreen.lock="cargando">
+      <div class="min-h-50">
+        <el-table :data="listadoEmpleados" style="width: 100%" max-height="400">
+          <el-table-column prop="first_name" label="Nombres" width="150" />
+          <el-table-column prop="last_name" label="Apellidos" width="150" />
+          <el-table-column prop="_id" label="ID" width="200" />
+          <el-table-column prop="dui" label="Dui" width="100" />
+          <el-table-column prop="phone" label="Tel&eacute;fono" width="100" />
+          <el-table-column prop="email" label="Correo" width="250" />
+          <el-table-column prop="journeys_count" label="Jornadas" width="100" />
+          <el-table-column prop="is_active_format" label="Estado" width="140" />
+          <el-table-column fixed="right" label="Operaciones" width="150">
+            <template #default="scope">
+              <el-button
+                type=""
+                v-on:click="cambiarEstadoEmpleado(scope.row)"
+                v-if="scope.row.is_active"
+                ><el-icon><Remove /> </el-icon> </el-button
+              ><el-button
+                type=""
+                v-on:click="cambiarEstadoEmpleado(scope.row)"
+                v-else
+                ><el-icon><Check /> </el-icon>
+              </el-button>
+              <el-button type="primary" v-on:click="eliminarEmpleado(scope.row)"
+                ><el-icon><Delete /> </el-icon>
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-main>
   </div>
 </template>
 <script>
@@ -72,6 +60,9 @@ export default {
     this.obtenerEmpleados();
   },
   methods: {
+    irEmpleados() {
+      this.$router.push("/empleados");
+    },
     async obtenerEmpleados() {
       this.cargando = true;
       try {

@@ -1,9 +1,11 @@
 <template>
-  <div class="container">
-    <p class="_title">Listado de Salarios</p>
-    <p class="_subtitle text-muted">
-      Listado de salarios realizados en la empresa.
-    </p>
+  <el-page-header
+    class="my-3"
+    content="Listado de Salarios"
+    @back="irSalarios()"
+  />
+  <hr />
+  <div class="">
     <el-main v-loading="cargando">
       <el-table :data="listadoSalarios" style="width: 100%" max-height="400">
         <el-table-column label="Empleado">
@@ -69,6 +71,9 @@ export default {
     };
   },
   methods: {
+    irSalarios() {
+      this.$router.push("/salarios");
+    },
     async obtenerSalarios() {
       this.cargando = true;
       try {

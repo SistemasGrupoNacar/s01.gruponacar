@@ -1,15 +1,22 @@
 <template>
-  <div class="container">
-    <p class="_title">Listado de Productos</p>
-    <p class="_subtitle text-muted">
-      Listado de productos para la venta en el sistema.
-    </p>
+  <el-page-header
+    class="my-3"
+    content="Listado de Productos"
+    @back="irProductos()"
+  />
+  <hr />
+  <div class="">
     <el-main v-loading.fullscreen.lock="cargando">
       <div class="min-h-50">
-        <el-table :data="listadoProductos" style="width: 100%" max-height="400">
-          <el-table-column prop="name" label="Nombre" width="250" />
-          <el-table-column prop="_id" label="ID" min-width="140" />
+        <el-table :data="listadoProductos" style="width: 100%" max-height="500">
+          <el-table-column prop="name" label="Nombre" min-width="250" />
+          <el-table-column prop="_id" label="ID" width="220" />
           <el-table-column prop="stock" label="Stock" width="120" />
+          <el-table-column
+            prop="unit_of_measurement"
+            label="Medida"
+            width="120"
+          />
           <el-table-column
             prop="availability_text"
             label="Disponibilidad"
@@ -75,6 +82,7 @@ export default {
       this.cargando = false;
     },
     async cambiarDisponibilidadProducto(data) {
+      this.cargando = true;
       try {
         const respuesta = await api.cambiarDisponibilidadProducto(
           data._id,
@@ -91,11 +99,12 @@ export default {
           ElMessage.error("Error al cambiar la disponibilidad del producto.");
         }
       }
+      this.cargando = false;
     },
     async eliminarProducto(data) {
+      this.cargando = true;
       try {
         await api.eliminarProducto(data._id);
-
         this.obtenerProductos();
       } catch (error) {
         if (error.response) {
@@ -105,6 +114,10 @@ export default {
           ElMessage.error("Error al eliminar el producto.");
         }
       }
+      this.cargando = false;
+    },
+    irProductos() {
+      this.$router.push("/inventario/productos");
     },
   },
 };

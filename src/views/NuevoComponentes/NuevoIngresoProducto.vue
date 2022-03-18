@@ -33,7 +33,7 @@
           </el-input>
         </div>
         <div class="col-12 col-md-3 my-2">
-          <span class="text-muted">Cantidad</span>
+          <span class="text-muted">Cantidad ({{ unitOfMeasurement }})</span>
           <el-input-number
             v-model="nuevoIngresoProducto.quantity"
             :min="1"
@@ -87,6 +87,7 @@ export default {
       cargando: true,
       listadoProducciones: [],
       listadoProductos: [],
+      unitOfMeasurement: "",
     };
   },
   mounted() {
@@ -99,10 +100,22 @@ export default {
         (item) => item.value === data
       );
       this.nuevoIngresoProducto.product = produccion.product.name;
+      this.obtenerProducto(produccion.product._id);
     },
   },
 
   methods: {
+    async obtenerProducto(id) {
+      try {
+        const respuesta = await api.obtenerProducto(id);
+        this.unitOfMeasurement =
+          respuesta.data.unit_of_measurement || "Default";
+      } catch (error) {
+        ElMessage.error({
+          message: "Error al obtener producto",
+        });
+      }
+    },
     async crearIngresoProducto(data) {
       if (!this.validarDatos(data)) {
         alert("Faltan datos");

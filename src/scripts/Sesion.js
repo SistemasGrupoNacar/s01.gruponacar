@@ -13,13 +13,10 @@ const verificarSesion = (err) => {
   return;
 };
 
-const obtenerNombreDeUsuario = async () => {
+const obtenerDatosDeUsuario = async () => {
   let jwt = await getPayloadToken();
-  if (jwt != null) {
-    return `${jwt.firstName.split(" ")[0]} ${jwt.lastName.split(" ")[0]}`;
-  } else {
-    return null;
-  }
+  const respuesta = jwt != null ? jwt : null;
+  return respuesta;
 };
 
 const obtenerNombreDeUsuarioIniciales = async () => {
@@ -33,6 +30,6 @@ const obtenerNombreDeUsuarioIniciales = async () => {
 
 module.exports = {
   verificarSesion,
-  obtenerNombreDeUsuario,
+  obtenerDatosDeUsuario,
   obtenerNombreDeUsuarioIniciales,
 };

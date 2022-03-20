@@ -1,6 +1,12 @@
 <template>
   <nav class="_nav">
-    <div class="_nav-brand">Grupo Nacar</div>
+    <div class="_nav-brand">
+      <el-avatar :size="64" class="_avatar" :src="usuario.avatar"></el-avatar>
+      <div class="d-flex flex-column mx-3">
+        <span class="_bold _text-small">{{ usuario.username }}</span>
+        <span>GrupoNacar</span>
+      </div>
+    </div>
     <div class="_nav-search">
       <el-select
         v-model="rutaSeleccionada"
@@ -64,6 +70,7 @@ import imgMenu from "@/assets/illustrations/Menu.svg";
 import imgPlus from "@/assets/illustrations/Plus.svg";
 import imgOptionsVertical from "@/assets/illustrations/options-vertical.svg";
 import imgClose from "@/assets/illustrations/close.svg";
+import sesion from "@/scripts/Sesion.js";
 
 export default {
   data() {
@@ -77,6 +84,10 @@ export default {
       rutasCoincidentes: [],
       rutaSeleccionada: "",
       rutasAgrupadas: [],
+      usuario: {
+        avatar: null,
+        username: null,
+      },
       rutas: [
         {
           nombre: "Panel de control",
@@ -196,6 +207,7 @@ export default {
   },
   mounted() {
     this.rutasAgrupadas = this.agruparRutas(this.rutas);
+    this.obtenerDatosUsuario();
   },
   watch: {
     rutaSeleccionada(nuevaRuta) {
@@ -205,6 +217,11 @@ export default {
     },
   },
   methods: {
+    async obtenerDatosUsuario() {
+      const respuesta = await sesion.obtenerDatosDeUsuario();
+      this.usuario.avatar = respuesta.avatar;
+      this.usuario.username = respuesta.username;
+    },
     navOptionsSwitcher() {
       this.$refs.navOptions.classList.toggle("_nav-options-active");
       this.$refs.navOptionsActivator.classList.toggle(
@@ -275,6 +292,9 @@ export default {
   display: flex;
   align-items: center;
   height: calc(60px - 10px);
+  ._avatar {
+    display: none;
+  }
 }
 
 ._nav-burger {
@@ -317,6 +337,9 @@ export default {
   // Brand
   ._nav-brand {
     min-width: 250px;
+    ._avatar {
+      display: block;
+    }
   }
 
   // Barra de busqueda

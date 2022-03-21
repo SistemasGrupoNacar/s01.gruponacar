@@ -1,7 +1,7 @@
 <template>
   <nav class="_nav">
     <div class="_nav-brand">
-      <el-avatar :size="64" class="_avatar" :src="usuario.avatar"></el-avatar>
+      <el-avatar :size="48" class="_avatar" :src="usuario.avatar"></el-avatar>
       <div class="d-flex flex-column mx-3">
         <span class="_bold _text-small">{{ usuario.username }}</span>
         <span>GrupoNacar</span>
@@ -61,6 +61,13 @@
             >
           </el-menu-item>
         </el-sub-menu>
+        <el-button
+          class="w-100 my-2"
+          type="primary"
+          plain
+          v-on:click.prevent="cerrarSesion()"
+          >Cerrar sesi&oacute;n</el-button
+        >
       </el-menu>
     </div>
   </nav>
@@ -71,8 +78,9 @@ import imgPlus from "@/assets/illustrations/Plus.svg";
 import imgOptionsVertical from "@/assets/illustrations/options-vertical.svg";
 import imgClose from "@/assets/illustrations/close.svg";
 import sesion from "@/scripts/Sesion.js";
-
+import tokenActions from "@/scripts/Token.js";
 export default {
+  components: {},
   data() {
     return {
       images: {
@@ -271,6 +279,10 @@ export default {
         "_nav-options-activator-active"
       );
       this.$refs.navOptionsActivatorIcon.src = this.images.imgOptionsVertical;
+    },
+    async cerrarSesion() {
+      await tokenActions.removeToken();
+      this.$router.replace("/login");
     },
   },
 };

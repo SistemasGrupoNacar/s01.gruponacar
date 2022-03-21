@@ -2,6 +2,20 @@ import axios from "axios";
 import API_URI from "@/api/config.js";
 import tokenActions from "@/scripts/Token.js";
 
+function error401_403(error) {
+  if (error.response.status == 401) {
+    tokenActions.eliminarToken();
+    window.location.href = "/login";
+    return;
+  }
+  if (error.response.status == 403) {
+    tokenActions.eliminarToken();
+    window.location.href = "/login";
+    return;
+  }
+  return;
+}
+
 // Iniciar sesion
 async function iniciarSesion(credenciales) {
   return new Promise((resolve, reject) => {
@@ -21,9 +35,7 @@ async function verificarToken() {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .get(API_URI + "/login", {
@@ -35,6 +47,9 @@ async function verificarToken() {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -45,9 +60,7 @@ async function obtenerProducto(id) {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .get(API_URI + "/products/" + id, {
@@ -59,6 +72,9 @@ async function obtenerProducto(id) {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -69,9 +85,7 @@ async function obtenerTodosProductos() {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .get(API_URI + "/products/all", {
@@ -83,6 +97,9 @@ async function obtenerTodosProductos() {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -93,9 +110,7 @@ async function obtenerProductos() {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .get(API_URI + "/products", {
@@ -107,6 +122,9 @@ async function obtenerProductos() {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -114,13 +132,24 @@ async function obtenerProductos() {
 
 // Obtener primeros 5 productos
 async function obtenerPrimerosProductos() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/products?limit=5")
+      .get(API_URI + "/products?limit=5", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -128,13 +157,24 @@ async function obtenerPrimerosProductos() {
 
 // Cambiar la disponibilidad de un producto
 async function cambiarDisponibilidadProducto(id, disponibilidad) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .put(API_URI + "/products/" + id + "/available/" + disponibilidad)
+      .put(API_URI + "/products/" + id + "/available/" + disponibilidad, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -142,13 +182,24 @@ async function cambiarDisponibilidadProducto(id, disponibilidad) {
 
 // Eliminar un producto
 async function eliminarProducto(id) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .delete(API_URI + "/products/" + id)
+      .delete(API_URI + "/products/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -156,13 +207,24 @@ async function eliminarProducto(id) {
 
 // Crear producto
 async function crearProducto(producto) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .post(API_URI + "/products", producto)
+      .post(API_URI + "/products", producto, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -170,13 +232,24 @@ async function crearProducto(producto) {
 
 // Obtener todos los insumos
 async function obtenerTodosInsumos() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/inventoryProducts/all")
+      .get(API_URI + "/inventoryProducts/all", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -184,26 +257,48 @@ async function obtenerTodosInsumos() {
 
 // Obtener insumos disponibles
 async function obtenerInsumos() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/inventoryProducts")
+      .get(API_URI + "/inventoryProducts", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
 }
 // Obtener primeros 5 insumos
 async function obtenerPrimerosInsumos() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/inventoryProducts?limit=5")
+      .get(API_URI + "/inventoryProducts?limit=5", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -211,13 +306,24 @@ async function obtenerPrimerosInsumos() {
 
 // Obtener todos historial de cosecha
 async function obtenerTodosHistorialCosecha() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/harvest")
+      .get(API_URI + "/harvest", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -225,13 +331,24 @@ async function obtenerTodosHistorialCosecha() {
 
 // Obtener primeros 5 historial de cosecha
 async function obtenerPrimerosHistorialCosecha() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/harvest?limit=5")
+      .get(API_URI + "/harvest?limit=5", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -239,13 +356,24 @@ async function obtenerPrimerosHistorialCosecha() {
 
 // Obtener todas las producciones en curso
 async function obtenerProduccionesEnProgreso() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/productions")
+      .get(API_URI + "/productions", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -253,13 +381,24 @@ async function obtenerProduccionesEnProgreso() {
 
 // Obtener todas las producciones
 async function obtenerTodasProducciones() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/productions/all")
+      .get(API_URI + "/productions/all", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -267,13 +406,24 @@ async function obtenerTodasProducciones() {
 
 // Crear cosecha de producto
 async function crearCosecha(ingreso) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .post(API_URI + "/harvest", ingreso)
+      .post(API_URI + "/harvest", ingreso, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -281,13 +431,24 @@ async function crearCosecha(ingreso) {
 
 // Eliminar Historial de cosecha
 async function eliminarHistorialCosecha(id) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .delete(API_URI + "/harvest/" + id)
+      .delete(API_URI + "/harvest/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -295,13 +456,24 @@ async function eliminarHistorialCosecha(id) {
 
 // Obtener primeros 5 historial de entrada de insumos
 async function obtenerPrimerosHistorialEntradaInsumos() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/inventoryEntries?limit=5")
+      .get(API_URI + "/inventoryEntries?limit=5", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -309,13 +481,24 @@ async function obtenerPrimerosHistorialEntradaInsumos() {
 
 // Obtener todos historial de entrada de insumos
 async function obtenerTodosHistorialEntradaInsumos() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/inventoryEntries")
+      .get(API_URI + "/inventoryEntries", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -323,13 +506,24 @@ async function obtenerTodosHistorialEntradaInsumos() {
 
 // Eliminar un insumo
 async function eliminarInsumo(id) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .delete(API_URI + "/inventoryProducts/" + id)
+      .delete(API_URI + "/inventoryProducts/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -337,15 +531,27 @@ async function eliminarInsumo(id) {
 
 // Cambiar disponibilidad de un insumo
 async function cambiarDisponibilidadInsumo(id, disponibilidad) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
       .put(
-        API_URI + "/inventoryProducts/" + id + "/available/" + disponibilidad
+        API_URI + "/inventoryProducts/" + id + "/available/" + disponibilidad,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
       )
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -353,13 +559,24 @@ async function cambiarDisponibilidadInsumo(id, disponibilidad) {
 
 // Crear insumo
 async function crearInsumo(insumo) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .post(API_URI + "/inventoryProducts", insumo)
+      .post(API_URI + "/inventoryProducts", insumo, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -367,13 +584,24 @@ async function crearInsumo(insumo) {
 
 // Crear ingreso de insumo
 async function crearIngresoInsumo(ingreso) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .post(API_URI + "/inventoryEntries", ingreso)
+      .post(API_URI + "/inventoryEntries", ingreso, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -381,13 +609,24 @@ async function crearIngresoInsumo(ingreso) {
 
 // Eliminar entrada de insumo
 async function eliminarEntradaInsumo(id) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .delete(API_URI + "/inventoryEntries/" + id)
+      .delete(API_URI + "/inventoryEntries/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -395,13 +634,24 @@ async function eliminarEntradaInsumo(id) {
 
 // Crear Venta
 async function crearVenta(venta) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .post(API_URI + "/sales", venta)
+      .post(API_URI + "/sales", venta, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -409,13 +659,24 @@ async function crearVenta(venta) {
 
 // Cancelar Venta
 async function cancelarVenta(id) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .delete(API_URI + "/sales/" + id)
+      .delete(API_URI + "/sales/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -423,13 +684,24 @@ async function cancelarVenta(id) {
 
 // Obtener venta específica
 async function obtenerVenta(id) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/sales/unique/" + id)
+      .get(API_URI + "/sales/unique/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -437,13 +709,24 @@ async function obtenerVenta(id) {
 
 // Agregar detalle de venta
 async function crearDetalleVenta(data) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .post(API_URI + "/detailSales", data)
+      .post(API_URI + "/detailSales", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -451,13 +734,24 @@ async function crearDetalleVenta(data) {
 
 // Eliminar detalle de venta
 async function eliminarDetalleVenta(id) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .delete(API_URI + "/detailSales/" + id)
+      .delete(API_URI + "/detailSales/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -465,13 +759,24 @@ async function eliminarDetalleVenta(id) {
 
 // Obtener ventas
 async function obtenerVentas() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/sales")
+      .get(API_URI + "/sales", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -479,13 +784,24 @@ async function obtenerVentas() {
 
 // Obtener solo las ventas de hoy
 async function obtenerVentasHoy() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/sales/today")
+      .get(API_URI + "/sales/today", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -493,13 +809,24 @@ async function obtenerVentasHoy() {
 
 // Obtener primeras 5 ventas
 async function obtenerPrimerosVentas() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/sales?limit=5")
+      .get(API_URI + "/sales?limit=5", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -507,13 +834,24 @@ async function obtenerPrimerosVentas() {
 
 // Obtener ventas pendientes
 async function obtenerVentasPendientes() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/sales/pending")
+      .get(API_URI + "/sales/pending", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -521,13 +859,24 @@ async function obtenerVentasPendientes() {
 
 // Finalizar venta (cambiar pending a false)
 async function finalizarVenta(id) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .put(API_URI + "/sales/pending/" + id + "/false")
+      .put(API_URI + "/sales/pending/" + id + "/false", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -535,13 +884,24 @@ async function finalizarVenta(id) {
 
 // Obtener todas las ventas con rango de fechas
 async function obtenerVentasTodasFecha(fechaInicio, fechaFin) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/sales/" + fechaInicio + "/" + fechaFin + "/all")
+      .get(API_URI + "/sales/" + fechaInicio + "/" + fechaFin + "/all", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -549,13 +909,24 @@ async function obtenerVentasTodasFecha(fechaInicio, fechaFin) {
 
 // Obtener las ventas con rango de fechas
 async function obtenerVentasFecha(fechaInicio, fechaFin) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/sales/" + fechaInicio + "/" + fechaFin)
+      .get(API_URI + "/sales/" + fechaInicio + "/" + fechaFin, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -563,13 +934,24 @@ async function obtenerVentasFecha(fechaInicio, fechaFin) {
 
 // Obtener todas las ventas sin rango de fechas
 async function obtenerVentasTodas() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/sales/all")
+      .get(API_URI + "/sales/all", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -577,13 +959,24 @@ async function obtenerVentasTodas() {
 
 // Obtener egresos
 async function obtenerEgresos() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/economy/egress")
+      .get(API_URI + "/economy/egress", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -591,19 +984,31 @@ async function obtenerEgresos() {
 
 // Obtener egresos con rango de fechas
 async function obtenerEgresosFecha(fechaInicio, fechaFin) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
       .get(
         API_URI +
           "/economy/egress?startDate=" +
           fechaInicio +
           "&endDate=" +
-          fechaFin
+          fechaFin,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
       )
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -611,13 +1016,24 @@ async function obtenerEgresosFecha(fechaInicio, fechaFin) {
 
 // Obtener ingresos
 async function obtenerIngresos() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/economy/ingress")
+      .get(API_URI + "/economy/ingress", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -625,19 +1041,31 @@ async function obtenerIngresos() {
 
 // Obtener ingresos con rango de fechas
 async function obtenerIngresosFecha(fechaInicio, fechaFin) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
       .get(
         API_URI +
           "/economy/ingress?startDate=" +
           fechaInicio +
           "&endDate=" +
-          fechaFin
+          fechaFin,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
       )
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -645,13 +1073,24 @@ async function obtenerIngresosFecha(fechaInicio, fechaFin) {
 
 // Obtener los tipos de movimientos
 async function obtenerTiposMovimientos() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/typeMoves")
+      .get(API_URI + "/typeMoves", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -659,13 +1098,24 @@ async function obtenerTiposMovimientos() {
 
 // Agregar movimiento extra
 async function crearMovimientoExtra(data) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .post(API_URI + "/extraMoves", data)
+      .post(API_URI + "/extraMoves", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -673,13 +1123,24 @@ async function crearMovimientoExtra(data) {
 
 // Obtener todos los movimientos extras
 async function obtenerTodosMovimientosExtra() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/extraMoves")
+      .get(API_URI + "/extraMoves", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -687,13 +1148,24 @@ async function obtenerTodosMovimientosExtra() {
 
 // Eliminar movimiento extra
 async function eliminarMovimientoExtra(id) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .delete(API_URI + "/extraMoves/" + id)
+      .delete(API_URI + "/extraMoves/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -701,15 +1173,30 @@ async function eliminarMovimientoExtra(id) {
 
 // Finalizar produccion
 async function finalizarProduccion(id, fecha) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .put(API_URI + "/productions/" + id + "/finished", {
-        end_date: fecha,
-      })
+      .put(
+        API_URI + "/productions/" + id + "/finished",
+        {
+          end_date: fecha,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -717,13 +1204,24 @@ async function finalizarProduccion(id, fecha) {
 
 // Reanudar produccion
 async function reanudarProduccion(id) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .put(API_URI + "/productions/" + id + "/inProgress")
+      .put(API_URI + "/productions/" + id + "/inProgress", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -731,13 +1229,24 @@ async function reanudarProduccion(id) {
 
 // Crear costo de produccion
 async function crearCostoProduccion(data) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .post(API_URI + "/productionCosts", data)
+      .post(API_URI + "/productionCosts", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -745,13 +1254,24 @@ async function crearCostoProduccion(data) {
 
 // Obtener los lugares
 async function obtenerLugares() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/places")
+      .get(API_URI + "/places", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -759,13 +1279,24 @@ async function obtenerLugares() {
 
 // Cambiar disponibilidad lugar
 async function cambiarDisponibilidadLugar(id, disponibilidad) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .put(API_URI + "/places/" + id + "/" + disponibilidad)
+      .put(API_URI + "/places/" + id + "/" + disponibilidad, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -773,13 +1304,24 @@ async function cambiarDisponibilidadLugar(id, disponibilidad) {
 
 // Obtener todos los lugares
 async function obtenerLugaresTodos() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/places/all")
+      .get(API_URI + "/places/all", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -787,13 +1329,24 @@ async function obtenerLugaresTodos() {
 
 // Eliminar lugar
 async function eliminarLugar(id) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .delete(API_URI + "/places/" + id)
+      .delete(API_URI + "/places/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -801,13 +1354,24 @@ async function eliminarLugar(id) {
 
 // Crear lugar
 async function crearLugar(data) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .post(API_URI + "/places", data)
+      .post(API_URI + "/places", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -815,13 +1379,24 @@ async function crearLugar(data) {
 
 // Crear nueva produccion
 async function crearProduccion(data) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .post(API_URI + "/productions", data)
+      .post(API_URI + "/productions", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -832,9 +1407,7 @@ async function cambiarContrasena(data) {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .put(API_URI + "/users/change-password", data, {
@@ -846,6 +1419,9 @@ async function cambiarContrasena(data) {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -853,13 +1429,24 @@ async function cambiarContrasena(data) {
 
 // Obtener datos del panel
 async function obtenerDatosPanel() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/panel")
+      .get(API_URI + "/panel", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -867,13 +1454,24 @@ async function obtenerDatosPanel() {
 
 // Obtener los ultimos empleados en entrar a la empresa
 async function obtenerUltimosEmpleados() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/employees/")
+      .get(API_URI + "/employees/", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -881,13 +1479,24 @@ async function obtenerUltimosEmpleados() {
 
 // Obtiene los empleados de la empresa
 async function obtenerEmpleados() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/employees")
+      .get(API_URI + "/employees", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -895,13 +1504,24 @@ async function obtenerEmpleados() {
 
 // Obtiene todos los empleados
 async function obtenerEmpleadosTodos() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/employees/all")
+      .get(API_URI + "/employees/all", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -909,13 +1529,24 @@ async function obtenerEmpleadosTodos() {
 
 // Eliminar empleado
 async function eliminarEmpleado(id) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .delete(API_URI + "/employees/" + id)
+      .delete(API_URI + "/employees/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -923,13 +1554,24 @@ async function eliminarEmpleado(id) {
 
 // Cambiar estado de empleado
 async function cambiarEstadoEmpleado(id, estado) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .put(API_URI + "/employees/" + id + "/status/" + estado)
+      .put(API_URI + "/employees/" + id + "/status/" + estado, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -937,13 +1579,24 @@ async function cambiarEstadoEmpleado(id, estado) {
 
 // Crear empleado
 async function crearEmpleado(data) {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .post(API_URI + "/employees", data)
+      .post(API_URI + "/employees", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -951,13 +1604,24 @@ async function crearEmpleado(data) {
 
 // Obtener posiciones o cargos
 async function obtenerPosiciones() {
+  const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
     axios
-      .get(API_URI + "/positions")
+      .get(API_URI + "/positions", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -968,9 +1632,7 @@ async function cambiarContrasenaEmpleado(username, data) {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .put(API_URI + "/users/" + username + "/change-password", data, {
@@ -982,6 +1644,9 @@ async function cambiarContrasenaEmpleado(username, data) {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -992,9 +1657,7 @@ async function obtenerUltimasJornadas() {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .get(API_URI + "/journeys/last", {
@@ -1006,6 +1669,9 @@ async function obtenerUltimasJornadas() {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1016,9 +1682,7 @@ async function obtenerJornadas() {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .get(API_URI + "/journeys", {
@@ -1030,6 +1694,9 @@ async function obtenerJornadas() {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1040,9 +1707,7 @@ async function obtenerJornadasEnProceso() {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .get(API_URI + "/journeys/in-progress", {
@@ -1054,6 +1719,9 @@ async function obtenerJornadasEnProceso() {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1064,9 +1732,7 @@ async function eliminarJornada(id) {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .delete(API_URI + "/journeys/" + id, {
@@ -1078,6 +1744,9 @@ async function eliminarJornada(id) {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1088,9 +1757,7 @@ async function cambiarAvatar(username, data) {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     console.log(data);
     axios
@@ -1103,6 +1770,9 @@ async function cambiarAvatar(username, data) {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1113,9 +1783,7 @@ async function obtenerUltimosUsuarios() {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .get(API_URI + "/users/last", {
@@ -1127,6 +1795,9 @@ async function obtenerUltimosUsuarios() {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1137,9 +1808,7 @@ async function obtenerUsuarios() {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .get(API_URI + "/users", {
@@ -1151,6 +1820,9 @@ async function obtenerUsuarios() {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1161,9 +1833,7 @@ async function obtenerUsuario(id) {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .get(API_URI + "/users/" + id, {
@@ -1175,6 +1845,9 @@ async function obtenerUsuario(id) {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1185,9 +1858,7 @@ async function eliminarUsuario(id) {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .delete(API_URI + "/users/" + id, {
@@ -1199,6 +1870,9 @@ async function eliminarUsuario(id) {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1209,9 +1883,7 @@ async function obtenerRoles() {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .get(API_URI + "/roles", {
@@ -1223,6 +1895,9 @@ async function obtenerRoles() {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1233,9 +1908,7 @@ async function verificarUsuario(username) {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .post(API_URI + "/users/verify-username", username, {
@@ -1247,6 +1920,9 @@ async function verificarUsuario(username) {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1257,9 +1933,7 @@ async function crearUsuario(data) {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .post(API_URI + "/users", data, {
@@ -1271,6 +1945,9 @@ async function crearUsuario(data) {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1281,9 +1958,7 @@ async function obtenerSalarios() {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .get(API_URI + "/salaries", {
@@ -1295,6 +1970,9 @@ async function obtenerSalarios() {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1305,9 +1983,7 @@ async function obtenerUltimosSalarios() {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .get(API_URI + "/salaries/last", {
@@ -1319,6 +1995,9 @@ async function obtenerUltimosSalarios() {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1329,9 +2008,7 @@ async function crearSalario(data) {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .post(API_URI + "/salaries", data, {
@@ -1343,6 +2020,9 @@ async function crearSalario(data) {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1353,9 +2033,7 @@ async function eliminarSalario(id) {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .delete(API_URI + "/salaries/" + id, {
@@ -1367,6 +2045,9 @@ async function eliminarSalario(id) {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });
@@ -1377,9 +2058,7 @@ async function obtenerTotalSalarios(id) {
   const token = await tokenActions.getToken();
   return new Promise((resolve, reject) => {
     if (token == null) {
-      reject({
-        message: "Token no encontrado",
-      });
+      window.location.href = "/login";
     }
     axios
       .get(API_URI + "/salaries/total/" + id, {
@@ -1391,6 +2070,9 @@ async function obtenerTotalSalarios(id) {
         resolve(respuesta);
       })
       .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
         reject(error);
       });
   });

@@ -110,12 +110,12 @@
           />
           <el-table-column prop="quantity" label="Cantidad" width="150" />
           <el-table-column
-            prop="sub_total_format"
+            prop="sub_total"
             label="Precio Unitario"
             width="150"
           />
           <el-table-column
-            prop="total_format"
+            prop="total"
             label="Sub-Total"
             width="150"
           /><el-table-column fixed="right" label="Acción" width="120">
@@ -144,7 +144,6 @@
 <script>
 import api from "@/api/index.js";
 import { useRoute } from "vue-router";
-import { verificarSesion } from "@/scripts/Sesion.js";
 import { ElMessage } from "element-plus";
 export default {
   data() {
@@ -191,7 +190,6 @@ export default {
         this.cargando = false;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener la venta");
@@ -204,7 +202,6 @@ export default {
         this.productos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los productos");
@@ -217,7 +214,6 @@ export default {
         this.producciones = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener las producciones");
@@ -243,7 +239,6 @@ export default {
         this.actualizarVenta(this.venta._id);
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al agregar el detalle de venta");
@@ -258,7 +253,6 @@ export default {
         this.venta = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al actualizar la venta");
@@ -277,7 +271,6 @@ export default {
         this.actualizarVenta(this.venta._id);
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al eliminar el detalle de venta");
@@ -319,19 +312,20 @@ export default {
       if (this.detalleVenta.length == 0) {
         this.cancelarVenta();
       } else {
+        this.cargando = true;
         try {
-          this.cargando = true;
           await api.finalizarVenta(this.venta._id);
           ElMessage.success("Venta cerrada");
           this.$router.push("/movimientos/ventas");
         } catch (error) {
           if (error.response) {
-            verificarSesion(error);
+            console.log(error.response);
             ElMessage.error(error.response.data.message);
           } else {
             ElMessage.error("Error al finalizar la venta");
           }
         }
+        this.cargando = false;
       }
     },
   },

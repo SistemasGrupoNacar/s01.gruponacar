@@ -45,7 +45,6 @@
 <script>
 import { Delete } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
-import { verificarSesion } from "@/scripts/Sesion.js";
 import { ElMessage } from "element-plus";
 
 export default {
@@ -69,7 +68,7 @@ export default {
         this.listadoHistorialEntradaInsumos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener las entradas de insumos");
@@ -83,7 +82,7 @@ export default {
         this.obtenerHistorialEntradaInsumos();
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al eliminar la entrada de insumo");

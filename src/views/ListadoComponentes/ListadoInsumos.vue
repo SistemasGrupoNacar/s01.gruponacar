@@ -54,7 +54,6 @@
 <script>
 import { Remove, Delete, Check } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
-import { verificarSesion } from "@/scripts/Sesion.js";
 import { ElMessage } from "element-plus";
 export default {
   components: {
@@ -79,7 +78,7 @@ export default {
         this.listadoInsumos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos.");
@@ -98,7 +97,7 @@ export default {
         }
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al cambiar la disponibilidad del insumo.");
@@ -114,7 +113,7 @@ export default {
         this.obtenerInsumos();
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al eliminar el insumo.");

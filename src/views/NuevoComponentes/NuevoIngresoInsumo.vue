@@ -74,7 +74,6 @@
 </template>
 <script>
 import api from "@/api/index.js";
-import { verificarSesion } from "@/scripts/Sesion.js";
 import { ElMessage } from "element-plus";
 export default {
   data() {
@@ -101,7 +100,7 @@ export default {
         this.listadoInsumos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos");
@@ -131,7 +130,7 @@ export default {
         this.$router.push({ name: "Insumos" });
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al crear el ingreso de insumo");

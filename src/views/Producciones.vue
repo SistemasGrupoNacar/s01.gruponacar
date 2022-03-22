@@ -238,7 +238,6 @@
 import api from "@/api/index.js";
 import { Plus, WarningFilled } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
-import { verificarSesion } from "@/scripts/Sesion.js";
 export default {
   components: {
     Plus,
@@ -284,7 +283,7 @@ export default {
         });
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener las producciones");
@@ -305,7 +304,7 @@ export default {
         this.obtenerProducciones();
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al finalizar la producción");
@@ -325,7 +324,7 @@ export default {
         this.obtenerProducciones();
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al reanudar la producción");

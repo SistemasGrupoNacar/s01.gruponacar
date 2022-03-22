@@ -104,7 +104,6 @@
 <script>
 import { Plus } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
-import { verificarSesion } from "@/scripts/Sesion.js";
 import { ElMessage } from "element-plus";
 export default {
   components: {
@@ -145,7 +144,7 @@ export default {
         });
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los datos");
@@ -160,7 +159,7 @@ export default {
         this.listadoPrimerosProductos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los datos");
@@ -184,7 +183,7 @@ export default {
         this.listadoTodosProductos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los datos");
@@ -203,7 +202,7 @@ export default {
         this.actualizarTodo();
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al eliminar el producto");

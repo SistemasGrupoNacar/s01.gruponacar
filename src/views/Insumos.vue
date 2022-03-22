@@ -97,7 +97,6 @@
 <script>
 import { Plus } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
-import { verificarSesion } from "@/scripts/Sesion.js";
 import { ElMessage } from "element-plus";
 export default {
   components: {
@@ -130,7 +129,7 @@ export default {
         this.cargandoDatosTablaInsumos = false;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos");
@@ -143,7 +142,7 @@ export default {
         this.listadoTodoInsumos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos");
@@ -162,7 +161,7 @@ export default {
         this.cargandoDatosTablaHistorial = false;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos");
@@ -177,7 +176,7 @@ export default {
         this.actualizarTodo();
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos");

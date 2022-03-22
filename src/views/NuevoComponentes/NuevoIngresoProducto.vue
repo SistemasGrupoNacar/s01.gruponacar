@@ -71,7 +71,6 @@
   </div>
 </template>
 <script>
-import { verificarSesion } from "@/scripts/Sesion.js";
 import api from "@/api/index.js";
 import { ElMessage } from "element-plus";
 export default {
@@ -130,7 +129,7 @@ export default {
         this.$router.push({ name: "Productos" });
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al crear cosecha");
@@ -155,7 +154,7 @@ export default {
         });
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener producciones");

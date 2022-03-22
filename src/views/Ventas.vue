@@ -38,6 +38,11 @@
       <el-table-column prop="date_format" sortable label="Fecha" width="200" />
       <el-table-column prop="status" sortable label="Estado" width="150" />
       <el-table-column prop="total_format" label="Total" />
+      <el-table-column
+        prop="created_by.username"
+        label="Creado por"
+        width="180"
+      />
       <el-table-column fixed="right" label="Acción" width="120">
         <template #default="scope">
           <el-button
@@ -107,7 +112,6 @@
 <script>
 import api from "@/api/index.js";
 import { Plus } from "@element-plus/icons-vue";
-import { verificarSesion } from "@/scripts/Sesion.js";
 import { ElMessage } from "element-plus";
 export default {
   components: {
@@ -165,7 +169,6 @@ export default {
         });
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
           console.log(error.response.data);
           ElMessage.error(error.response.data.message);
         } else {
@@ -197,7 +200,6 @@ export default {
               });
             } catch (error) {
               if (error.response) {
-                verificarSesion(error);
                 ElMessage.error(error.response.data.message);
               } else {
                 ElMessage.error("Error de conexión");
@@ -216,7 +218,6 @@ export default {
               });
             } catch (error) {
               if (error.response) {
-                verificarSesion(error);
                 ElMessage.error(error.response.data.message);
               } else {
                 ElMessage.error("Error de conexión");
@@ -243,7 +244,6 @@ export default {
               });
             } catch (error) {
               if (error.response) {
-                verificarSesion(error);
                 ElMessage.error(error.response.data.message);
               } else {
                 ElMessage.error("Error de conexión");
@@ -261,7 +261,6 @@ export default {
               });
             } catch (error) {
               if (error.response) {
-                verificarSesion(error);
                 ElMessage.error(error.response.data.message);
               } else {
                 ElMessage.error("Error de conexión");

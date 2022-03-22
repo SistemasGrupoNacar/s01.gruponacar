@@ -44,7 +44,6 @@
 <script>
 import { Delete } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
-import { verificarSesion } from "@/scripts/Sesion.js";
 import { ElMessage } from "element-plus";
 export default {
   data() {
@@ -64,7 +63,7 @@ export default {
         this.listadoHistorialCosecha = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener el historial de cosechas.");
@@ -78,7 +77,7 @@ export default {
         this.obtenerHistorialCosecha();
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al eliminar el historial de cosecha.");

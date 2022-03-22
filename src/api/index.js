@@ -4,12 +4,12 @@ import tokenActions from "@/scripts/Token.js";
 
 function error401_403(error) {
   if (error.response.status == 401) {
-    tokenActions.eliminarToken();
+    tokenActions.removeToken();
     window.location.href = "/login";
     return;
   }
   if (error.response.status == 403) {
-    tokenActions.eliminarToken();
+    tokenActions.removeToken();
     window.location.href = "/login";
     return;
   }
@@ -163,11 +163,15 @@ async function cambiarDisponibilidadProducto(id, disponibilidad) {
       window.location.href = "/login";
     }
     axios
-      .put(API_URI + "/products/" + id + "/available/" + disponibilidad, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .put(
+        API_URI + "/products/" + id + "/available/" + disponibilidad,
+        {},
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((respuesta) => {
         resolve(respuesta);
       })
@@ -539,6 +543,7 @@ async function cambiarDisponibilidadInsumo(id, disponibilidad) {
     axios
       .put(
         API_URI + "/inventoryProducts/" + id + "/available/" + disponibilidad,
+        {},
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -674,9 +679,9 @@ async function cancelarVenta(id) {
         resolve(respuesta);
       })
       .catch((error) => {
-        if (error.response) {
+        /*if (error.response) {
           error401_403(error);
-        }
+        }*/
         reject(error);
       });
   });
@@ -865,18 +870,22 @@ async function finalizarVenta(id) {
       window.location.href = "/login";
     }
     axios
-      .put(API_URI + "/sales/pending/" + id + "/false", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .put(
+        API_URI + "/sales/pending/" + id + "/false",
+        {},
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((respuesta) => {
         resolve(respuesta);
       })
       .catch((error) => {
-        if (error.response) {
+        /*if (error.response) {
           error401_403(error);
-        }
+        }*/
         reject(error);
       });
   });
@@ -1210,11 +1219,15 @@ async function reanudarProduccion(id) {
       window.location.href = "/login";
     }
     axios
-      .put(API_URI + "/productions/" + id + "/inProgress", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .put(
+        API_URI + "/productions/" + id + "/inProgress",
+        {},
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((respuesta) => {
         resolve(respuesta);
       })
@@ -1285,11 +1298,15 @@ async function cambiarDisponibilidadLugar(id, disponibilidad) {
       window.location.href = "/login";
     }
     axios
-      .put(API_URI + "/places/" + id + "/" + disponibilidad, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .put(
+        API_URI + "/places/" + id + "/" + disponibilidad,
+        {},
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((respuesta) => {
         resolve(respuesta);
       })
@@ -1560,11 +1577,15 @@ async function cambiarEstadoEmpleado(id, estado) {
       window.location.href = "/login";
     }
     axios
-      .put(API_URI + "/employees/" + id + "/status/" + estado, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
+      .put(
+        API_URI + "/employees/" + id + "/status/" + estado,
+        {},
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      )
       .then((respuesta) => {
         resolve(respuesta);
       })

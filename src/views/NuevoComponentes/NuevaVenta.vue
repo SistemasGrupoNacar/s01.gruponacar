@@ -139,7 +139,6 @@
 </template>
 <script>
 import api from "@/api/index.js";
-import { verificarSesion } from "@/scripts/Sesion.js";
 import { ElMessage } from "element-plus";
 export default {
   data() {
@@ -175,7 +174,7 @@ export default {
         this.cargando = false;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al crear venta");
@@ -188,7 +187,7 @@ export default {
         this.$router.replace("/movimientos/ventas");
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al cancelar venta");
@@ -201,7 +200,7 @@ export default {
         this.productos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener productos");
@@ -214,7 +213,7 @@ export default {
         this.producciones = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener producciones");
@@ -268,7 +267,7 @@ export default {
         this.productoSeleccionado.production = "";
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al agregar detalle de venta");
@@ -292,7 +291,7 @@ export default {
         this.venta = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener venta");
@@ -312,7 +311,7 @@ export default {
         this.actualizarVenta(this.venta._id);
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al eliminar detalle de venta");
@@ -354,7 +353,7 @@ export default {
           this.$router.replace("/movimientos/ventas");
         } catch (error) {
           if (error.response) {
-            verificarSesion(error);
+            
             ElMessage.error(error.response.data.message);
           } else {
             ElMessage.error("Error al finalizar la venta");

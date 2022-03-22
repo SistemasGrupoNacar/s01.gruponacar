@@ -75,7 +75,6 @@
 <script>
 import api from "@/api/index.js";
 import { ElMessage } from "element-plus";
-import { verificarSesion } from "@/scripts/Sesion.js";
 export default {
   data() {
     return {
@@ -102,7 +101,7 @@ export default {
         this.listadoInsumos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos");
@@ -131,7 +130,7 @@ export default {
           this.$router.push("/producciones");
         } catch (error) {
           if (error.response) {
-            verificarSesion(error);
+            
             ElMessage.error(error.response.data.message);
           } else {
             ElMessage.error("Error al agregar el gasto de insumo");

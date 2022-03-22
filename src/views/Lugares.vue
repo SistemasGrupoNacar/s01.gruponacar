@@ -70,7 +70,6 @@
 <script>
 import api from "@/api/index.js";
 import { ElMessage } from "element-plus";
-import { verificarSesion } from "@/scripts/Sesion.js";
 import { Remove, Delete, Check } from "@element-plus/icons-vue";
 export default {
   components: {
@@ -104,7 +103,7 @@ export default {
         });
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los datos");
@@ -120,7 +119,7 @@ export default {
         this.obtenerLugares();
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los datos");
@@ -136,7 +135,7 @@ export default {
         this.obtenerLugares();
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los datos");
@@ -156,7 +155,7 @@ export default {
         this.obtenerLugares();
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los datos");

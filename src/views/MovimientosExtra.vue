@@ -53,7 +53,6 @@
 <script>
 import { Plus, Delete } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
-import { verificarSesion } from "@/scripts/Sesion.js";
 import { ElMessage } from "element-plus";
 export default {
   components: {
@@ -77,7 +76,7 @@ export default {
         this.listadoHistorialMovimientosExtra = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los movimientos extra");
@@ -99,7 +98,7 @@ export default {
         });
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al eliminar el movimiento extra");

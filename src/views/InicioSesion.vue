@@ -43,7 +43,7 @@
           class="_w-50 m-2"
           placeholder="Ingrese contrase&ntilde;a"
           type="password"
-          @keyup.enter ="iniciarSesion(credenciales)"
+          @keyup.enter="iniciarSesion(credenciales)"
           show-password
         >
           <template #prefix>
@@ -92,10 +92,8 @@ export default {
       }
       try {
         const respuesta = await api.iniciarSesion(datos);
-        if (respuesta.status === 200) {
-          await setToken(respuesta.data);
-          this.$router.push("/home");
-        }
+        await setToken(respuesta.data);
+        this.$router.replace("/home");
       } catch (error) {
         if (error.response.status === 403) {
           ElMessage.warning("Usuario o contraseña incorrectos");

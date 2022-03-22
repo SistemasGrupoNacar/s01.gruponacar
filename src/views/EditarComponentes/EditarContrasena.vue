@@ -60,7 +60,6 @@
 <script>
 import { ElMessage } from "element-plus";
 import api from "@/api/index.js";
-import { verificarSesion } from "@/scripts/Sesion.js";
 export default {
   data() {
     return {
@@ -83,7 +82,7 @@ export default {
         } catch (error) {
           this.cargando = false;
           if (error.response) {
-            verificarSesion(error);
+            
             if (error.response.status == 422) {
               error.response.data.forEach((element) => {
                 ElMessage.error(element.message);

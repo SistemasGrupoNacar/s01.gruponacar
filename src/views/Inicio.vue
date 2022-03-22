@@ -95,7 +95,6 @@
 import Grafica from "@/components/Grafica.vue";
 import api from "@/api/index.js";
 import { ElMessage } from "element-plus";
-import { verificarSesion } from "@/scripts/Sesion.js";
 export default {
   name: "Inicio",
   components: {
@@ -126,7 +125,7 @@ export default {
         this.datos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          verificarSesion(error);
+          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al realizar la petición, intente nuevamente.");

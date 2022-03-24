@@ -41,12 +41,14 @@
           />
         </div>
         <div class="col-6 col-md-3 my-2">
-          <span class="text-muted">Cantidad</span>
+          <span class="text-muted"
+            >Cantidad ({{ findUnitOfMeasurement(nuevoGastoInsumo) }})</span
+          >
           <el-input-number
             v-model="nuevoGastoInsumo.quantity"
-            :min="1"
+            :min="0.01"
             :max="999999"
-            :step="1"
+            :step="0.01"
             class="w-100"
           >
           </el-input-number>
@@ -85,7 +87,7 @@ export default {
         inventory_product: null,
         description: null,
         date: null,
-        quantity: 1,
+        quantity: 0.01,
       },
     };
   },
@@ -94,6 +96,17 @@ export default {
     this.obtenerInsumos();
   },
   methods: {
+    findUnitOfMeasurement(item) {
+      if (item) {
+        const insumo = this.listadoInsumos.find(
+          (element) => element._id == item.inventory_product
+        );
+        if (insumo) {
+          return insumo.unit_of_measurement;
+        }
+        return;
+      }
+    },
     async obtenerInsumos() {
       this.cargando = true;
       try {
@@ -101,7 +114,7 @@ export default {
         this.listadoInsumos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          
+          console.log(error.response)
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos");
@@ -130,7 +143,6 @@ export default {
           this.$router.push("/producciones");
         } catch (error) {
           if (error.response) {
-            
             ElMessage.error(error.response.data.message);
           } else {
             ElMessage.error("Error al agregar el gasto de insumo");

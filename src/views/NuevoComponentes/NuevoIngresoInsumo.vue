@@ -36,7 +36,9 @@
           </el-date-picker>
         </div>
         <div class="col-12 col-md-3 my-2 my-lg-0">
-          <span class="text-muted">Cantidad</span>
+          <span class="text-muted"
+            >Cantidad ({{ findUnitOfMeasurement(nuevoIngresoInsumo) }})</span
+          >
           <el-input-number
             v-model="nuevoIngresoInsumo.quantity"
             :min="1"
@@ -50,7 +52,6 @@
             v-model="nuevoIngresoInsumo.unit_price"
             :min="0.01"
             :step="0.01"
-            @change="calcularTotal()"
             class="w-100"
           ></el-input-number>
         </div>
@@ -61,6 +62,7 @@
             :min="0.01"
             :step="0.01"
             class="w-100"
+            @change="calcularTotal()"
           ></el-input-number>
         </div>
       </div>
@@ -93,6 +95,17 @@ export default {
     this.obtenerTodosInsumos();
   },
   methods: {
+    findUnitOfMeasurement(item) {
+      if (item) {
+        const insumo = this.listadoInsumos.find(
+          (element) => element._id == item.inventory_product
+        );
+        if (insumo) {
+          return insumo.unit_of_measurement;
+        }
+        return;
+      }
+    },
     async obtenerTodosInsumos() {
       this.cargando = true;
       try {
@@ -100,7 +113,6 @@ export default {
         this.listadoInsumos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos");
@@ -109,12 +121,14 @@ export default {
       this.cargando = false;
     },
     calcularTotal() {
-      this.nuevoIngresoInsumo.total =
+      /*this.nuevoIngresoInsumo.total =
         Math.round(
           this.nuevoIngresoInsumo.unit_price *
             this.nuevoIngresoInsumo.quantity *
             100
-        ) / 100;
+        ) / 100;*/
+      this.nuevoIngresoInsumo.unit_price =
+        this.nuevoIngresoInsumo.total / this.nuevoIngresoInsumo.quantity;
     },
     async crearIngresoInsumo(data) {
       if (!this.validarDatos(data)) {
@@ -124,13 +138,13 @@ export default {
       this.cargando = true;
       try {
         const respuesta = await api.crearIngresoInsumo(data);
-         ElMessage.success({
-          message: "Se ha creado el ingreso de insumo con ID: " + respuesta.data._id,
+        ElMessage.success({
+          message:
+            "Se ha creado el ingreso de insumo con ID: " + respuesta.data._id,
         });
         this.$router.push({ name: "Insumos" });
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al crear el ingreso de insumo");

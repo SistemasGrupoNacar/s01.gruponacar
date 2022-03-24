@@ -10,6 +10,12 @@
             v-model="insumo.name"
             class="w-100 my-2"
             placeholder="Ingrese nombre del insumo"
+          /><span class="text-muted">Medida</span>
+          <el-input
+            v-model="insumo.unit_of_measurement"
+            type="text"
+            class="w-100 my-2"
+            placeholder="Ingrese unidad de medida del insumo (kg, m3, etc)"
           />
           <span class="text-muted">Descripci&oacute;n</span>
           <el-input
@@ -96,6 +102,7 @@ export default {
         cost: 0,
         min_stock: 0,
         availability: null,
+        unit_of_measurement: "",
       },
       options: [
         { value: true, label: "Disponible" },
@@ -106,7 +113,9 @@ export default {
   methods: {
     async crearInsumo(data) {
       if (!this.verificarDatos(data)) {
-        alert("Datos incompletos");
+        ElMessage.error({
+          message: "Debe ingresar todos los datos",
+        });
         return;
       }
       try {
@@ -115,7 +124,6 @@ export default {
         this.$router.push({ name: "Insumos" });
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al crear insumo");
@@ -133,6 +141,9 @@ export default {
         return false;
       }
       if (data.availability == null) {
+        return false;
+      }
+      if (data.unit_of_measurement == "") {
         return false;
       }
       return true;

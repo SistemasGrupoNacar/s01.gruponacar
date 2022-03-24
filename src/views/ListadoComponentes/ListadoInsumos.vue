@@ -9,19 +9,28 @@
     <el-main v-loading.fullscreen.lock="cargando">
       <div class="min-h-50">
         <el-table :data="listadoInsumos" style="width: 100%" max-height="500">
-          <el-table-column prop="name" label="Nombre" width="150" />
-          <el-table-column prop="_id" label="ID" width="180" />
-          <el-table-column prop="stock" label="Stock" width="100" />
+          <el-table-column prop="name" label="Nombre" min-width="220" />
+          <el-table-column
+            prop="stock"
+            label="Stock"
+            width="100"
+          /><el-table-column
+            prop="unit_of_measurement"
+            label="Medida"
+            width="120"
+          />
+
           <el-table-column
             prop="min_stock"
             label="Stock M&iacute;nimo"
             width="150"
           />
+          <el-table-column prop="_id" label="ID" width="220" />
           <el-table-column prop="cost_format" label="Costo" width="100" />
           <el-table-column
             prop="description"
             label="Descripción"
-            min-width="150"
+            min-width="220"
           />
           <el-table-column
             prop="availability_text"
@@ -78,7 +87,6 @@ export default {
         this.listadoInsumos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos.");
@@ -97,7 +105,6 @@ export default {
         }
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al cambiar la disponibilidad del insumo.");
@@ -113,7 +120,6 @@ export default {
         this.obtenerInsumos();
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al eliminar el insumo.");

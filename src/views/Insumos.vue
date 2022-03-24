@@ -21,10 +21,13 @@
           v-loading="cargandoDatosTablaInsumos"
           :data="listadoPrimerosInsumos"
         >
-          <el-table-column prop="_id" label="ID"> </el-table-column>
-          <el-table-column prop="name" label="Nombre"> </el-table-column>
+          <el-table-column prop="_id" label="ID" width="220"> </el-table-column>
+          <el-table-column prop="name" label="Nombre" min-width="200">
+          </el-table-column>
 
           <el-table-column prop="stock" label="Stock" width="75">
+          </el-table-column>
+          <el-table-column prop="unit_of_measurement" label="Medida" width="75">
           </el-table-column>
         </el-table>
         <el-button
@@ -82,10 +85,13 @@
           ><el-table-column
             prop="inventory_product.name"
             label="Nombre de Producto"
+          ></el-table-column
+          ><el-table-column
+            prop="inventory_product.unit_of_measurement"
+            label="Medida"
           >
           </el-table-column>
-          <el-table-column prop="quantity" label="Cantidad (Sacos)">
-          </el-table-column>
+          <el-table-column prop="quantity" label="Cantidad"> </el-table-column>
         </el-table>
         <el-button class="d-block mx-auto my-1" v-on:click="historialInsumos()"
           >Mostrar todos</el-button
@@ -129,7 +135,6 @@ export default {
         this.cargandoDatosTablaInsumos = false;
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos");
@@ -142,7 +147,6 @@ export default {
         this.listadoTodoInsumos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos");
@@ -161,7 +165,6 @@ export default {
         this.cargandoDatosTablaHistorial = false;
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos");
@@ -176,7 +179,6 @@ export default {
         this.actualizarTodo();
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos");

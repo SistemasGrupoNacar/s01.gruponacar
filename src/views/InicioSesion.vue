@@ -91,12 +91,17 @@ export default {
         return;
       }
       try {
-        const respuesta = await api.iniciarSesion(datos);
+        const respuesta = await api.iniciarSesion({
+          username: datos.username,
+          password: datos.password,
+          type: "Admin",
+        });
         await setToken(respuesta.data);
         this.$router.replace("/home");
       } catch (error) {
+        console.log(error.response);
         if (error.response.status === 403) {
-          ElMessage.warning("Usuario o contraseña incorrectos");
+          ElMessage.error(error.response.data.message);
           this.cargando = false;
           return;
         }

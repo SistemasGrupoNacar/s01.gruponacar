@@ -99,13 +99,15 @@ export default {
         await setToken(respuesta.data);
         this.$router.replace("/home");
       } catch (error) {
-        console.log(error.response);
-        if (error.response.status === 403) {
-          ElMessage.error(error.response.data.message);
-          this.cargando = false;
-          return;
+        if (error.response) {
+          if (error.response.status === 403) {
+            ElMessage.error(error.response.data.message);
+            this.cargando = false;
+            return;
+          }
+        } else {
+          ElMessage.error("Error, por favor intente más tarde");
         }
-        ElMessage.error("Error, por favor intente más tarde");
       }
       this.cargando = false;
     },

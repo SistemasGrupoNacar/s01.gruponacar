@@ -8,12 +8,12 @@
       <div class="d-inline-flex align-items-center mx-2 my-2 my-lg-0">
         <span>Fecha: </span>
         <el-date-picker
-          class="mx-2 w-100"
           v-model="filtro.date"
-          type="datetimerange"
-          start-placeholder="Fecha de inicio"
-          end-placeholder="Fecha de finalizacion"
-        ></el-date-picker>
+          type="week"
+          class="mx-2 w-100"
+          format="[Semana] ww"
+          placeholder="Seleccione una semana"
+        />
       </div>
       <el-button v-on:click="filtrar(filtro)">Filtrar </el-button>
       <el-tabs :tab-position="position" class="my-4">
@@ -48,7 +48,13 @@
               <span class="_text-biggest" v-else>0</span>%
             </div>
             <div class="_widget-2 bg-light _w-40">
-              <p class="_text-small _bold w-100 my-0">Total del Mes</p>
+               <p
+                class="_text-small _bold w-100 my-0"
+                v-if="!egresos.inventoryEntries.filtered"
+              >
+                Total del Mes
+              </p>
+              <p class="_text-small _bold w-100 my-0" v-else>Total</p>
               <el-icon>
                 <sort-down />
               </el-icon>
@@ -86,145 +92,74 @@
         </el-tab-pane>
         <el-tab-pane label="Insumos">
           <div class="row">
-            <div class="col-12 col-md-7 my-2">
+            <div class="col-12 my-2">
               <p class="_semi-bold my-1">Gr&aacute;fico de Costos/Fechas</p>
-              <grafica :datos="egresos.inventoryEntries.graphic" />
-            </div>
-            <div class="col-12 col-lg-5 my-2">
-              <p class="_semi-bold my-1">Detalle de Egresos</p>
-              <hr />
-              <div class="container my-3 text-center">
-                <div class="_light">
-                  <span class="">
-                    {{ egresos.inventoryEntries.startDateFormat }}
-                  </span>
-                  <span class="mx-1">-</span>
-                  <span class="">
-                    {{ egresos.inventoryEntries.endDateFormat }}
-                  </span>
-                  <el-tag
-                    class="mx-auto"
-                    type="info"
-                    v-show="egresos.inventoryEntries.filtered"
-                    >Filtrado</el-tag
-                  >
-                </div>
-                <hr />
-                <div class="container my-2">
-                  <el-icon><SortUp /> </el-icon>
-                  <span class="mx-2"
-                    >Egreso mayor: {{ egresos.inventoryEntries.max }}</span
-                  >
-                </div>
-                <div class="container my-2">
-                  <el-icon><SortDown /> </el-icon>
-                  <span class="mx-2"
-                    >Egreso menor: {{ egresos.inventoryEntries.min }}</span
-                  >
-                </div>
-                <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
-                  <el-icon><Money /> </el-icon>
-                  <span class="_bold mx-2"
-                    >Total: $ {{ egresos.inventoryEntries.total }}</span
-                  >
-                </div>
+              <span class="">
+                {{ egresos.inventoryEntries.startDateFormat }}
+              </span>
+              <span class="mx-1">-</span>
+              <span class="">
+                {{ egresos.inventoryEntries.endDateFormat }}
+              </span>
+              <el-tag
+                class="mx-2"
+                type="info"
+                v-show="egresos.inventoryEntries.filtered"
+                >Filtrado</el-tag
+              >
+              <div class="_bold">
+                TOTAL:
+                {{ egresos.inventoryEntries.total_format }}
               </div>
+              <grafica :datos="egresos.inventoryEntries.graphic" />
             </div>
           </div>
         </el-tab-pane>
         <el-tab-pane label="Salarios">
           <div class="row">
-            <div class="col-12 col-md-7 my-2">
+            <div class="col-12 my-2">
               <p class="_semi-bold my-1">Gr&aacute;fico de Costos/Fechas</p>
-              <grafica :datos="egresos.salaries.graphic" />
-            </div>
-            <div class="col-12 col-lg-5 my-2">
-              <p class="_semi-bold my-1">Detalle de Egresos por otros</p>
-              <hr />
-              <div class="container my-3 text-center">
-                <div class="_light">
-                  <span class="">
-                    {{ egresos.salaries.startDateFormat }}
-                  </span>
-                  <span class="mx-1">-</span>
-                  <span class="">
-                    {{ egresos.salaries.endDateFormat }}
-                  </span>
-                  <el-tag
-                    class="mx-auto"
-                    type="info"
-                    v-show="egresos.salaries.filtered"
-                    >Filtrado</el-tag
-                  >
-                </div>
-                <hr />
-                <div class="container my-2">
-                  <el-icon><SortUp /> </el-icon>
-                  <span class="mx-2"
-                    >Egreso mayor: {{ egresos.salaries.max }}</span
-                  >
-                </div>
-                <div class="container my-2">
-                  <el-icon><SortDown /> </el-icon>
-                  <span class="mx-2"
-                    >Egreso menor: {{ egresos.salaries.min }}</span
-                  >
-                </div>
-                <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
-                  <el-icon><Money /> </el-icon>
-                  <span class="_bold mx-2"
-                    >Total: $ {{ egresos.salaries.total }}</span
-                  >
-                </div>
+              <span class="">
+                {{ egresos.salaries.startDateFormat }}
+              </span>
+              <span class="mx-1">-</span>
+              <span class="">
+                {{ egresos.salaries.endDateFormat }}
+              </span>
+              <el-tag
+                class="mx-2"
+                type="info"
+                v-show="egresos.salaries.filtered"
+                >Filtrado</el-tag
+              ><div class="_bold">
+                TOTAL: 
+                {{ egresos.salaries.total_format }}
               </div>
+              <grafica :datos="egresos.salaries.graphic" />
             </div>
           </div>
         </el-tab-pane>
         <el-tab-pane label="Otros">
           <div class="row">
-            <div class="col-12 col-md-7 my-2">
+            <div class="col-12 my-2">
               <p class="_semi-bold my-1">Gr&aacute;fico de Costos/Fechas</p>
-              <grafica :datos="egresos.extraMoves.graphic" />
-            </div>
-            <div class="col-12 col-lg-5 my-2">
-              <p class="_semi-bold my-1">Detalle de Egresos por otros</p>
-              <hr />
-              <div class="container my-3 text-center">
-                <div class="_light">
-                  <span class="">
-                    {{ egresos.extraMoves.startDateFormat }}
-                  </span>
-                  <span class="mx-1">-</span>
-                  <span class="">
-                    {{ egresos.extraMoves.endDateFormat }}
-                  </span>
-                  <el-tag
-                    class="mx-auto"
-                    type="info"
-                    v-show="egresos.extraMoves.filtered"
-                    >Filtrado</el-tag
-                  >
-                </div>
-                <hr />
-                <div class="container my-2">
-                  <el-icon><SortUp /> </el-icon>
-                  <span class="mx-2"
-                    >Egreso mayor: {{ egresos.extraMoves.max }}</span
-                  >
-                </div>
-                <div class="container my-2">
-                  <el-icon><SortDown /> </el-icon>
-                  <span class="mx-2"
-                    >Egreso menor: {{ egresos.extraMoves.min }}</span
-                  >
-                </div>
-                <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
-                  <el-icon><Money /> </el-icon>
-                  <span class="_bold mx-2"
-                    >Total: $ {{ egresos.extraMoves.total }}</span
-                  >
-                </div>
+              <span class="">
+                {{ egresos.extraMoves.startDateFormat }}
+              </span>
+              <span class="mx-1">-</span>
+              <span class="">
+                {{ egresos.extraMoves.endDateFormat }}
+              </span>
+              <el-tag
+                class="mx-2"
+                type="info"
+                v-show="egresos.extraMoves.filtered"
+                >Filtrado</el-tag
+              ><div class="_bold">
+                TOTAL: 
+                {{ egresos.extraMoves.total_format }}
               </div>
+              <grafica :datos="egresos.extraMoves.graphic" />
             </div>
           </div>
         </el-tab-pane>
@@ -281,6 +216,23 @@ export default {
     this.obtenerEgresos();
   },
   methods: {
+    fechaFiltro(val) {
+      if (val.date != null) {
+        let firstDate = new Date(val.date);
+        let startDate = new Date(firstDate.setHours(0, 0, 0, 0));
+        // Agregar 7 dias a la primera fecha
+        firstDate.setDate(firstDate.getDate() + 6);
+        let endDate = new Date(firstDate.setHours(23, 59, 59, 59));
+        // Dejando con formato ISO las fechas
+        startDate = startDate.toISOString();
+        endDate = endDate.toISOString();
+        this.filtro.dateSplit = [startDate, endDate];
+        return;
+      } else {
+        this.filtro.dateSplit = null;
+        return;
+      }
+    },
     async obtenerEgresos() {
       this.cargando = true;
       try {
@@ -288,7 +240,6 @@ export default {
         this.egresos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al realizar la petición, intente nuevamente.");
@@ -298,15 +249,15 @@ export default {
     },
     async filtrar(data) {
       this.cargando = true;
+      this.fechaFiltro(data);
       if (data.date != null) {
-        const startDate = data.date[0].toISOString();
-        const endDate = data.date[1].toISOString();
+        const startDate = data.dateSplit[0];
+        const endDate = data.dateSplit[1];
         try {
           const respuesta = await api.obtenerEgresosFecha(startDate, endDate);
           this.egresos = respuesta.data;
         } catch (error) {
           if (error.response) {
-            
             ElMessage.error(error.response.data.message);
           } else {
             ElMessage.error(

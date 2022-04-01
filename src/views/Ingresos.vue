@@ -8,12 +8,12 @@
       <div class="d-inline-flex align-items-center mx-2 my-2 my-lg-0">
         <span>Fecha: </span>
         <el-date-picker
-          class="mx-2 w-100"
           v-model="filtro.date"
-          type="datetimerange"
-          start-placeholder="Fecha de inicio"
-          end-placeholder="Fecha de finalizacion"
-        ></el-date-picker>
+          type="week"
+          class="mx-2 w-100"
+          format="[Semana] ww"
+          placeholder="Seleccione una semana"
+        />
       </div>
       <el-button v-on:click="filtrar(filtro)">Filtrar </el-button>
       <el-tabs :tab-position="position" class="my-4">
@@ -22,7 +22,7 @@
           <div class="container my-2">
             <p
               class="_text-big my-0"
-              v-if="filtro.date != '' && ingresos.sales.filtered"
+              v-if="filtro.date != null && ingresos.sales.filtered"
             >
               {{ ingresos.sales.startDateFormat }} -
               {{ ingresos.sales.endDateFormat }}
@@ -48,7 +48,13 @@
               <span class="_text-biggest" v-else>0</span>%
             </div>
             <div class="_widget-2 bg-light _w-40">
-              <p class="_text-small _bold w-100 my-0">Total del Mes</p>
+              <p
+                class="_text-small _bold w-100 my-0"
+                v-if="!ingresos.sales.filtered"
+              >
+                Total del Mes
+              </p>
+              <p class="_text-small _bold w-100 my-0" v-else>Total</p>
               <el-icon>
                 <sort-down />
               </el-icon>
@@ -86,98 +92,44 @@
         </el-tab-pane>
         <el-tab-pane label="Ventas">
           <div class="row">
-            <div class="col-12 col-md-7 my-2">
+            <div class="col-12 my-2">
               <p class="_semi-bold my-1">Gr&aacute;fico de Ganancias/Fechas</p>
+              <span class="">
+                {{ ingresos.sales.startDateFormat }}
+              </span>
+              <span class="mx-1">-</span>
+              <span class="">
+                {{ ingresos.sales.endDateFormat }}
+              </span>
+              <el-tag
+                class="mx-auto"
+                type="info"
+                v-show="ingresos.sales.filtered"
+                >Filtrado</el-tag
+              >
               <grafica :datos="ingresos.sales.graphic" />
-            </div>
-            <div class="col-12 col-lg-5 my-2">
-              <p class="_semi-bold my-1">Detalle de Ingresos</p>
-              <hr />
-              <div class="container my-3 text-center">
-                <div class="_light">
-                  <span class="">
-                    {{ ingresos.sales.startDateFormat }}
-                  </span>
-                  <span class="mx-1">-</span>
-                  <span class="">
-                    {{ ingresos.sales.endDateFormat }}
-                  </span>
-                  <el-tag
-                    class="mx-auto"
-                    type="info"
-                    v-show="ingresos.sales.filtered"
-                    >Filtrado</el-tag
-                  >
-                </div>
-                <hr />
-                <div class="container my-2">
-                  <el-icon><SortUp /> </el-icon>
-                  <span class="mx-2"
-                    >Ingreso mayor: {{ ingresos.sales.max }}</span
-                  >
-                </div>
-                <div class="container my-2">
-                  <el-icon><SortDown /> </el-icon>
-                  <span class="mx-2"
-                    >Ingreso menor: {{ ingresos.sales.min }}</span
-                  >
-                </div>
-                <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
-                  <el-icon><Money /> </el-icon>
-                  <span class="_bold mx-2"
-                    >Total: $ {{ ingresos.sales.total }}</span
-                  >
-                </div>
-              </div>
             </div>
           </div>
         </el-tab-pane>
 
         <el-tab-pane label="Otros">
           <div class="row">
-            <div class="col-12 col-md-7 my-2">
+            <div class="col-12 my-2">
               <p class="_semi-bold my-1">Gr&aacute;fico de Ganancias/Fechas</p>
+              <span class="">
+                {{ ingresos.extraMoves.startDateFormat }}
+              </span>
+              <span class="mx-1">-</span>
+              <span class="">
+                {{ ingresos.extraMoves.endDateFormat }}
+              </span>
+              <el-tag
+                class="mx-auto"
+                type="info"
+                v-show="ingresos.extraMoves.filtered"
+                >Filtrado</el-tag
+              >
               <grafica :datos="ingresos.extraMoves.graphic" />
-            </div>
-            <div class="col-12 col-lg-5 my-2">
-              <p class="_semi-bold my-1">Detalle de Ingresos por otros</p>
-              <hr />
-              <div class="container my-3 text-center">
-                <div class="_light">
-                  <span class="">
-                    {{ ingresos.extraMoves.startDateFormat }}
-                  </span>
-                  <span class="mx-1">-</span>
-                  <span class="">
-                    {{ ingresos.extraMoves.endDateFormat }}
-                  </span>
-                  <el-tag
-                    class="mx-auto"
-                    type="info"
-                    v-show="ingresos.extraMoves.filtered"
-                    >Filtrado</el-tag
-                  >
-                </div>
-                <hr />
-                <div class="container my-2">
-                  <el-icon><SortUp /> </el-icon>
-                  <span class="mx-2"
-                    >Ingreso mayor: {{ ingresos.extraMoves.max }}</span
-                  >
-                </div>
-                <div class="container my-2">
-                  <el-icon><SortDown /> </el-icon>
-                  <span class="mx-2"
-                    >Ingreso menor: {{ ingresos.extraMoves.min }}</span
-                  >
-                </div>
-                <div class="container my-3 bg-light rounded-3 p-2 _text-bigger">
-                  <el-icon><Money /> </el-icon>
-                  <span class="_bold mx-2"
-                    >Total: $ {{ ingresos.extraMoves.total }}</span
-                  >
-                </div>
-              </div>
             </div>
           </div>
         </el-tab-pane>
@@ -230,10 +182,28 @@ export default {
       this.position = "left";
     }
   },
+
   mounted() {
     this.obtenerIngresos();
   },
   methods: {
+    fechaFiltro(val) {
+      if (val.date != null) {
+        let firstDate = new Date(val.date);
+        let startDate = new Date(firstDate.setHours(0, 0, 0, 0));
+        // Agregar 7 dias a la primera fecha
+        firstDate.setDate(firstDate.getDate() + 6);
+        let endDate = new Date(firstDate.setHours(23, 59, 59, 59));
+        // Dejando con formato ISO las fechas
+        startDate = startDate.toISOString();
+        endDate = endDate.toISOString();
+        this.filtro.dateSplit = [startDate, endDate];
+        return;
+      } else {
+        this.filtro.dateSplit = null;
+        return;
+      }
+    },
     async obtenerIngresos() {
       this.cargando = true;
       try {
@@ -250,9 +220,10 @@ export default {
     },
     async filtrar(data) {
       this.cargando = true;
+      this.fechaFiltro(data);
       if (data.date != null) {
-        const startDate = data.date[0].toISOString();
-        const endDate = data.date[1].toISOString();
+        const startDate = data.dateSplit[0];
+        const endDate = data.dateSplit[1];
         try {
           const respuesta = await api.obtenerIngresosFecha(startDate, endDate);
           this.ingresos = respuesta.data;

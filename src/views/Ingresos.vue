@@ -4,9 +4,10 @@
     <p class="_subtitle text-muted text-start">
       Informaci&oacute;n gerencial de ingresos.
     </p>
-    <el-main v-loading="cargando" class="m-0">
+    <el-main v-loading="cargando" class="m-0"
+      ><p class="_semi-bold m-0 ">Filtros</p>
       <div class="d-inline-flex align-items-center mx-2 my-2 my-lg-0">
-        <span>Fecha: </span>
+        <span>Semana: </span>
         <el-date-picker
           v-model="filtro.date"
           type="week"

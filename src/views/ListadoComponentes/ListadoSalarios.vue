@@ -5,9 +5,47 @@
     @back="irSalarios()"
   />
   <hr />
-  <div class="">
-    <el-main v-loading="cargando">
-      <el-table :data="listadoSalarios" style="width: 100%" max-height="400">
+  <div class="my-0">
+    <el-main v-loading="cargando" class="my-0 py-0">
+      <div class="container px-1 px-lg-4 my-2 my-md-0 text-center">
+        <p class="_semi-bold m-0">Filtros</p>
+
+        <div class="d-inline-flex align-items-center mx-2 my-2 my-lg-0 py-2">
+          <div class="mx-md-4 mx-0">
+            <span>Por semana:</span>
+            <el-date-picker
+              v-model="filtro.semana"
+              :disabled="filtro.nombre != ''"
+              type="week"
+              class="mx-2 w-100"
+              format="[Semana] ww"
+              placeholder="Seleccione una semana"
+            />
+          </div>
+          <div class="mx-md-4 mx-0">
+            <span class="">Por nombre: </span>
+            <el-input
+              v-model="filtro.nombre"
+              :disabled="filtro.semana != null"
+              class="mx-2 w-100"
+              placeholder="Ingrese un nombre"
+              clearable
+            />
+          </div>
+        </div>
+        <hr />
+        <div
+          class="d-flex align-items-center justify-content-end _semi-bold _text-big my-2"
+        >
+          <p class="mx-3 my-0">Total: {{ total.format }}</p>
+          <p class="mx-3 my-0">Elementos: {{ total.elementos }}</p>
+        </div>
+      </div>
+      <el-table
+        :data="listadoSalariosFiltrada"
+        style="width: 100%"
+        max-height="400"
+      >
         <el-table-column label="Empleado">
           <el-table-column
             prop="employee.first_name"
@@ -67,18 +105,80 @@ export default {
   data() {
     return {
       listadoSalarios: [],
+      listadoSalariosFiltrada: [],
       cargando: false,
+      total: {
+        valor: 0,
+        format: "",
+        elementos: 0,
+      },
+      filtro: {
+        semana: null,
+        nombre: "",
+      },
     };
+  },
+  watch: {
+    filtro: {
+      handler(data) {
+        if (data.semana != null) {
+          //Calcular fecha inicio y fin de la semana
+          let fecha = new Date(data.semana);
+          // Se asigna la fecha de inicio
+          const fechaInicio = fecha.toISOString();
+          // Agregar 6 dias a la fecha
+          fecha.setDate(fecha.getDate() + 6);
+          fecha.setHours(23, 59, 59, 59);
+          const fechaFinal = new Date(fecha).toISOString();
+
+          // Filtrar cada salario comparando que la fecha este en el rango de fechas
+          this.listadoSalariosFiltrada = this.listadoSalarios.filter(
+            (salario) => {
+              let fechaSalario = new Date(salario.date);
+              fechaSalario = fechaSalario.toISOString();
+              return fechaSalario >= fechaInicio && fechaSalario <= fechaFinal;
+            }
+          );
+          this.calcularTotal();
+        } else if (data.nombre != "") {
+          this.listadoSalariosFiltrada = this.listadoSalarios.filter(
+            (salario) => {
+              return salario.employee.first_name
+                .toLowerCase()
+                .includes(data.nombre);
+            }
+          );
+          this.calcularTotal();
+        } else {
+          this.listadoSalariosFiltrada = this.listadoSalarios;
+          this.calcularTotal();
+        }
+      },
+      deep: true,
+    },
   },
   methods: {
     irSalarios() {
       this.$router.push("/salarios");
+    },
+    calcularTotal() {
+      this.total.valor = 0;
+      this.listadoSalariosFiltrada.forEach((salario) => {
+        this.total.valor += salario.total;
+      });
+      this.total.format = this.total.valor.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      });
+      this.total.elementos = this.listadoSalariosFiltrada.length;
     },
     async obtenerSalarios() {
       this.cargando = true;
       try {
         const respuesta = await api.obtenerSalarios();
         this.listadoSalarios = respuesta.data;
+        this.listadoSalariosFiltrada = this.listadoSalarios;
+        this.calcularTotal();
       } catch (error) {
         if (error.response) {
           ElMessage.error(error.response.data.message);

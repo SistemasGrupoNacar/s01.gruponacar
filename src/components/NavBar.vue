@@ -298,6 +298,7 @@ export default {
   justify-content: space-between;
   position: relative;
   padding: 10px 15px;
+  z-index: 100;
 }
 
 ._nav-brand {

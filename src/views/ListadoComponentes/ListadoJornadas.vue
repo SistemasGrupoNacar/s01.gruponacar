@@ -98,11 +98,11 @@
                   <div class="row">
                     <div class="col-6">
                       <GoogleMap
-                        api-key="AIzaSyBS3Ui-nZifQQJs030dE46Poa_8cMLHfVU"
+                        api-key="AIzaSyDGMoTQ-1Yg4AXrzH_X01R4WuizZdgCPrc"
                         :styles="optionsMap"
                         :center="{
-                          lat: props.row.inCoordinatesLat,
-                          lng: props.row.inCoordinatesLng,
+                          lat: props.row.in_coordinates_lat,
+                          lng: props.row.in_coordinates_lng,
                         }"
                         :zoom="16"
                         class="_map"
@@ -110,8 +110,8 @@
                         <Marker
                           :options="{
                             position: {
-                              lat: props.row.inCoordinatesLat,
-                              lng: props.row.inCoordinatesLng,
+                              lat: props.row.in_coordinates_lat,
+                              lng: props.row.in_coordinates_lng,
                             },
                           }"
                         />
@@ -125,8 +125,8 @@
                       <GoogleMap
                         :styles="optionsMap"
                         :center="{
-                          lat: props.row.outCoordinatesLat,
-                          lng: props.row.outCoordinatesLng,
+                          lat: props.row.out_coordinates_lat,
+                          lng: props.row.out_coordinates_lng,
                         }"
                         :zoom="16"
                         class="_map"
@@ -134,8 +134,8 @@
                         <Marker
                           :options="{
                             position: {
-                              lat: props.row.outCoordinatesLat,
-                              lng: props.row.outCoordinatesLng,
+                              lat: props.row.out_coordinates_lat,
+                              lng: props.row.out_coordinates_lng,
                             },
                           }"
                         />

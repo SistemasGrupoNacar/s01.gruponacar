@@ -50,6 +50,11 @@
                 </p>
               </div>
             </div>
+            <el-button
+              class="mx-auto d-block"
+              v-on:click.prevent="finalizarJornada(jornada, item.employee._id)"
+              >Terminar jornada laboral</el-button
+            >
             <hr />
           </div>
         </div>
@@ -75,6 +80,13 @@ export default {
       listadoJornadasEnProgreso: [],
       idJornadaEliminar: "",
       cargando: false,
+      jornada: {
+        check_out: null,
+        coordinates: {
+          lat: null,
+          lng: null,
+        },
+      },
     };
   },
   watch: {},
@@ -119,16 +131,34 @@ export default {
       }
       this.cargando = false;
     },
+    async finalizarJornada(jornada, empleado) {
+      this.cargando = true;
+      this.$getLocation()
+        .then(async (response) => {
+          jornada.coordinates = response;
+          jornada.check_out = new Date().toISOString();
+          try {
+            console.log(jornada)
+            const respuesta = await api.finalizarJornada(jornada, empleado);
+            console.log(respuesta)
+            this.obtenerJornadasEnProceso();
+            this.obtenerUltimasJornadas();
+          } catch (error) {
+            console.log(error.response)
+            if (error.response) {
+              ElMessage.error(error.response.data.message);
+            } else {
+              ElMessage.error("Error al realizar la petición");
+            }
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      this.cargando = false;
+    },
   },
-  created() {
-    /*this.$getLocation()
-      .then((response) => {
-        this.coordenadas = response;
-      })
-      .catch((error) => {
-        console.log(error);
-      });*/
-  },
+  created() {},
 };
 </script>
 <style lang="scss">

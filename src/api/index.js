@@ -1773,6 +1773,56 @@ async function eliminarJornada(id) {
   });
 }
 
+//Crear jornada de trabajo
+async function crearJornada(data) {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
+    axios
+      .post(API_URI + "/journeys", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
+        reject(error);
+      });
+  });
+}
+
+// Finalizar jornada de trabajo
+async function finalizarJornada(jornada, empleado) {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
+    axios
+      .put(API_URI + "/journeys/" + empleado, jornada, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
+        reject(error);
+      });
+  });
+}
+
 // Cambiar avatar de usuario de empleado
 async function cambiarAvatar(username, data) {
   const token = await tokenActions.getToken();
@@ -2169,6 +2219,8 @@ export default {
   obtenerUltimasJornadas,
   obtenerJornadasEnProceso,
   eliminarJornada,
+  crearJornada,
+  finalizarJornada,
   cambiarAvatar,
   obtenerUltimosUsuarios,
   obtenerUsuarios,

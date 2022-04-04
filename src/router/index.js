@@ -227,6 +227,11 @@ const routes = [
     component: () => import("../views/EditarComponentes/EditarUsuario.vue"),
   },
   {
+    path: "/jornadas/nuevo",
+    name: "NuevaJornada",
+    component: () => import("../views/NuevoComponentes/NuevaJornada.vue"),
+  },
+  {
     path: "/login",
     name: "InicioSesion",
     component: () => import("../views/InicioSesion.vue"),

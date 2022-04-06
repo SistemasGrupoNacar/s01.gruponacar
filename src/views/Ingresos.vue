@@ -5,7 +5,7 @@
       Informaci&oacute;n gerencial de ingresos.
     </p>
     <el-main v-loading="cargando" class="m-0"
-      ><p class="_semi-bold m-0 ">Filtros</p>
+      ><p class="_semi-bold m-0">Filtros</p>
       <div class="d-inline-flex align-items-center mx-2 my-2 my-lg-0">
         <span>Semana: </span>
         <el-date-picker
@@ -15,6 +15,7 @@
           format="[Semana] ww"
           placeholder="Seleccione una semana"
         />
+
       </div>
       <el-button v-on:click="filtrar(filtro)">Filtrar </el-button>
       <el-tabs :tab-position="position" class="my-4">

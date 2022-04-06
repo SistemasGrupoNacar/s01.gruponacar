@@ -14,6 +14,8 @@ import VueChartkick from "vue-chartkick";
 import "chartkick/chart.js";
 
 import es from "element-plus/es/locale/lang/es";
+import 'dayjs/locale/en'
+
 
 createApp(App)
   .use(store)
@@ -23,5 +25,5 @@ createApp(App)
   })
   .use(VueChartkick)
   .use(Vue3Geolocation)
- 
+
   .mount("#app");

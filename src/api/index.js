@@ -1265,6 +1265,56 @@ async function crearCostoProduccion(data) {
   });
 }
 
+// Obtener los costos de produccion
+async function obtenerCostosProduccion() {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
+    axios
+      .get(API_URI + "/productionCosts", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
+        reject(error);
+      });
+  });
+}
+
+// Obtener ultimos costos de produccion
+async function obtenerUltimosCostosProduccion() {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
+    axios
+      .get(API_URI + "/productionCosts/last", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
+        reject(error);
+      });
+  });
+}
+
 // Obtener los lugares
 async function obtenerLugares() {
   const token = await tokenActions.getToken();
@@ -2199,6 +2249,8 @@ export default {
   finalizarProduccion,
   reanudarProduccion,
   crearCostoProduccion,
+  obtenerCostosProduccion,
+  obtenerUltimosCostosProduccion,
   obtenerLugares,
   obtenerLugaresTodos,
   crearLugar,

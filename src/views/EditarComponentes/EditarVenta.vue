@@ -71,31 +71,14 @@
               disabled
             ></el-input-number>
           </div>
-          <div class="col-12 col-md-2">
-            <span class="_semi-bold _text-small">Producci&oacute;n</span>
-            <el-select
-              v-model="productoSeleccionado.production"
-              class="m-2 w-100"
-              placeholder="Seleccione producción"
-              size="large"
-              filterable
-            >
-              <el-option
-                v-for="item in produccionesFiltradas"
-                :key="item._id"
-                :label="item._id + ' - ' + item.product.name"
-                :value="item._id"
-              >
-              </el-option>
-            </el-select>
-          </div>
-          <div class="col-12 col-md-1">
+
+          <div class="col-12 col-md-3">
             <el-button
               class="my-2 w-100"
               style="height: 100%"
               type=""
               v-on:click="agregarDetalleVenta(productoSeleccionado)"
-              >+
+              >+ Agregar
             </el-button>
           </div>
         </div>
@@ -151,11 +134,9 @@ export default {
       venta: {},
       cargando: false,
       productos: [],
-      producciones: [],
       productoSeleccionado: {
         sale: "",
         product: "",
-        production: "",
         quantity: 0,
         sub_total: 0,
         total: 0,
@@ -169,12 +150,14 @@ export default {
     const router = useRoute();
     this.obtenerVenta(router.params.id);
     this.obtenerProductos();
-    this.obtenerTodasProducciones();
     this.cargando = false;
   },
   methods: {
     async cancelarVenta() {
       await api.cancelarVenta(this.venta._id);
+      ElMessage.success({
+        message: "Venta cancelada",
+      });
       this.$router.push("/movimientos/ventas");
     },
     async obtenerVenta(data) {
@@ -208,21 +191,10 @@ export default {
         }
       }
     },
-    async obtenerTodasProducciones() {
-      try {
-        const respuesta = await api.obtenerTodasProducciones();
-        this.producciones = respuesta.data;
-      } catch (error) {
-        if (error.response) {
-          ElMessage.error(error.response.data.message);
-        } else {
-          ElMessage.error("Error al obtener las producciones");
-        }
-      }
-    },
+
     async agregarDetalleVenta(data) {
       data.sale = this.venta._id;
-      if (!this.validarDetalleVenta) {
+      if (!this.validarDetalleVenta(data)) {
         return;
       }
       this.cargando = true;
@@ -283,9 +255,6 @@ export default {
         return false;
       }
       if (data.product == "") {
-        return false;
-      }
-      if (data.production == "") {
         return false;
       }
       if (data.quantity <= 0) {

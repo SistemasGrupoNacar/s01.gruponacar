@@ -101,114 +101,8 @@
               </div>
             </div>
             <hr />
-            <p class="_text-big _semi-bold">Datos econ&oacute;micos</p>
-            <div class="d-flex flex-wrap justify-content-around">
-              <el-badge
-                is-dot
-                class="item"
-                v-if="produccionSeleccionada.in_progress"
-              >
-                <p class="_text-big mx-2">
-                  Ventas =
-                  <span class="_bold">{{
-                    calcularVentas(produccionSeleccionada.detail_sales)
-                  }}</span>
-                </p></el-badge
-              >
-              <p class="_text-big mx-2" v-else>
-                Ventas =
-                <span class="_bold">{{
-                  produccionSeleccionada.total_ingress_format
-                }}</span>
-              </p>
-              <el-badge
-                is-dot
-                class="item"
-                v-if="produccionSeleccionada.in_progress"
-                ><p class="_text-big mx-2">
-                  Costos =
-                  <span class="_bold">{{
-                    calcularCostoProduccion(
-                      produccionSeleccionada.production_costs,
-                      produccionSeleccionada.salaries
-                    )
-                  }}</span>
-                </p></el-badge
-              >
-              <p class="_text-big mx-2" v-else>
-                Costos de producci&oacute;n =
-                <span class="_bold">{{
-                  produccionSeleccionada.total_egress_format
-                }}</span>
-              </p>
-            </div>
-            <hr />
-
-            <p
-              class="_text-big _semi-bold"
-              v-if="!produccionSeleccionada.in_progress"
-            >
-              Detalle de costos de producci&oacute;n
-            </p>
-            <div class="container" v-if="!produccionSeleccionada.in_progress">
-              <ul class="_max-list">
-                <li
-                  v-for="(
-                    item, index
-                  ) in produccionSeleccionada.production_costs"
-                  :key="index"
-                >
-                  <p class="my-0">
-                    <span class="_bold">{{
-                      item.total.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })
-                    }}</span
-                    ><span class="mx-2">
-                      - {{ item.description || "Sin descripción " }}</span
-                    >
-                  </p>
-                </li>
-              </ul>
-            </div>
-            <hr v-if="!produccionSeleccionada.in_progress" />
-
-            <p
-              class="_text-big _semi-bold"
-              v-if="!produccionSeleccionada.in_progress"
-            >
-              Detalle de ventas de producci&oacute;n
-            </p>
-            <div class="container" v-if="!produccionSeleccionada.in_progress">
-              <ul class="_max-list">
-                <li
-                  v-for="(item, index) in produccionSeleccionada.detail_sales"
-                  :key="index"
-                >
-                  <p class="my-0">
-                    <span class="mx-2 _bold">{{
-                      item.total.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })
-                    }}</span
-                    ><span> - {{ item._id }}</span>
-                  </p>
-                </li>
-              </ul>
-            </div>
-            <hr v-if="!produccionSeleccionada.in_progress" />
           </div>
           <div class="_botones _w-25 text-end">
-            <el-button
-              v-if="produccionSeleccionada.in_progress"
-              v-on:click.prevent="
-                agregarGastoInsumo(produccionSeleccionada._id)
-              "
-              class="my-1"
-              >Agregar gasto de insumo</el-button
-            >
             <el-button
               v-if="produccionSeleccionada.in_progress"
               plain
@@ -273,17 +167,13 @@ export default {
 
         this.producciones = respuesta.data;
         this.producciones.map((item) => {
-          if (this.is_mobile) {
-            item.label = `${item._id} - ${item.start_date_format}`;
-          } else {
-            item.label = `${item._id} - ${item.start_date_format} - ${
-              item.in_progress ? "En progreso" : "Finalizada"
-            }`;
+          item.label = `${item.description} - ${item.start_date_format}`;
+          if (!this.is_mobile) {
+            item.label += item.in_progress ? " - En progreso" : " - Finalizada";
           }
         });
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener las producciones");
@@ -304,7 +194,6 @@ export default {
         this.obtenerProducciones();
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al finalizar la producción");
@@ -324,16 +213,12 @@ export default {
         this.obtenerProducciones();
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al reanudar la producción");
         }
       }
       this.cargando = false;
-    },
-    agregarGastoInsumo(id) {
-      this.$router.push("/producciones/nuevo-gasto-insumo/" + id);
     },
     calcularCostoProduccion(productionCosts, salaries) {
       let costo = 0;

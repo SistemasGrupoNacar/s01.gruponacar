@@ -21,7 +21,6 @@
           v-loading="cargandoDatosTablaInsumos"
           :data="listadoPrimerosInsumos"
         >
-          <el-table-column prop="_id" label="ID" width="220"> </el-table-column>
           <el-table-column prop="name" label="Nombre" min-width="200">
           </el-table-column>
 
@@ -41,35 +40,25 @@
         </el-button>
       </div>
       <div class="col-12 col-md-5 text-center my-3">
-        <p class="_text-bigger text-center">Eliminaci&oacute;n de insumo</p>
-        <el-select
-          v-model="idInsumoEliminar"
-          placeholder="Seleccione insumo a eliminar"
-          clearable
-          class="w-100"
-          filterable
-        >
-          <el-option
-            v-for="item in listadoTodoInsumos"
-            :key="item._id"
-            :label="item.name"
-            :value="item._id"
-          >
-          </el-option>
-        </el-select>
-        <el-popconfirm
-          confirm-button-text="Si"
-          cancel-button-text="No"
-          :icon="InfoFilled"
-          icon-color="#114B5F"
-          title="¿Está seguro de eliminar este insumo?"
-          @confirm="eliminarInsumo(idInsumoEliminar)"
-          @cancel="cancelEvent"
-        >
-          <template #reference>
-            <el-button class="d-block mx-auto my-1">Eliminar</el-button>
-          </template>
-        </el-popconfirm>
+        <p class="_text-bigger text-center">
+          Gastos de insumos en producci&oacute;n
+        </p>
+        <el-table v-loading="cargandoDatosTablaGastos" :data="listadoCostosProduccion">
+          <el-table-column prop="inventory_product.name" label="Insumo" min-width="180"> </el-table-column>
+          <el-table-column prop="date_format" label="Fecha" width="180">
+          </el-table-column>
+          <el-table-column prop="quantity" label="Cant." width="75">
+          </el-table-column>
+        </el-table>
+        <el-button
+          class="my-2"
+          size="small"
+          type="primary"
+          v-on:click="nuevoGastoInsumo()"
+          >Agregar gasto de insumo</el-button
+        ><el-button type="" size="small" v-on:click="listadoGastoInsumo()"
+          >Mostrar todo
+        </el-button>
       </div>
     </div>
     <div class="row">
@@ -115,7 +104,7 @@ export default {
       listadoTodoInsumos: [],
       listadoPrimerosInsumos: [],
       listadoHistorialInsumos: [],
-      idInsumoEliminar: "",
+      listadoCostosProduccion: [],
     };
   },
   mounted() {
@@ -126,6 +115,7 @@ export default {
       this.obtenerTodosInsumos();
       this.obtenerPrimerosInsumos();
       this.obtenerPrimerosHistorialEntradaInsumos();
+      this.obtenerUltimosCostosProduccion();
     },
     async obtenerPrimerosInsumos() {
       try {
@@ -171,12 +161,10 @@ export default {
         }
       }
     },
-    async eliminarInsumo(data) {
+    async obtenerUltimosCostosProduccion() {
       try {
-        const respuesta = await api.eliminarInsumo(data);
-        ElMessage.success(`Producto ${respuesta.data.name} eliminado`);
-        this.idInsumoEliminar = "";
-        this.actualizarTodo();
+        const respuesta = await api.obtenerUltimosCostosProduccion();
+        this.listadoCostosProduccion = respuesta.data;
       } catch (error) {
         if (error.response) {
           ElMessage.error(error.response.data.message);
@@ -185,6 +173,7 @@ export default {
         }
       }
     },
+
     nuevoIngresoInsumo() {
       this.$router.push({
         name: "NuevoIngresoInsumo",
@@ -198,6 +187,11 @@ export default {
     listadoInsumo() {
       this.$router.push({
         name: "ListadoInsumos",
+      });
+    },
+    nuevoGastoInsumo() {
+      this.$router.push({
+        name: "NuevoGastoInsumo",
       });
     },
     historialInsumos() {

@@ -83,12 +83,6 @@ const routes = [
         component: () => import("../views/Producciones.vue"),
       },
       {
-        path: "producciones/nuevo-gasto-insumo/:id",
-        name: "NuevoGastoInsumo",
-        component: () =>
-          import("../views/NuevoComponentes/NuevoGastoInsumo.vue"),
-      },
-      {
         path: "movimientos/ventas",
         name: "Ventas",
         component: () => import("../views/Ventas.vue"),
@@ -168,6 +162,11 @@ const routes = [
     path: "/inventario/insumos/listado",
     name: "ListadoInsumos",
     component: () => import("../views/ListadoComponentes/ListadoInsumos.vue"),
+  },
+  {
+    path: "/inventario/nuevo-gasto-insumo/",
+    name: "NuevoGastoInsumo",
+    component: () => import("../views/NuevoComponentes/NuevoGastoInsumo.vue"),
   },
   {
     path: "/jornadas/listado",

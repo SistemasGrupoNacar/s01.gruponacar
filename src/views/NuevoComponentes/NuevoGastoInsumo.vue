@@ -1,78 +1,70 @@
 <template>
-  <div class="container">
-    <p class="_title">Nuevo Gasto de Insumos</p>
-    <p class="_subtitle text-muted">
-      Formulario de registro para el gasto de insumos en cierta
-      producci&oacute;n.
-    </p>
-    <el-main v-loading.fullscreen.lock="cargando">
-      <div class="row">
-        <div class="col-12 col-md-6 my-2">
-          <span class="text-muted">Producci&oacute;n</span>
-          <el-input
-            v-model="nuevoGastoInsumo.production"
-            disabled
-            placeholder="Seleccione la producci&oacute;n"
-          />
-        </div>
-        <div class="col-12 col-md-6 my-2">
-          <span class="text-muted">Insumo</span>
-          <el-select
-            v-model="nuevoGastoInsumo.inventory_product"
-            placeholder="Seleccione insumo"
-            class="w-100"
-            filterable
-          >
-            <el-option
-              v-for="item in listadoInsumos"
-              :key="item._id"
-              :label="item.name"
-              :value="item._id"
-            >
-            </el-option>
-          </el-select>
-        </div>
-        <div class="col-12 col-md-6 my-2">
-          <span class="text-muted">Observaciones</span>
-          <el-input
-            v-model="nuevoGastoInsumo.description"
-            placeholder="Ingrese las observaciones"
-            clearable
-          />
-        </div>
-        <div class="col-6 col-md-3 my-2">
-          <span class="text-muted"
-            >Cantidad ({{ findUnitOfMeasurement(nuevoGastoInsumo) }})</span
-          >
-          <el-input-number
-            v-model="nuevoGastoInsumo.quantity"
-            :min="0.01"
-            :max="999999"
-            :step="0.01"
-            class="w-100"
-          >
-          </el-input-number>
-        </div>
-        <div class="col-6 col-md-3 my-2">
-          <span class="text-muted">Fecha</span>
-          <el-date-picker
-            v-model="nuevoGastoInsumo.date"
-            type="datetime"
-            placeholder="Escoge una fecha"
-            class="w-100"
-            clearable
-          >
-          </el-date-picker>
-        </div>
-        <el-button
-          class="d-block mx-auto my-2 w-50"
-          v-on:click.prevent="agregarGastoInsumo(nuevoGastoInsumo)"
+  <el-page-header
+    class="my-3"
+    content="Agregar gasto de insumo"
+    @back="irInsumos()"
+  />
+  <hr />
+  <el-main class="container" v-loading.fullscreen.lock="cargando">
+    <div class="row">
+      <div class="col-12 col-md-4 my-2">
+        <span class="text-muted">Insumo</span>
+        <el-select
+          v-model="nuevoGastoInsumo.inventory_product"
+          placeholder="Seleccione insumo"
+          class="w-100"
+          filterable
         >
-          Agregar Gasto</el-button
-        >
+          <el-option
+            v-for="item in listadoInsumos"
+            :key="item._id"
+            :label="item.name"
+            :value="item._id"
+          >
+          </el-option>
+        </el-select>
       </div>
-    </el-main>
-  </div>
+      <div class="col-6 col-md-3 my-2">
+        <span class="text-muted">Fecha</span>
+        <el-date-picker
+          v-model="nuevoGastoInsumo.date"
+          type="datetime"
+          placeholder="Escoge una fecha"
+          class="w-100"
+          clearable
+        >
+        </el-date-picker>
+      </div>
+      <div class="col-6 col-md-2 my-2">
+        <span class="text-muted"
+          >Cantidad ({{ findUnitOfMeasurement(nuevoGastoInsumo) }})</span
+        >
+        <el-input-number
+          v-model="nuevoGastoInsumo.quantity"
+          :min="0.01"
+          :max="999999"
+          :step="0.01"
+          class="w-100"
+        >
+        </el-input-number>
+      </div>
+      <div class="col-12 col-md-3 my-2">
+        <span class="text-muted">Observaciones</span>
+        <el-input
+          v-model="nuevoGastoInsumo.description"
+          placeholder="Ingrese las observaciones"
+          clearable
+        />
+      </div>
+
+      <el-button
+        class="d-block mx-auto my-2 w-50"
+        v-on:click.prevent="agregarGastoInsumo(nuevoGastoInsumo)"
+      >
+        Agregar Gasto</el-button
+      >
+    </div>
+  </el-main>
 </template>
 <script>
 import api from "@/api/index.js";
@@ -83,7 +75,6 @@ export default {
       listadoInsumos: [],
       cargando: false,
       nuevoGastoInsumo: {
-        production: null,
         inventory_product: null,
         description: null,
         date: null,
@@ -92,7 +83,6 @@ export default {
     };
   },
   mounted() {
-    this.nuevoGastoInsumo.production = this.$route.params.id;
     this.obtenerInsumos();
   },
   methods: {
@@ -107,6 +97,9 @@ export default {
         return;
       }
     },
+    irInsumos() {
+      this.$router.push("/inventario/insumos");
+    },
     async obtenerInsumos() {
       this.cargando = true;
       try {
@@ -114,7 +107,6 @@ export default {
         this.listadoInsumos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          console.log(error.response)
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los insumos");
@@ -126,8 +118,7 @@ export default {
       if (
         datos.inventory_product === null ||
         datos.date === null ||
-        datos.quantity <= 0 ||
-        datos.production === null
+        datos.quantity <= 0
       ) {
         return false;
       }
@@ -140,7 +131,7 @@ export default {
           ElMessage.success({
             message: "Gasto de insumo agregado correctamente",
           });
-          this.$router.push("/producciones");
+          this.$router.push("/inventario/insumos");
         } catch (error) {
           if (error.response) {
             ElMessage.error(error.response.data.message);

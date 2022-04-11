@@ -67,31 +67,13 @@
               disabled
             ></el-input-number>
           </div>
-          <div class="col-12 col-md-2">
-            <span class="_semi-bold _text-small">Producci&oacute;n</span>
-            <el-select
-              v-model="productoSeleccionado.production"
-              class="m-2 w-100"
-              placeholder="Seleccione producción"
-              size="large"
-              filterable
-            >
-              <el-option
-                v-for="item in produccionesFiltradas"
-                :key="item._id"
-                :label="item._id + ' - ' + item.product.name"
-                :value="item._id"
-              >
-              </el-option>
-            </el-select>
-          </div>
-          <div class="col-12 col-md-1">
+          <div class="col-12 col-md-3">
             <el-button
               class="my-2 w-100"
               style="height: 100%"
               type=""
               v-on:click="agregarDetalleVenta(productoSeleccionado)"
-              >+
+              >+ Agregar
             </el-button>
           </div>
         </div>
@@ -146,12 +128,9 @@ export default {
       venta: {},
       cargando: false,
       productos: [],
-      producciones: [],
-      produccionesFiltradas: [],
       productoSeleccionado: {
         sale: "",
         product: "",
-        production: "",
         quantity: 0,
         sub_total: 0,
         total: 0,
@@ -170,11 +149,9 @@ export default {
         });
         this.venta = respuesta.data;
         this.obtenerProductos();
-        this.obtenerProducciones();
         this.cargando = false;
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al crear venta");
@@ -187,7 +164,6 @@ export default {
         this.$router.replace("/movimientos/ventas");
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al cancelar venta");
@@ -200,23 +176,9 @@ export default {
         this.productos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener productos");
-        }
-      }
-    },
-    async obtenerProducciones() {
-      try {
-        const respuesta = await api.obtenerProduccionesEnProgreso();
-        this.producciones = respuesta.data;
-      } catch (error) {
-        if (error.response) {
-          
-          ElMessage.error(error.response.data.message);
-        } else {
-          ElMessage.error("Error al obtener producciones");
         }
       }
     },
@@ -232,16 +194,9 @@ export default {
 
     async agregarDetalleVenta(data) {
       data.sale = this.venta._id;
-      if (!this.validarDetalleVenta) {
+      if (!this.validarDetalleVenta(data)) {
         ElMessage({
           message: "Complete los campos requeridos",
-          type: "warning",
-        });
-        return;
-      }
-      if (this.validarProductoProduccion()) {
-        ElMessage({
-          message: "Seleccione la producción correspondiente al producto",
           type: "warning",
         });
         return;
@@ -264,10 +219,8 @@ export default {
         this.productoSeleccionado.quantity = 0;
         this.productoSeleccionado.sub_total = 0;
         this.productoSeleccionado.total = 0;
-        this.productoSeleccionado.production = "";
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al agregar detalle de venta");
@@ -276,14 +229,6 @@ export default {
       this.cargando = false;
     },
 
-    validarProductoProduccion() {
-      // Verificar si la produccion se encuntra en produccionesFiltradas
-      return (
-        this.produccionesFiltradas.find(
-          (item) => item._id === this.productoSeleccionado.production
-        ) === undefined
-      );
-    },
     async actualizarVenta(id) {
       this.cargando = true;
       try {
@@ -291,7 +236,6 @@ export default {
         this.venta = respuesta.data;
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener venta");
@@ -311,7 +255,6 @@ export default {
         this.actualizarVenta(this.venta._id);
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al eliminar detalle de venta");
@@ -324,10 +267,7 @@ export default {
       if (data.sale == "") {
         return false;
       }
-      if (data.product == "") {
-        return false;
-      }
-      if (data.production == "") {
+      if (data.product == "" || data.product == null) {
         return false;
       }
       if (data.quantity <= 0) {
@@ -353,7 +293,6 @@ export default {
           this.$router.replace("/movimientos/ventas");
         } catch (error) {
           if (error.response) {
-            
             ElMessage.error(error.response.data.message);
           } else {
             ElMessage.error("Error al finalizar la venta");
@@ -365,17 +304,6 @@ export default {
 
   async mounted() {
     this.nuevaVenta();
-  },
-  watch: {
-    productoSeleccionado: {
-      handler(element) {
-        this.produccionesFiltradas = this.producciones.filter(
-          (item) => item.product._id == element.product
-        );
-      },
-
-      deep: true,
-    },
   },
 };
 </script>

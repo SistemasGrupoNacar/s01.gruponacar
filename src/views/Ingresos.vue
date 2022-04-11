@@ -15,7 +15,6 @@
           format="[Semana] ww"
           placeholder="Seleccione una semana"
         />
-
       </div>
       <el-button v-on:click="filtrar(filtro)">Filtrar </el-button>
       <el-tabs :tab-position="position" class="my-4">
@@ -103,12 +102,13 @@
               <span class="">
                 {{ ingresos.sales.endDateFormat }}
               </span>
-              <el-tag
-                class="mx-auto"
-                type="info"
-                v-show="ingresos.sales.filtered"
+              <el-tag class="mx-2" type="info" v-show="ingresos.sales.filtered"
                 >Filtrado</el-tag
               >
+              <div class="_bold">
+                TOTAL:
+                {{ ingresos.sales.total_format }}
+              </div>
               <grafica :datos="ingresos.sales.graphic" />
             </div>
           </div>
@@ -126,11 +126,15 @@
                 {{ ingresos.extraMoves.endDateFormat }}
               </span>
               <el-tag
-                class="mx-auto"
+                class="mx-2"
                 type="info"
                 v-show="ingresos.extraMoves.filtered"
                 >Filtrado</el-tag
               >
+              <div class="_bold">
+                TOTAL:
+                {{ ingresos.extraMoves.total_format }}
+              </div>
               <grafica :datos="ingresos.extraMoves.graphic" />
             </div>
           </div>

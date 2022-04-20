@@ -43,8 +43,16 @@
         <p class="_text-bigger text-center">
           Gastos de insumos en producci&oacute;n
         </p>
-        <el-table v-loading="cargandoDatosTablaGastos" :data="listadoCostosProduccion">
-          <el-table-column prop="inventory_product.name" label="Insumo" min-width="180"> </el-table-column>
+        <el-table
+          v-loading="cargandoDatosTablaGastos"
+          :data="listadoCostosProduccion"
+        >
+          <el-table-column
+            prop="inventory_product.name"
+            label="Insumo"
+            min-width="180"
+          >
+          </el-table-column>
           <el-table-column prop="date_format" label="Fecha" width="180">
           </el-table-column>
           <el-table-column prop="quantity" label="Cant." width="75">
@@ -61,6 +69,7 @@
         </el-button>
       </div>
     </div>
+    <hr />
     <div class="row">
       <div class="col-12 my-3">
         <p class="_text-bigger text-center">Historial de Ingresos</p>
@@ -69,18 +78,22 @@
           :data="listadoHistorialInsumos"
           class="w-100"
         >
-          <el-table-column prop="_id" label="ID"> </el-table-column>
-          <el-table-column prop="date" label="Fecha"> </el-table-column
+          <el-table-column prop="date_format" label="Fecha" width="180">
+          </el-table-column
           ><el-table-column
             prop="inventory_product.name"
             label="Nombre de Producto"
+            min-width="220"
           ></el-table-column
           ><el-table-column
             prop="inventory_product.unit_of_measurement"
             label="Medida"
+            width="100"
           >
           </el-table-column>
-          <el-table-column prop="quantity" label="Cantidad"> </el-table-column>
+          <el-table-column prop="quantity" label="Cantidad" width="120">
+          </el-table-column>
+          <el-table-column prop="_id" label="ID" width="220"> </el-table-column>
         </el-table>
         <el-button class="d-block mx-auto my-1" v-on:click="historialInsumos()"
           >Mostrar todos</el-button
@@ -99,8 +112,9 @@ export default {
   },
   data() {
     return {
-      cargandoDatosTablaInsumos: true,
-      cargandoDatosTablaHistorial: true,
+      cargandoDatosTablaInsumos: false,
+      cargandoDatosTablaHistorial: false,
+      cargandoDatosTablaGastos: false,
       listadoTodoInsumos: [],
       listadoPrimerosInsumos: [],
       listadoHistorialInsumos: [],
@@ -112,12 +126,12 @@ export default {
   },
   methods: {
     actualizarTodo() {
-      this.obtenerTodosInsumos();
       this.obtenerPrimerosInsumos();
       this.obtenerPrimerosHistorialEntradaInsumos();
       this.obtenerUltimosCostosProduccion();
     },
     async obtenerPrimerosInsumos() {
+      this.cargandoDatosTablaInsumos = true;
       try {
         this.cargandoDatosTablaInsumos = true;
         const respuesta = await api.obtenerPrimerosInsumos();
@@ -130,28 +144,14 @@ export default {
           ElMessage.error("Error al obtener los insumos");
         }
       }
-    },
-    async obtenerTodosInsumos() {
-      try {
-        const respuesta = await api.obtenerTodosInsumos();
-        this.listadoTodoInsumos = respuesta.data;
-      } catch (error) {
-        if (error.response) {
-          ElMessage.error(error.response.data.message);
-        } else {
-          ElMessage.error("Error al obtener los insumos");
-        }
-      }
+      this.cargandoDatosTablaInsumos = false;
     },
     async obtenerPrimerosHistorialEntradaInsumos() {
+      this.cargandoDatosTablaHistorial = true;
       try {
         this.cargandoDatosTablaHistorial = true;
         const respuesta = await api.obtenerPrimerosHistorialEntradaInsumos();
         this.listadoHistorialInsumos = respuesta.data;
-        // Recortando la hora en las fechas
-        this.listadoHistorialInsumos.map((item) => {
-          item.date = item.date.split("T")[0];
-        });
         this.cargandoDatosTablaHistorial = false;
       } catch (error) {
         if (error.response) {
@@ -160,8 +160,10 @@ export default {
           ElMessage.error("Error al obtener los insumos");
         }
       }
+      this.cargandoDatosTablaHistorial = false;
     },
     async obtenerUltimosCostosProduccion() {
+      this.cargandoDatosTablaGastos = true;
       try {
         const respuesta = await api.obtenerUltimosCostosProduccion();
         this.listadoCostosProduccion = respuesta.data;
@@ -172,6 +174,7 @@ export default {
           ElMessage.error("Error al obtener los insumos");
         }
       }
+      this.cargandoDatosTablaGastos = false;
     },
 
     nuevoIngresoInsumo() {
@@ -187,6 +190,11 @@ export default {
     listadoInsumo() {
       this.$router.push({
         name: "ListadoInsumos",
+      });
+    },
+    listadoGastoInsumo() {
+      this.$router.push({
+        name: "ListadoGastosInsumos",
       });
     },
     nuevoGastoInsumo() {

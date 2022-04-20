@@ -21,15 +21,17 @@
           v-loading="cargandoDatosTablaProductos"
           :data="listadoPrimerosProductos"
         >
-          <el-table-column prop="_id" label="ID"> </el-table-column>
-          <el-table-column prop="name" label="Nombre"> </el-table-column
+          <el-table-column prop="name" label="Nombre" min-width="180">
+          </el-table-column
           ><el-table-column prop="stock" label="Stock" width="75">
           </el-table-column>
           <el-table-column
             prop="unit_of_measurement"
-            label="Unidad de medida"
-            width="150"
+            label="Medida"
+            width="100"
           >
+          </el-table-column>
+          <el-table-column prop="_id" label="ID" width="220">
           </el-table-column></el-table
         ><el-button
           class="my-2"
@@ -72,6 +74,7 @@
         </el-popconfirm>
       </div>
     </div>
+    <hr />
     <div class="row">
       <div class="col-12 my-3">
         <p class="_text-bigger text-center">Historial de Cosechas</p>
@@ -88,6 +91,12 @@
           >
           </el-table-column>
           <el-table-column prop="quantity" label="Cantidad" width="130">
+          </el-table-column>
+          <el-table-column
+            prop="product.unit_of_measurement"
+            label="Medida"
+            width="100"
+          >
           </el-table-column
           ><el-table-column prop="_id" label="ID" width="220">
           </el-table-column>
@@ -144,7 +153,6 @@ export default {
         });
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los datos");
@@ -159,7 +167,6 @@ export default {
         this.listadoPrimerosProductos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los datos");
@@ -183,7 +190,6 @@ export default {
         this.listadoTodosProductos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener los datos");
@@ -196,13 +202,12 @@ export default {
           ElMessage.warning("Seleccione un producto para eliminar");
           return;
         }
-        const respuesta = await api.eliminarProducto(data);
-        alert("Eliminado el producto " + respuesta.data.name);
+        await api.eliminarProducto(data);
+        ElMessage.success("Producto eliminado correctamente");
         this.idProductoEliminar = "";
         this.actualizarTodo();
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al eliminar el producto");

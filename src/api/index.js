@@ -1315,6 +1315,31 @@ async function obtenerUltimosCostosProduccion() {
   });
 }
 
+// Eliminar costo de produccion
+async function eliminarCostoProduccion(id) {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
+    axios
+      .delete(API_URI + "/productionCosts/" + id, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
+        reject(error);
+      });
+  });
+}
+
 // Obtener los lugares
 async function obtenerLugares() {
   const token = await tokenActions.getToken();
@@ -2251,6 +2276,7 @@ export default {
   crearCostoProduccion,
   obtenerCostosProduccion,
   obtenerUltimosCostosProduccion,
+  eliminarCostoProduccion,
   obtenerLugares,
   obtenerLugaresTodos,
   crearLugar,

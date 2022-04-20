@@ -65,18 +65,7 @@ const routes = [
         name: "NuevoInsumo",
         component: () => import("../views/NuevoComponentes/NuevoInsumo.vue"),
       },
-      {
-        path: "inventario/insumos/historial",
-        name: "HistorialIngresoInsumo",
-        component: () =>
-          import("../views/HistorialComponentes/HistorialIngresoInsumo.vue"),
-      },
-      {
-        path: "inventario/productos/historial",
-        name: "HistorialIngresoProducto",
-        component: () =>
-          import("../views/HistorialComponentes/HistorialIngresoProducto.vue"),
-      },
+
       {
         path: "producciones",
         name: "Producciones",
@@ -206,6 +195,18 @@ const routes = [
     component: () => import("../views/NuevoComponentes/NuevoSalario.vue"),
   },
   {
+    path: "/inventario/insumos/historial",
+    name: "HistorialIngresoInsumo",
+    component: () =>
+      import("../views/HistorialComponentes/HistorialIngresoInsumo.vue"),
+  },
+  {
+    path: "/inventario/productos/historial",
+    name: "HistorialIngresoProducto",
+    component: () =>
+      import("../views/HistorialComponentes/HistorialIngresoProducto.vue"),
+  },
+  {
     path: "/usuarios/nuevo",
     name: "NuevoUsuario",
     component: () => import("../views/NuevoComponentes/NuevoUsuario.vue"),
@@ -229,6 +230,12 @@ const routes = [
     path: "/jornadas/nuevo",
     name: "NuevaJornada",
     component: () => import("../views/NuevoComponentes/NuevaJornada.vue"),
+  },
+  {
+    path: "/inventario/insumos/gastos/listado",
+    name: "ListadoGastosInsumos",
+    component: () =>
+      import("../views/ListadoComponentes/ListadoGastosInsumos.vue"),
   },
   {
     path: "/login",

@@ -14,6 +14,7 @@
             autocomplete="false"
             v-model="filtro.name"
             placeholder="Cristian Pérez"
+            clearable
             @input="filtroJornadas(filtro, 'name')"
           ></el-input>
         </div>

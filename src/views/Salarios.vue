@@ -44,7 +44,7 @@
       </div>
       <hr />
       <div class="col-12 my-2">
-        <p class="_text-bigger">Salarios por empleado</p>
+        <p class="_text-bigger">Salarios por empleado (mes actual)</p>
         <div class="row">
           <div class="col-12 col-md-8 my-2">
             <el-select
@@ -62,7 +62,8 @@
               </el-option>
             </el-select>
             <el-button
-              v-on:click.prevent="calcularTotalSalariosEmpleado(filterEmployee)" class="mx-2"
+              v-on:click.prevent="calcularTotalSalariosEmpleado(filterEmployee)"
+              class="mx-2"
               >Filtrar</el-button
             >
           </div>
@@ -71,7 +72,10 @@
               Empleado: {{ salarioFiltrado.employee.first_name }}
               {{ salarioFiltrado.employee.last_name }}
             </p>
-            <p class="_light">Total del mes: {{ salarioFiltrado.total }}</p>
+            <p class="_light">
+              Total del mes: {{ salarioFiltrado.total }} en
+              {{ salarioFiltrado.payments }} pago(s).
+            </p>
           </div>
         </div>
       </div>

@@ -6,7 +6,7 @@
   />
   <hr />
   <div class="">
-    <el-main v-loading.fullscreen.lock="cargando">
+    <el-main v-loading="cargando">
       <div class="min-h-50">
         <el-table :data="listadoEmpleados" style="width: 100%" max-height="400">
           <el-table-column prop="first_name" label="Nombres" width="150" />
@@ -16,7 +16,7 @@
           <el-table-column prop="phone" label="Tel&eacute;fono" width="100" />
           <el-table-column prop="email" label="Correo" width="250" />
           <el-table-column prop="journeys_count" label="Jornadas" width="100" />
-          <el-table-column prop="is_active_format" label="Estado" width="140" />
+          <el-table-column prop="is_active_format" label="Estado" width="100" />
           <el-table-column fixed="right" label="Operaciones" width="150">
             <template #default="scope">
               <el-button

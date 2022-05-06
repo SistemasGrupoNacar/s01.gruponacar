@@ -6,7 +6,7 @@
     placement="top"
   >
     <el-button
-      class="nuevo-empleado "
+      class="nuevo-empleado"
       type="primary"
       v-on:click="nuevoEmpleado()"
       ><el-icon><Plus /> </el-icon>
@@ -19,7 +19,7 @@
           &Uacute;ltimos empleados contratados
         </p>
         <el-table
-          v-loading.fullscreen.lock="cargando"
+          v-loading="cargandoTablaEmpleados"
           :data="listadoUltimosEmpleados"
           class="w-100"
           max-height="400"
@@ -43,6 +43,7 @@
       <div class="col-12 col-md-5 my-3">
         <p class="_text-bigger text-center">Eliminaci&oacute;n de empleado</p>
         <el-select
+          v-loading="cargandoEliminarEmpleado"
           v-model="idEmpleadoEliminar"
           placeholder="Seleccione empleado a eliminar"
           clearable
@@ -77,7 +78,8 @@ export default {
   },
   data() {
     return {
-      cargando: false,
+      cargandoTablaEmpleados: false,
+      cargandoListadoEliminar: false,
       listadoUltimosEmpleados: [],
       listadoEmpleados: [],
       idEmpleadoEliminar: "",
@@ -91,6 +93,7 @@ export default {
       this.$router.push("/empleados/listado");
     },
     async obtenerUltimosEmpleados() {
+      this.cargandoTablaEmpleados = true;
       try {
         const response = await api.obtenerUltimosEmpleados();
         this.listadoUltimosEmpleados = response.data;
@@ -101,8 +104,10 @@ export default {
           ElMessage.error("Error al realizar la petición");
         }
       }
+      this.cargandoTablaEmpleados = false;
     },
     async obtenerEmpleados() {
+      this.cargandoListadoEliminar = true;
       try {
         const response = await api.obtenerEmpleados();
         this.listadoEmpleados = response.data;
@@ -113,9 +118,9 @@ export default {
           ElMessage.error("Error al realizar la petición");
         }
       }
+      this.cargandoListadoEliminar = false;
     },
     async eliminarEmpleado(dato) {
-      this.cargando = true;
       try {
         await api.eliminarEmpleado(dato);
         ElMessage.success("Empleado eliminado");
@@ -129,7 +134,6 @@ export default {
           ElMessage.error("Error al realizar la petición");
         }
       }
-      this.cargando = false;
     },
   },
   mounted() {

@@ -35,10 +35,16 @@
         </div>
         <hr />
         <div
-          class="d-flex align-items-center justify-content-end _semi-bold _text-big my-2"
+          class="
+            d-flex
+            align-items-center
+            justify-content-end
+            _text-normal
+            my-2
+          "
         >
           <p class="mx-3 my-0">Total: {{ total.format }}</p>
-          <p class="mx-3 my-0">Elementos: {{ total.elementos }}</p>
+          <p class="mx-3 my-0">Pago(s): {{ total.elementos }}</p>
         </div>
       </div>
       <el-table
@@ -145,7 +151,7 @@ export default {
             (salario) => {
               return salario.employee.first_name
                 .toLowerCase()
-                .includes(data.nombre);
+                .includes(data.nombre.toLowerCase());
             }
           );
           this.calcularTotal();

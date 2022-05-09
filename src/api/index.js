@@ -1290,6 +1290,31 @@ async function obtenerCostosProduccion() {
   });
 }
 
+// Obtener la grafica de los costos de produccion
+async function obtenerGraficaCostosProduccion() {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
+    axios
+      .get(API_URI + "/productionCosts/graphic", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
+        reject(error);
+      });
+  });
+}
+
 // Obtener ultimos costos de produccion
 async function obtenerUltimosCostosProduccion() {
   const token = await tokenActions.getToken();
@@ -2275,6 +2300,7 @@ export default {
   reanudarProduccion,
   crearCostoProduccion,
   obtenerCostosProduccion,
+  obtenerGraficaCostosProduccion,
   obtenerUltimosCostosProduccion,
   eliminarCostoProduccion,
   obtenerLugares,

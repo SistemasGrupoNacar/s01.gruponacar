@@ -15,7 +15,7 @@
 
   <div class="container">
     <div class="row">
-      <div class="col-12 col-md-7 my-3">
+      <div class="col-12 col-md-5 my-3">
         <p class="_text-bigger text-center">Listado de Insumos</p>
         <el-table
           v-loading="cargandoDatosTablaInsumos"
@@ -39,25 +39,12 @@
           >Mostrar todo
         </el-button>
       </div>
-      <div class="col-12 col-md-5 text-center my-3">
+      <div class="col-12 col-md-7 text-center my-3">
         <p class="_text-bigger text-center">
           Gastos de insumos en producci&oacute;n
         </p>
-        <el-table
-          v-loading="cargandoDatosTablaGastos"
-          :data="listadoCostosProduccion"
-        >
-          <el-table-column
-            prop="inventory_product.name"
-            label="Insumo"
-            min-width="180"
-          >
-          </el-table-column>
-          <el-table-column prop="date_format" label="Fecha" width="180">
-          </el-table-column>
-          <el-table-column prop="quantity" label="Cant." width="75">
-          </el-table-column>
-        </el-table>
+        <p class="text-muted my-0">&Uacute;ltimos 5 d&iacute;as</p>
+        <grafica :datos="listadoGastosProduccion" class="px-3 py-2" />
         <el-button
           class="my-2"
           size="small"
@@ -106,19 +93,20 @@
 import { Plus } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
 import { ElMessage } from "element-plus";
+import Grafica from "@/components/GraficaCantidades.vue";
 export default {
   components: {
     Plus,
+    Grafica,
   },
   data() {
     return {
       cargandoDatosTablaInsumos: false,
       cargandoDatosTablaHistorial: false,
-      cargandoDatosTablaGastos: false,
       listadoTodoInsumos: [],
       listadoPrimerosInsumos: [],
       listadoHistorialInsumos: [],
-      listadoCostosProduccion: [],
+      listadoGastosProduccion: [],
     };
   },
   mounted() {
@@ -163,18 +151,16 @@ export default {
       this.cargandoDatosTablaHistorial = false;
     },
     async obtenerUltimosCostosProduccion() {
-      this.cargandoDatosTablaGastos = true;
       try {
-        const respuesta = await api.obtenerUltimosCostosProduccion();
-        this.listadoCostosProduccion = respuesta.data;
+        const respuesta = await api.obtenerGraficaCostosProduccion();
+        this.listadoGastosProduccion = respuesta.data;
       } catch (error) {
         if (error.response) {
           ElMessage.error(error.response.data.message);
         } else {
-          ElMessage.error("Error al obtener los insumos");
+          ElMessage.error("Error al obtener los datos de la grafica");
         }
       }
-      this.cargandoDatosTablaGastos = false;
     },
 
     nuevoIngresoInsumo() {

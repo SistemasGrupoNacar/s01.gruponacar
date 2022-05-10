@@ -64,7 +64,6 @@ export default {
         this.$router.push("/jornadas");
       } catch (error) {
         if (error.response) {
-          console.log(error.response.data);
           if (error.response.status == 422) {
             ElMessage.error({
               message: "Verificar los datos ingresados",

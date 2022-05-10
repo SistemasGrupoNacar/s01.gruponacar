@@ -117,7 +117,9 @@ export default {
     },
     async crearIngresoProducto(data) {
       if (!this.validarDatos(data)) {
-        alert("Faltan datos");
+        ElMessage.error({
+          message: "Por favor, ingrese todos los datos",
+        });
         return;
       }
       this.cargando = true;
@@ -129,7 +131,6 @@ export default {
         this.$router.push({ name: "Productos" });
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al crear cosecha");
@@ -154,7 +155,6 @@ export default {
         });
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al obtener producciones");

@@ -138,13 +138,11 @@ export default {
           jornada.coordinates = response;
           jornada.check_out = new Date().toISOString();
           try {
-            console.log(jornada)
-            const respuesta = await api.finalizarJornada(jornada, empleado);
-            console.log(respuesta)
+            await api.finalizarJornada(jornada, empleado);
+
             this.obtenerJornadasEnProceso();
             this.obtenerUltimasJornadas();
           } catch (error) {
-            console.log(error.response)
             if (error.response) {
               ElMessage.error(error.response.data.message);
             } else {
@@ -152,8 +150,8 @@ export default {
             }
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          ElMessage.error("Error al obtener la ubicación");
         });
       this.cargando = false;
     },

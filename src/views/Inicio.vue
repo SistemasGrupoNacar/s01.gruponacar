@@ -112,10 +112,6 @@ export default {
   },
   mounted() {
     this.obtenerDatosPanel();
-    // Obtener la ubicacion actual
-    /*navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position);
-    });*/
   },
   methods: {
     async obtenerDatosPanel() {
@@ -125,7 +121,6 @@ export default {
         this.datos = respuesta.data;
       } catch (error) {
         if (error.response) {
-          
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error al realizar la petición, intente nuevamente.");

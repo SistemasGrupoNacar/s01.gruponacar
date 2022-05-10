@@ -268,7 +268,7 @@
 }
 
 ._big-container {
-  height: 80vh;
+  min-height: 80vh;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;

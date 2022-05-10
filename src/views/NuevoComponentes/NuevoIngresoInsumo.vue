@@ -132,7 +132,7 @@ export default {
     },
     async crearIngresoInsumo(data) {
       if (!this.validarDatos(data)) {
-        alert("Faltan datos");
+        ElMessage.error("Por favor, ingrese todos los datos");
         return;
       }
       this.cargando = true;

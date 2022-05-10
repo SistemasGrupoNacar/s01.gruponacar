@@ -1930,7 +1930,6 @@ async function cambiarAvatar(username, data) {
     if (token == null) {
       window.location.href = "/login";
     }
-    console.log(data);
     axios
       .put(API_URI + "/users/" + username + "/change-avatar", data, {
         headers: {

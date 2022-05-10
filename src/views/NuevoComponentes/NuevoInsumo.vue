@@ -119,8 +119,10 @@ export default {
         return;
       }
       try {
-        const respuesta = await api.crearInsumo(data);
-        alert("Insumo creado: " + respuesta.data.name);
+        await api.crearInsumo(data);
+        ElMessage.success({
+          message: "El insumo se ha creado correctamente",
+        });
         this.$router.push({ name: "Insumos" });
       } catch (error) {
         if (error.response) {

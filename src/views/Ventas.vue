@@ -169,7 +169,6 @@ export default {
         });
       } catch (error) {
         if (error.response) {
-          console.log(error.response.data);
           ElMessage.error(error.response.data.message);
         } else {
           ElMessage.error("Error de conexión");

@@ -288,7 +288,6 @@ export default {
           this.$router.push("/movimientos/ventas");
         } catch (error) {
           if (error.response) {
-            console.log(error.response);
             ElMessage.error(error.response.data.message);
           } else {
             ElMessage.error("Error al finalizar la venta");

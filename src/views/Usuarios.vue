@@ -97,7 +97,6 @@ export default {
         ElMessage.success("Usuario eliminado");
         this.obtenerUltimosUsuarios();
       } catch (error) {
-        console.log(error);
         if (error.response) {
           ElMessage.error(error.response.data.message);
         } else {

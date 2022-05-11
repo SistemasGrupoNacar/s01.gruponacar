@@ -13,25 +13,10 @@
     <div class="row">
       <div class="col-12 col-md-7 my-3">
         <p class="_text-bigger text-center">
-          &Uacute;ltimas jornadas laborales
+          Jornadas realizadas en el mes (por empleado)
         </p>
-        <el-table
-          v-loading="cargando"
-          :data="listadoUltimasJornadas"
-          class="w-100"
-          empty-text="No hay jornadas laborales registradas"
-          max-height="400"
-          ><el-table-column
-            prop="employee.first_name"
-            label="Empleado"
-            min-width="180"
-          >
-          </el-table-column>
-          <el-table-column prop="check_in_format" label="Entrada" width="200">
-          </el-table-column
-          ><el-table-column prop="check_out_format" label="Salida" width="200">
-          </el-table-column>
-        </el-table>
+        <grafica :datos="jornadasEmpleados" class="px-3 py-2" />
+
         <el-button class="d-block mx-auto my-3" v-on:click="listadoJornadas()"
           >Mostrar todos</el-button
         >
@@ -67,18 +52,20 @@
 import { Plus } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
 import { ElMessage } from "element-plus";
+import Grafica from "@/components/GraficaPastel.vue";
 //import { GoogleMap, Marker } from "vue3-google-map";
 export default {
   components: {
     //GoogleMap,
     //Marker,
     Plus,
+    Grafica,
   },
   data() {
     return {
-      listadoUltimasJornadas: [],
       listadoJornadasEnProgreso: [],
       idJornadaEliminar: "",
+      jornadasEmpleados: [],
       cargando: false,
       jornada: {
         check_out: null,
@@ -91,8 +78,8 @@ export default {
   },
   watch: {},
   mounted() {
-    this.obtenerUltimasJornadas();
     this.obtenerJornadasEnProceso();
+    this.obtenerGraficoDeJornadas();
   },
   methods: {
     nuevaJornada() {
@@ -102,11 +89,11 @@ export default {
       this.$router.push("/jornadas/listado");
     },
 
-    async obtenerUltimasJornadas() {
-      this.cargando = true;
+
+    async obtenerGraficoDeJornadas() {
       try {
-        const respuesta = await api.obtenerUltimasJornadas();
-        this.listadoUltimasJornadas = respuesta.data;
+        const respuesta = await api.obtenerGraficaJornadas();
+        this.jornadasEmpleados = respuesta.data;
       } catch (error) {
         if (error.response) {
           ElMessage.error(error.response.data.message);
@@ -114,7 +101,6 @@ export default {
           ElMessage.error("Error al realizar la petición");
         }
       }
-      this.cargando = false;
     },
 
     async obtenerJornadasEnProceso() {

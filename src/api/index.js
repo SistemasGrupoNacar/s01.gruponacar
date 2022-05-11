@@ -1298,7 +1298,7 @@ async function obtenerGraficaCostosProduccion() {
       window.location.href = "/login";
     }
     axios
-      .get(API_URI + "/productionCosts/graphic", {
+      .get(API_URI + "/productionCosts/graph", {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -1898,6 +1898,31 @@ async function crearJornada(data) {
   });
 }
 
+// Obtener la grafica de las jornadas
+async function obtenerGraficaJornadas() {
+  const token = await tokenActions.getToken();
+  return new Promise((resolve, reject) => {
+    if (token == null) {
+      window.location.href = "/login";
+    }
+    axios
+      .get(API_URI + "/journeys/graph", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((respuesta) => {
+        resolve(respuesta);
+      })
+      .catch((error) => {
+        if (error.response) {
+          error401_403(error);
+        }
+        reject(error);
+      });
+  });
+}
+
 // Finalizar jornada de trabajo
 async function finalizarJornada(jornada, empleado) {
   const token = await tokenActions.getToken();
@@ -2323,6 +2348,7 @@ export default {
   obtenerJornadasEnProceso,
   eliminarJornada,
   crearJornada,
+  obtenerGraficaJornadas,
   finalizarJornada,
   cambiarAvatar,
   obtenerUltimosUsuarios,

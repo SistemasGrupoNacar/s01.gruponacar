@@ -1,8 +1,7 @@
 <template>
-  <line-chart
+  <pie-chart
     empty="No hay datos"
     loading="Cargando datos"
-    prefix="$"
     :data="datos"
     class="w-100"
     :colors="[
@@ -15,7 +14,7 @@
       '#686FCB',
       '#BF679E',
     ]"
-  ></line-chart>
+  ></pie-chart>
 </template>
 <script>
 export default {

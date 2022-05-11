@@ -25,19 +25,19 @@
           style="width: 100%"
           max-height="400"
         >
-          <el-table-column prop="_id" label="ID" width="120" />
           <el-table-column
             prop="type_move.title_translate"
             label="Tipo"
-            width="150"
+            width="120"
           />
           <el-table-column prop="total_format" label="Total" width="120" />
-          <el-table-column prop="date_format" label="Fecha" width="150" />
+          <el-table-column prop="date_format" label="Fecha" width="200" />
           <el-table-column
             prop="description"
             label="Descripción"
             min-width="250"
           />
+          <el-table-column prop="_id" label="ID" width="220" />
           <el-table-column fixed="right" label="Operacion" width="100">
             <template #default="scope">
               <el-button type="" v-on:click="eliminarMovimientoExtra(scope.row)"

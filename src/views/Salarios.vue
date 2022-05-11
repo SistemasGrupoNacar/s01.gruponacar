@@ -14,7 +14,7 @@
       <div class="col-12 my-2">
         <p class="_text-bigger">&Uacute;ltimos Salarios</p>
         <el-table
-          v-loading.fullscreen.lock="cargando"
+          v-loading="cargando"
           :data="listadoUltimosSalarios"
           class="w-100"
           max-height="400"
@@ -32,8 +32,9 @@
             min-width="200"
           >
           </el-table-column
-          ><el-table-column prop="_id" label="ID" width="230"> </el-table-column
           ><el-table-column prop="date_format" label="Fecha" width="180">
+          </el-table-column
+          ><el-table-column prop="_id" label="ID" width="230">
           </el-table-column>
         </el-table>
         <el-button

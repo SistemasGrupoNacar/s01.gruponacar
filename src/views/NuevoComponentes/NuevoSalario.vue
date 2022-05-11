@@ -3,7 +3,7 @@
   <hr />
   <el-main class="container" v-loading.fullscreen.lock="cargando">
     <div class="row">
-      <div class="col-12 col-md-4 my-2">
+      <div class="col-12 col-md-6 my-2">
         <span class="text-muted">Empleado</span>
         <el-select
           v-model="salario.employee"
@@ -20,7 +20,7 @@
           </el-option>
         </el-select>
       </div>
-      <div class="col-12 col-md-4 my-2">
+      <div class="col-12 col-md-6 my-2">
         <span class="text-muted">Fecha</span>
         <el-date-picker
           v-model="salario.date"
@@ -42,24 +42,8 @@
         >
         </el-input-number>
       </div>
-      <div class="col-12 col-md-6 my-2">
-        <span class="text-muted">Producci&oacute;n</span>
-        <el-select
-          v-model="salario.production"
-          placeholder="Seleccione la producci&oacute;n"
-          class="w-100 my-2"
-          filterable
-        >
-          <el-option
-            v-for="item in listadoProducciones"
-            :key="item._id"
-            :label="item.description + ' - ' + item.place.description"
-            :value="item._id"
-          >
-          </el-option>
-        </el-select>
-      </div>
-      <div class="col-12 col-md-6 my-2">
+     
+      <div class="col-12 col-md-8 my-2">
         <span class="text-muted">Observaciones</span>
         <el-input
           v-model="salario.description"
@@ -89,17 +73,14 @@ export default {
         employee: "",
         date: "",
         amount: 0,
-        production: "",
         description: "",
       },
       cargando: false,
       listadoEmpleados: [],
-      listadoProducciones: [],
     };
   },
   mounted() {
     this.obtenerListadoEmpleados();
-    this.obtenerListadoProducciones();
   },
   methods: {
     irSalarios() {
@@ -123,24 +104,7 @@ export default {
       }
       this.cargando = false;
     },
-    async obtenerListadoProducciones() {
-      this.cargando = true;
-      try {
-        const respuesta = await api.obtenerProduccionesEnProgreso();
-        this.listadoProducciones = respuesta.data;
-      } catch (error) {
-        if (error.response) {
-          ElMessage.error({
-            message: error.response.data.message,
-          });
-        } else {
-          ElMessage.error({
-            message: "Error al obtener listado de producciones",
-          });
-        }
-      }
-      this.cargando = false;
-    },
+  
     async crearSalario(salario) {
       this.cargando = true;
       try {
@@ -152,7 +116,6 @@ export default {
           employee: "",
           date: "",
           amount: 0,
-          production: "",
           description: "",
         };
       } catch (error) {

@@ -16,7 +16,7 @@
           &Uacute;ltimas jornadas laborales
         </p>
         <el-table
-          v-loading.fullscreen.lock="cargando"
+          v-loading="cargando"
           :data="listadoUltimasJornadas"
           class="w-100"
           empty-text="No hay jornadas laborales registradas"

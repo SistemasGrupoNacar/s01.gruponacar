@@ -6,7 +6,7 @@
       siembra.
     </p>
 
-    <el-main v-loading.fullscreen.lock="cargando">
+    <el-main v-loading="cargando">
       <div class="row">
         <div class="col-12 col-md-8 px-3">
           <p class="_bold">Listado de lugares</p>

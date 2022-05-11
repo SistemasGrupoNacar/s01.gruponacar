@@ -30,9 +30,7 @@
             label="Medida"
             width="100"
           >
-          </el-table-column>
-          <el-table-column prop="_id" label="ID" width="220">
-          </el-table-column></el-table
+          </el-table-column> </el-table
         ><el-button
           class="my-2"
           size="small"
@@ -97,8 +95,6 @@
             label="Medida"
             width="100"
           >
-          </el-table-column
-          ><el-table-column prop="_id" label="ID" width="220">
           </el-table-column>
         </el-table>
         <el-button

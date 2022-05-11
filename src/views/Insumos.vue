@@ -80,7 +80,6 @@
           </el-table-column>
           <el-table-column prop="quantity" label="Cantidad" width="120">
           </el-table-column>
-          <el-table-column prop="_id" label="ID" width="220"> </el-table-column>
         </el-table>
         <el-button class="d-block mx-auto my-1" v-on:click="historialInsumos()"
           >Mostrar todos</el-button

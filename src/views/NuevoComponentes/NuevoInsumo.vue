@@ -1,4 +1,6 @@
 <template>
+  <el-page-header class="my-3" content="Agregar insumo" @back="irInsumos()" />
+  <hr />
   <div class="container">
     <p class="_title">Nuevo insumo</p>
     <p class="_subtitle">Creaci&oacute;n de nuevo insumo</p>
@@ -111,6 +113,9 @@ export default {
     };
   },
   methods: {
+    irInsumos() {
+      this.$router.push("/inventario/insumos");
+    },
     async crearInsumo(data) {
       if (!this.verificarDatos(data)) {
         ElMessage.error({

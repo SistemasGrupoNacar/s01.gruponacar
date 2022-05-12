@@ -1,14 +1,20 @@
 <template>
+  <el-page-header
+    class="my-3"
+    content="Edición de usuario"
+    @back="irUsuarios()"
+  />
+  <hr />
   <el-main v-loading.fullscreen.lock="cargando">
-    <el-page-header
-      class="my-3"
-      content="Edición de usuario"
-      @back="irUsuarios()"
-    />
-    <hr />
-
     <div
-      class="d-flex justify-content-center justify-content-md-around flex-wrap my-2 my-md-3 px-2 px-md-3 container"
+      class="
+        d-flex
+        justify-content-center justify-content-md-around
+        flex-wrap
+        my-2 my-md-3
+        px-2 px-md-3
+        container
+      "
       v-if="usuario != null"
     >
       <div class="d-flex flex-nowrap justify-content-center align-items-center">
@@ -37,7 +43,10 @@
         <p class="_semi-bold">{{ usuario.user.role.title_format }}</p>
       </div>
     </div>
-    <div class="d-flex flex-wrap justify-content-between" v-if="usuario != null">
+    <div
+      class="d-flex flex-wrap justify-content-between"
+      v-if="usuario != null"
+    >
       <div class="_w-50">
         <span
           v-for="(item, index) in images"

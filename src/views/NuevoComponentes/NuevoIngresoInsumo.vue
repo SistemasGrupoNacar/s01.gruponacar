@@ -1,4 +1,10 @@
 <template>
+  <el-page-header
+    class="my-3"
+    content="Agregar ingreso de insumos"
+    @back="irInsumos()"
+  />
+  <hr />
   <div class="container">
     <p class="_title">Nuevo Ingreso de Insumos</p>
     <p class="_subtitle text-muted">
@@ -129,6 +135,9 @@ export default {
         ) / 100;*/
       this.nuevoIngresoInsumo.unit_price =
         this.nuevoIngresoInsumo.total / this.nuevoIngresoInsumo.quantity;
+    },
+    irInsumos() {
+      this.$router.push("/inventario/insumos");
     },
     async crearIngresoInsumo(data) {
       if (!this.validarDatos(data)) {

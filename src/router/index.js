@@ -43,12 +43,7 @@ const routes = [
         name: "Insumos",
         component: () => import("../views/Insumos.vue"),
       },
-      {
-        path: "inventario/insumos/nuevo-ingreso",
-        name: "NuevoIngresoInsumo",
-        component: () =>
-          import("../views/NuevoComponentes/NuevoIngresoInsumo.vue"),
-      },
+
       {
         path: "inventario/productos/nuevo-ingreso",
         name: "NuevoIngresoProducto",
@@ -59,11 +54,6 @@ const routes = [
         path: "inventario/productos/nuevo",
         name: "NuevoProducto",
         component: () => import("../views/NuevoComponentes/NuevoProducto.vue"),
-      },
-      {
-        path: "inventario/insumos/nuevo",
-        name: "NuevoInsumo",
-        component: () => import("../views/NuevoComponentes/NuevoInsumo.vue"),
       },
 
       {
@@ -173,6 +163,11 @@ const routes = [
     component: () => import("../views/ListadoComponentes/ListadoSalarios.vue"),
   },
   {
+    path: "/inventario/insumos/nuevo",
+    name: "NuevoInsumo",
+    component: () => import("../views/NuevoComponentes/NuevoInsumo.vue"),
+  },
+  {
     path: "/empleados/detalle-nuevo",
     name: "DetalleNuevoEmpleado",
     props: true,
@@ -210,6 +205,11 @@ const routes = [
     path: "/usuarios/nuevo",
     name: "NuevoUsuario",
     component: () => import("../views/NuevoComponentes/NuevoUsuario.vue"),
+  },
+  {
+    path: "/inventario/insumos/nuevo-ingreso",
+    name: "NuevoIngresoInsumo",
+    component: () => import("../views/NuevoComponentes/NuevoIngresoInsumo.vue"),
   },
   {
     path: "/empleados/nuevo",

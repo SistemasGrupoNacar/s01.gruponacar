@@ -1,12 +1,11 @@
 <template>
-  <el-main v-loading.fullscreen.lock="cargando" class=""
-    ><el-page-header
-      class="my-3"
-      content="Creaci&oacute;n de usuario"
-      @back="irUsuarios()"
-    />
-    <hr />
-
+  <el-page-header
+    class="my-3"
+    content="Creaci&oacute;n de usuario"
+    @back="irUsuarios()"
+  />
+  <hr />
+  <el-main v-loading.fullscreen.lock="cargando" class="">
     <div class="container">
       <div class="row">
         <div class="col-12 col-md-6 my-2">

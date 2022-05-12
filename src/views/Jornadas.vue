@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip
+  <!--el-tooltip
     class="box-item"
     effect="light"
     content="Agrega una nueva jornada laboral"
@@ -8,12 +8,13 @@
     <el-button class="nueva-jornada" type="primary" v-on:click="nuevaJornada()"
       ><el-icon><Plus /> </el-icon>
     </el-button>
-  </el-tooltip>
+  </-el-tooltip-->
   <div class="container">
     <div class="row">
       <div class="col-12 col-md-7 my-3">
-        <p class="_text-bigger text-center">
-          Jornadas realizadas en el mes (por empleado)
+        <p class="_text-bigger text-center">Detalle de jornadas</p>
+        <p class="_text-small text-center my-0">
+          Gr&aacute;fico cantidad de jornadas trabajadas
         </p>
         <grafica :datos="jornadasEmpleados" class="px-3 py-2" />
 
@@ -49,16 +50,11 @@
   </div>
 </template>
 <script>
-import { Plus } from "@element-plus/icons-vue";
 import api from "@/api/index.js";
 import { ElMessage } from "element-plus";
 import Grafica from "@/components/GraficaPastel.vue";
-//import { GoogleMap, Marker } from "vue3-google-map";
 export default {
   components: {
-    //GoogleMap,
-    //Marker,
-    Plus,
     Grafica,
   },
   data() {
@@ -88,7 +84,6 @@ export default {
     listadoJornadas() {
       this.$router.push("/jornadas/listado");
     },
-
 
     async obtenerGraficoDeJornadas() {
       try {
